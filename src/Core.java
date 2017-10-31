@@ -3,14 +3,17 @@ import org.newdawn.slick.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 public class Core extends BasicGame{
+    private Image img;
+
     public Core(String title) {
         super(title);
     }
 
     @Override
     public void init(GameContainer gameContainer) throws SlickException {
-
+        img = new Image("lib/res/img/sosig.png");
     }
 
     @Override
@@ -20,7 +23,7 @@ public class Core extends BasicGame{
 
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
-
+           img.draw();
     }
 
     public static void main(String[] args) {
