@@ -1,16 +1,13 @@
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 
 public class Core extends StateBasedGame{
-    public static final String gameName = "Mathness2D";
+    public static final String gamename = "Mathness";
     public static final int menu = 0;
     public static final int play = 1;
 
-    public Core(String gameName){
-        super(gameName);
+    public Core(String gamename){
+        super(gamename);
         this.addState(new Menu(menu));
         this.addState(new Play(play));
     }
@@ -24,7 +21,7 @@ public class Core extends StateBasedGame{
     public static void main(String[] args) {
         AppGameContainer appgc;
         try {
-            appgc = new AppGameContainer(new Core(gameName));
+            appgc = new AppGameContainer(new Core(gamename));
             appgc.setDisplayMode(640,360,false);
             appgc.start();
         }catch (SlickException e){
