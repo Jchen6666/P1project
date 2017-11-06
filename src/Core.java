@@ -31,12 +31,6 @@ public class Core extends StateBasedGame{
     }
 
 
-
-
-
-
-
-
    /* private Image img;
 
     public Core(String title) {
