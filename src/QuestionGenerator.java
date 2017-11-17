@@ -15,7 +15,7 @@ public class QuestionGenerator{
     }   //Constructor generating all the variables
     public int generateWrongAnswer(){
         int wrongAnswer=rightAnswer+generator.nextInt(30)-10;
-        while(wrongAnswer==0){
+        while(wrongAnswer==rightAnswer){
             wrongAnswer=rightAnswer+generator.nextInt(30)-10;
         }
         return wrongAnswer;
@@ -95,24 +95,15 @@ public class QuestionGenerator{
         questionNumber=0;
     }   //Resets the number of questions (resets the game)
 
-    //Getters    and setters
+    //Getters
     public int getFirstNumber() {
         return firstNumber;
-    }
-    public void setFirstNumber(int firstNumber) {
-        this.firstNumber = firstNumber;
     }
     public int getSecondNumber() {
         return secondNumber;
     }
-    public void setSecondNumber(int secondNumber) {
-        this.secondNumber = secondNumber;
-    }
     public int getOperation() {
         return operation;
-    }
-    public void setOperation(int operation) {
-        this.operation = operation;
     }
     public int getRightAnswer() {
         return rightAnswer;
