@@ -14,9 +14,9 @@ public class QuestionGenerator{
         regenerate();
     }   //Constructor generating all the variables
     public int generateWrongAnswer(){
-        int wrongAnswer=rightAnswer+generator.nextInt(30)-10;
+        int wrongAnswer=rightAnswer+generator.nextInt(10)-5;
         while(wrongAnswer==rightAnswer){
-            wrongAnswer=rightAnswer+generator.nextInt(30)-10;
+            wrongAnswer=rightAnswer+generator.nextInt(10)-5;
         }
         return wrongAnswer;
     }   //Generates the wrong answer
