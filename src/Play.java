@@ -1,22 +1,45 @@
 import org.newdawn.slick.*;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.state.*;
 import org.newdawn.slick.tiled.TiledMap;
+
+import java.awt.*;
+import java.util.ArrayList;
 
 
 public class Play extends BasicGameState {
   Image map;
   Animation hero,movingUp,movingDown,movingLeft,movingRight;
+  ArrayList<Rectangle>obstacles;
   boolean quit=false;
   int[] duration={200,200};
   float heroPositionX=0;
   float heroPositionY=0;
   float shitX=heroPositionX+320;
   float shitY=heroPositionY+160;
+    Rectangle obstacle;
   public Play(int state) {
+      obstacle=new Rectangle();
+      obstacles=new ArrayList<Rectangle>();
+      addObstacles();
 
     }
     public void loadMap(String ref)throws SlickException{
 
+
+    }
+
+    public void addObstacles(){
+      int width=100;
+      int height=200;
+      obstacles.add(new Rectangle(400,350,width,height));
+    }
+
+    public void paintObstacles(Graphics g,Rectangle obstacle){
+        g.setColor(Color.darkGray);
+        g.fillRect(obstacle.x,obstacle.y,obstacle.width,obstacle.height);
 
     }
     @Override
@@ -47,6 +70,9 @@ public class Play extends BasicGameState {
           g.clear();
         }
       }
+      obstacle=obstacles.get(0);
+        g.setColor(Color.darkGray);
+        g.fillRect(obstacle.x,obstacle.y,obstacle.width,obstacle.height);
 
     }
 
