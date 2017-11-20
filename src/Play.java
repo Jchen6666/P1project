@@ -17,30 +17,32 @@ public class Play extends BasicGameState {
   int[] duration={200,200};
   float heroPositionX=0;
   float heroPositionY=0;
-  float shitX=heroPositionX+320;
-  float shitY=heroPositionY+160;
+  float shitX=heroPositionX;
+  float shitY=heroPositionY+250;
+  static int x,y;
+
     Rectangle obstacle;
-  public Play(int state) {
-      obstacle=new Rectangle();
-      obstacles=new ArrayList<Rectangle>();
-      addObstacles();
-
-    }
-    public void loadMap(String ref)throws SlickException{
-
+    public Play(int state) {
+        obstacle=new Rectangle();
+        obstacles=new ArrayList<Rectangle>();
+        addObstacles();
 
     }
 
     public void addObstacles(){
-      int width=100;
-      int height=200;
-      obstacles.add(new Rectangle(400,350,width,height));
+      int width=50;
+      int height=100;
+
+      obstacles.add(new Rectangle((int)heroPositionX+500,(int)heroPositionY+100,width,height));
+      obstacles.add(new Rectangle((int)heroPositionX+600,(int)heroPositionY+200,width,height));
+
     }
 
-    public void paintObstacles(Graphics g,Rectangle obstacle){
-        g.setColor(Color.darkGray);
-        g.fillRect(obstacle.x,obstacle.y,obstacle.width,obstacle.height);
+    public void paintObstacles(Graphics g, Rectangle obstacle){
 
+        g.setColor(Color.darkGray);
+        g.fillRect(obstacle.x, obstacle.y,obstacle.width,obstacle.height);
+       // g.fillRect(heroPositionX+300,heroPositionY,width,height);
     }
     @Override
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
@@ -70,32 +72,68 @@ public class Play extends BasicGameState {
           g.clear();
         }
       }
-      obstacle=obstacles.get(0);
-        g.setColor(Color.darkGray);
-        g.fillRect(obstacle.x,obstacle.y,obstacle.width,obstacle.height);
-
+            for (int i=0;i<obstacles.size();i++) {
+                paintObstacles(g,obstacles.get(i));
+            }
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
       Input input = gc.getInput();
+       for (int i=0;i<obstacles.size();i++) {
+           obstacle=obstacles.get(i);
+           y=obstacle.y-(int)heroPositionY;
+           x=obstacle.x-(int)heroPositionX;
+           if (input.isKeyDown(Input.KEY_UP)) {
+                obstacle.y += 1;
+                if (heroPositionY>(y-obstacle.height/2)&&heroPositionX<0-(x-obstacle.width/2)){
+                    heroPositionY-=1;
+                    for (int z=0;z<obstacles.size();z++) {
+                        obstacles.get(z).y-=1;
+                    }
+                }
+           }
+           if (input.isKeyDown(Input.KEY_DOWN)) {
+                obstacle.y -= 1;
+           }
+           if (input.isKeyDown(Input.KEY_LEFT)) {
+               obstacle.x+=1;
+           }
+           if (input.isKeyDown(Input.KEY_RIGHT)) {
+                obstacle.x -= 1;
 
-      if(input.isKeyDown(Input.KEY_UP)){
-        hero = movingUp;
-        heroPositionY += delta * .1f;
-      }
-      if(input.isKeyDown(Input.KEY_DOWN)){
-        hero = movingDown;
-        heroPositionY -= delta * .1f;
-      }
-      if(input.isKeyDown(Input.KEY_LEFT)){
-        hero = movingLeft;
-        heroPositionX += delta * .1f;
-      }
-      if(input.isKeyDown(Input.KEY_RIGHT)){
-        hero = movingRight;
-        heroPositionX -= delta * .1f;
-      }
-    }
+           }
+       }
+
+
+         if (input.isKeyDown(Input.KEY_UP)) {
+               hero = movingUp;
+               heroPositionY +=1;
+              // obstacle.y += 1;
+//                if (heroPositionY>(y-obstacle.height/2)&&heroPositionX<0-(x-obstacle.width/2)){
+//                    heroPositionY-=1;
+//                    obstacle.y-=1;
+//                }
+           }
+           if (input.isKeyDown(Input.KEY_DOWN)) {
+               hero = movingDown;
+               heroPositionY -= 1;
+              // obstacle.y -= 1;
+           }
+           if (input.isKeyDown(Input.KEY_LEFT)) {
+               hero = movingLeft;
+               heroPositionX += 1;
+               //obstacle.x+=1;
+           }
+           if (input.isKeyDown(Input.KEY_RIGHT)) {
+               hero = movingRight;
+               heroPositionX -= 1;
+              // obstacle.x -= 1;
+
+           }
+
+        }
+
+
 
     public int getID() {
         return 1;
