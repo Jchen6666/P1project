@@ -18,7 +18,7 @@ public class Play extends BasicGameState {
   int[] duration={200,200};
   float heroPositionX=0;
   float heroPositionY=0;
-  float shitX=heroPositionX;
+  float shitX=heroPositionX+250;
   float shitY=heroPositionY+250;
   static int x,y;
   boolean collides=false;
@@ -28,7 +28,7 @@ public class Play extends BasicGameState {
         obstacle=new Rectangle();
         obstacles=new ArrayList<Rectangle>();
         addObstacles();
-        square=new Rectangle((int)shitX,(int)shitY,50,50);
+        square=new Rectangle((int)shitX,(int)shitY,50,60);
   }
 
     public void addObstacles(){
@@ -37,6 +37,7 @@ public class Play extends BasicGameState {
 
       obstacles.add(new Rectangle((int)heroPositionX+500,(int)heroPositionY+100,width,height));
       obstacles.add(new Rectangle((int)heroPositionX+500,(int)heroPositionY+400,width,height));
+      obstacles.add(new Rectangle((int)heroPositionX+700,(int)heroPositionY+400,width,height));
 
     }
    public void paintSquare(Graphics g,Rectangle square){
@@ -51,7 +52,7 @@ public class Play extends BasicGameState {
         g.fillRect(obstacle.x, obstacle.y,obstacle.width,obstacle.height);
        // g.fillRect(heroPositionX+300,heroPositionY,width,height);
     }
-    @Override
+
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         map=new Image("lib/res/img/test1.png");
        Image[] walkUp={new Image(("lib/res/img/mrio2.png")),new Image("lib/res/img/mrio2.png")};
@@ -103,9 +104,9 @@ public class Play extends BasicGameState {
            if (input.isKeyDown(Input.KEY_UP)) {
                 obstacle.y += 1;
                 if (collides){
-                    heroPositionY-=10;
+                    heroPositionY-=15;
                     for (int z=0;z<obstacles.size();z++) {
-                        obstacles.get(z).y-=10;
+                        obstacles.get(z).y-=15;
 
                     }
                 }
@@ -113,9 +114,9 @@ public class Play extends BasicGameState {
            if (input.isKeyDown(Input.KEY_DOWN)) {
                 obstacle.y -= 1;
                if (collides){
-                   heroPositionY+=10;
+                   heroPositionY+=12;
                    for (int z=0;z<obstacles.size();z++) {
-                       obstacles.get(z).y+=10;
+                       obstacles.get(z).y+=12;
 
                    }
 
@@ -124,9 +125,9 @@ public class Play extends BasicGameState {
            if (input.isKeyDown(Input.KEY_LEFT)) {
                obstacle.x+=1;
                if (collides){
-                   heroPositionX-=10;
+                   heroPositionX-=13;
                    for (int z=0;z<obstacles.size();z++) {
-                       obstacles.get(z).x-=10;
+                       obstacles.get(z).x-=13;
 
                    }
 
@@ -135,9 +136,9 @@ public class Play extends BasicGameState {
            if (input.isKeyDown(Input.KEY_RIGHT)) {
                 obstacle.x -= 1;
                if (collides){
-                   heroPositionX+=10;
+                   heroPositionX+=14;
                    for (int z=0;z<obstacles.size();z++) {
-                       obstacles.get(z).x+=10;
+                       obstacles.get(z).x+=14;
 
                    }
                }
