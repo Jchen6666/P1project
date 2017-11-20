@@ -7,7 +7,7 @@ import org.newdawn.slick.Image;
 public class Menu extends BasicGameState {
     Image playNow;
     Image exitGame;
-
+    float xPos,yPos;
 
     public Menu(int state) {
 
@@ -20,16 +20,19 @@ public class Menu extends BasicGameState {
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+        xPos = Mouse.getX();
+        yPos = Mouse.getY();
         g.drawString("Mathness", 100, 50);
+        System.out.println(xPos+" "+yPos);
         playNow.draw(100, 100);
         exitGame.draw(100, 200);
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
-        int xPos = Mouse.getX();
-        int yPos = Mouse.getY();
+
+
         Input input = gc.getInput();
-        if ((xPos > 100 && xPos < 311) && (yPos > 209 && yPos < 260)) {
+        if ((xPos > 106 && xPos < 296) && (yPos > 560 && yPos < 590)) {
             if (input.isMouseButtonDown(0)) { // Code 0 = left click, code 1 = right click etc.
                 sbg.enterState(1); // id 1 = Takes you to  a new state/screen
             }
@@ -43,8 +46,6 @@ public class Menu extends BasicGameState {
         }
     }
 
-    public int getID() {
-        return 0;
-    }
+    public int getID() { return 0; }
 
 }
