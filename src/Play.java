@@ -14,6 +14,7 @@ public class Play extends BasicGameState {
   Animation hero,movingUp,movingDown,movingLeft,movingRight;
   Rectangle square;
   ArrayList<Rectangle>obstacles;
+  ArrayList<Rectangle>movingObstacles;
   boolean quit=false;
   int[] duration={200,200};
   float heroPositionX=0;
@@ -21,23 +22,34 @@ public class Play extends BasicGameState {
   float shitX=heroPositionX+250;
   float shitY=heroPositionY+250;
   static int x,y;
+  int moving;
   boolean collides=false;
+  boolean movingCollides=false;
   Rectangle obstacle;
+  Rectangle movingObstacle;
 
     public Play(int state) {
         obstacle=new Rectangle();
+        movingObstacle=new Rectangle();
         obstacles=new ArrayList<Rectangle>();
+        movingObstacles=new ArrayList<Rectangle>();
         addObstacles();
+        addMovingObstacles();
         square=new Rectangle((int)shitX,(int)shitY,50,60);
   }
-
-    public void addObstacles(){
+   public void addObstacles(){
       int width=50;
       int height=100;
 
       obstacles.add(new Rectangle((int)heroPositionX+500,(int)heroPositionY+100,width,height));
       obstacles.add(new Rectangle((int)heroPositionX+500,(int)heroPositionY+400,width,height));
-      obstacles.add(new Rectangle((int)heroPositionX+700,(int)heroPositionY+400,width,height));
+     // obstacles.add(new Rectangle((int)heroPositionX+700,(int)heroPositionY+400,width,height));
+
+    }
+    public void addMovingObstacles(){
+        int width=20;
+        int height=200;
+        movingObstacles.add(new Rectangle((int)heroPositionX+700,(int)heroPositionY+100,width,height));
 
     }
    public void paintSquare(Graphics g,Rectangle square){
@@ -73,6 +85,7 @@ public class Play extends BasicGameState {
        map.draw(heroPositionX,heroPositionY);
        hero.draw(shitX,shitY);
         paintSquare(g,square);
+
        g.drawString("Hero X: "+heroPositionX+"\nHero y: "+heroPositionY +"\nCollides: ",600,600);
       if (quit==true){
         g.drawString("Resume(R)",250,200 );
@@ -85,16 +98,34 @@ public class Play extends BasicGameState {
             for (int i=0;i<obstacles.size();i++) {
                 paintObstacles(g,obstacles.get(i));
             }
+
+            for (int i=0;i<movingObstacles.size();i++){
+                paintObstacles(g,movingObstacles.get(i));
+            }
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
       Input input = gc.getInput();
+        if (quit == true){
+            if (input.isKeyDown(Input.KEY_Q)){
+                gc.exit();
+            }
+
+            if (input.isKeyDown(Input.KEY_M)){
+                sbg.enterState(0);
+
+            }
+
+            if (input.isKeyDown(Input.KEY_R)){
+                quit = false;
+            }
+        }
+        moving=1;
+        //movingbarriars
+
        for (int i=0;i<obstacles.size();i++) {
 
            obstacle=obstacles.get(i);
-           y=obstacle.y-(int)heroPositionY;
-           x=obstacle.x-(int)heroPositionX;
-
            if (square.intersects(obstacle)){
                collides=true;
            }
@@ -102,67 +133,108 @@ public class Play extends BasicGameState {
                collides=false;
            }
            if (input.isKeyDown(Input.KEY_UP)) {
-                obstacle.y += 1;
+               obstacle.y += moving;
                 if (collides){
-                    heroPositionY-=15;
+                    heroPositionY-=20;
                     for (int z=0;z<obstacles.size();z++) {
-                        obstacles.get(z).y-=15;
-
+                        obstacles.get(z).y-=20;
+                    }
+                    for (int x=0;x<movingObstacles.size();x++) {
+                        movingObstacles.get(x).y-=20;
                     }
                 }
            }
            if (input.isKeyDown(Input.KEY_DOWN)) {
-                obstacle.y -= 1;
+                obstacle.y -= moving;
                if (collides){
-                   heroPositionY+=12;
+                   heroPositionY+=20;
                    for (int z=0;z<obstacles.size();z++) {
-                       obstacles.get(z).y+=12;
-
+                       obstacles.get(z).y+=20;
                    }
-
+                   for (int x=0;x<movingObstacles.size();x++) {
+                       movingObstacles.get(x).y+=20;
+                   }
                }
            }
            if (input.isKeyDown(Input.KEY_LEFT)) {
-               obstacle.x+=1;
+               obstacle.x+=moving;
                if (collides){
-                   heroPositionX-=13;
+                   heroPositionX-=20;
                    for (int z=0;z<obstacles.size();z++) {
-                       obstacles.get(z).x-=13;
-
+                       obstacles.get(z).x-=20;
                    }
-
+                   for (int x=0;x<movingObstacles.size();x++) {
+                       movingObstacles.get(x).x-=20;
+                   }
                }
            }
            if (input.isKeyDown(Input.KEY_RIGHT)) {
-                obstacle.x -= 1;
+                obstacle.x -= moving;
                if (collides){
-                   heroPositionX+=14;
+                   heroPositionX+=20;
                    for (int z=0;z<obstacles.size();z++) {
-                       obstacles.get(z).x+=14;
-
+                       obstacles.get(z).x+=20;
+                   }
+                   for (int x=0;x<movingObstacles.size();x++) {
+                       movingObstacles.get(x).x+=20;
                    }
                }
            }
        }
+       //movingobstacles
+       for (int i=0;i<movingObstacles.size();i++){
+           movingObstacle=movingObstacles.get(i);
+           if (square.intersects(movingObstacle)){
+               movingCollides=true;
+           }
+           else {
+               movingCollides=false;
+           }
+           if (input.isKeyDown(Input.KEY_UP)) {
+               movingObstacle.y += moving;
+               if (movingCollides){
 
+               }
 
+           }
+           if (input.isKeyDown(Input.KEY_DOWN)) {
+               movingObstacle.y -= moving;
+               if (movingCollides){
+
+               }
+
+           }
+           if (input.isKeyDown(Input.KEY_LEFT)) {
+               movingObstacle.x+=moving;
+               if (movingCollides){
+
+               }
+              }
+           }
+           if (input.isKeyDown(Input.KEY_RIGHT)) {
+               movingObstacle.x-=moving;
+               if (movingCollides){
+
+               }
+       }
          if (input.isKeyDown(Input.KEY_UP)) {
                hero = movingUp;
-               heroPositionY +=1;
+             heroPositionY += moving;
+
            }
            if (input.isKeyDown(Input.KEY_DOWN)) {
                hero = movingDown;
-               heroPositionY -= 1;
+               heroPositionY -= moving;
+
            }
            if (input.isKeyDown(Input.KEY_LEFT)) {
                hero = movingLeft;
-               heroPositionX += 1;
+               heroPositionX += moving;
            }
            if (input.isKeyDown(Input.KEY_RIGHT)) {
-               hero = movingRight;
-               heroPositionX -= 1;
-           }
 
+               hero = movingRight;
+               heroPositionX -= moving;}
         }
 
 
