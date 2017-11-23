@@ -81,6 +81,8 @@ public class Play extends BasicGameState {
         movingLeft = new Animation(walkLeft, duration, false);
         movingRight = new Animation(walkRight, duration, false);
         hero = movingDown;
+
+
     }
 
 
@@ -243,7 +245,12 @@ public class Play extends BasicGameState {
             if (input.isKeyDown(Input.KEY_R)) {
                 quit = false;
             }
+            if (input.isKeyDown(Input.KEY_S)){
+
+            }
         }
+
+
     }
 
 
