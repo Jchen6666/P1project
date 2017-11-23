@@ -26,6 +26,7 @@ public class BossFight extends BasicGameState {
         background=new Image("lib/res/img/bossBackground.png");
         hpHeart= new Image("lib/res/img/hpHeart.png");
         question=new QuestionGenerator();
+
         buttonList=new ArrayList<Button>(4);
         rightAnswerPosition=(question.getGenerator().nextInt(4)+1);     //Determine the position of the right answer
         Button.setHighlight(new Image("lib/res/img/highlight.png"));
