@@ -158,7 +158,7 @@ public class Play extends BasicGameState {
            }
            if (input.isKeyDown(Input.KEY_LEFT)) {
                obstacle.x+=moving;
-               if (collides){
+               if (collides && heroPositionX<obstacle.x+1){
                    heroPositionX-=20;
                    for (int z=0;z<obstacles.size();z++) {
                        obstacles.get(z).x-=20;
