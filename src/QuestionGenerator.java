@@ -74,7 +74,7 @@ public class QuestionGenerator{
                 sign="/";
                 break;
         }
-        String question=Integer.toString(firstNumber)+" "+sign+" "+Integer.toString(secondNumber)+" =?";
+        String question=Integer.toString(firstNumber)+" "+sign+" "+Integer.toString(secondNumber)+" = ?";
         return question;
     }   //Returns the content of the question ex. " 2x2=? "
     public void calculateRightAnswer(){
@@ -95,7 +95,19 @@ public class QuestionGenerator{
         questionNumber=0;
     }   //Resets the number of questions (resets the game)
 
+    public static int[] generateIntArray(int arrayLength,int minValue, int maxValue){
+        int[] array=new int[arrayLength];
+        SecureRandom generator=new SecureRandom();
+        for(int i=0;i<arrayLength;i++){
+            array[i]=generator.nextInt(maxValue)+minValue;
+        }
+        return array;
+    }
     //Getters
+
+    public SecureRandom getGenerator() {
+        return generator;
+    }
     public int getFirstNumber() {
         return firstNumber;
     }
