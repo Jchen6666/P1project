@@ -13,10 +13,10 @@ public class BossFight extends BasicGameState {
         QuestionGenerator question;
         ArrayList<Button> buttonList;
         int rightAnswerPosition;
-        int selectedPosition=0;
-        boolean questionAnswered=false;
-        boolean gameWon=false;
-        int bossHp=3;   //Starting amount of bosses lifes
+        int selectedPosition;
+        boolean questionAnswered;
+        boolean gameWon;
+        int bossHp;   //Starting amount of bosses lifes
 
         public BossFight(int state) {
 
@@ -30,13 +30,17 @@ public class BossFight extends BasicGameState {
         rightAnswerPosition=(question.getGenerator().nextInt(4)+1);     //Determine the position of the right answer
         Button.setHighlight(new Image("lib/res/img/highlight.png"));
         buttonList=generateTheLevel(question,rightAnswerPosition,selectedPosition);     //Method returning the array of Buttons(4 of them);
+        bossHp=10;
+        gameWon=false;
+        questionAnswered=false;
+        selectedPosition=0;
         }
 
         public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
         background.draw(0,0);
         g.setColor(Color.black);
         if(gameWon){
-            g.drawString("I just got defeated, press B to go back", 275, 125);
+            g.drawString("I just got defeated, press ESC to go back", 275, 125);
         }else {
             g.drawString(question.toString(), 275, 125);
             for (int i = 0; i < 4; i++) {
@@ -111,7 +115,7 @@ public class BossFight extends BasicGameState {
                     }
                 }
             }
-        }else if(input.isKeyDown(Input.KEY_B)){
+        }else if(input.isKeyDown(Input.KEY_ESCAPE)){
             sbg.enterState(0);
         }
 
