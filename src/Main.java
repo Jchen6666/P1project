@@ -2,7 +2,6 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] argv){
-        Scanner input=new Scanner(System.in);
         QuestionGenerator question=new QuestionGenerator();
         int wrongAnswer1,wrongAnswer2;
         for(int i=0;i<20;i++){
