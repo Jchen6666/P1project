@@ -1,3 +1,5 @@
+import org.lwjgl.input.Mouse;
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
@@ -25,7 +27,7 @@ public class Button extends Rectangle{
     }
     public void drawHighlight(){
         if(isSelected){
-           highlight.draw(this.getX(),this.getY());
+           highlight.draw(this.getX(),this.getY(),width,height);
         }
     }
 
@@ -55,5 +57,18 @@ public class Button extends Rectangle{
     }
     public static void setHighlight(Image highlight) {
         Button.highlight = highlight;
+    }
+    public boolean isHovered(int Xpos, int Ypos){
+        if(Xpos>=x&&Xpos<=x+width){
+            if(Ypos<=Settings.getScreenHeight()-y&&Ypos>=Settings.getScreenHeight()-(y+height))
+                return true;
+        }
+        return false;
+    }
+    public boolean isClicked(Input input){
+        if(isHovered(Mouse.getX(),Mouse.getY())&&input.isMouseButtonDown(0)){
+            return true;
+        }
+        return false;
     }
 }
