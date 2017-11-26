@@ -12,15 +12,15 @@ public class Button extends Rectangle{
     private boolean isTheAnswerRight;
     public Button(float x, float y, float width, float height) {
         super(x, y, width, height);
-        setText("");
-        setSelected(false);
-        setTheAnswerRight(false);
+//        setText("");
+//        setSelected(false);
+//        setTheAnswerRight(false);
     }
     public Button(float x, float y, float width, float height, String text) {
         super(x, y, width, height);
         setText(text);
-        setSelected(false);
-        setTheAnswerRight(false);
+//        setSelected(false);
+//        setTheAnswerRight(false);
     }
     public void drawText(Graphics g){
         g.drawString(text,x+(width/2),y+(height/2));
