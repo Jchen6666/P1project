@@ -65,6 +65,7 @@ public class BossFight extends BasicGameState {
 
         public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         Input input=gc.getInput();
+        input.disableKeyRepeat();
         if(!gameWon) {
             if (questionAnswered) {
                 rightAnswerPosition = (question.getGenerator().nextInt(4) + 1);
@@ -72,7 +73,7 @@ public class BossFight extends BasicGameState {
                 buttonList = generateTheLevel(question, rightAnswerPosition, selectedPosition);
                 questionAnswered = false;
             }
-            if (input.isKeyDown(Input.KEY_DOWN)) {
+            if (input.isKeyPressed(Input.KEY_DOWN)) {
                 if (selectedPosition == 2) {
                     buttonList.get(0).setSelected(true);
                     buttonList.get(selectedPosition).setSelected(false);
@@ -83,7 +84,7 @@ public class BossFight extends BasicGameState {
                     selectedPosition = 1;
                 }
             }
-            if (input.isKeyDown(Input.KEY_UP)) {
+            if (input.isKeyPressed(Input.KEY_UP)) {
                 if (selectedPosition == 0) {
                     buttonList.get(2).setSelected(true);
                     buttonList.get(selectedPosition).setSelected(false);
@@ -94,7 +95,7 @@ public class BossFight extends BasicGameState {
                     selectedPosition = 3;
                 }
             }
-            if (input.isKeyDown(Input.KEY_LEFT)) {
+            if (input.isKeyPressed(Input.KEY_LEFT)) {
                 if (selectedPosition == 1) {
                     buttonList.get(0).setSelected(true);
                     buttonList.get(selectedPosition).setSelected(false);
@@ -105,7 +106,7 @@ public class BossFight extends BasicGameState {
                     selectedPosition = 2;
                 }
             }
-            if (input.isKeyDown(Input.KEY_RIGHT)) {
+            if (input.isKeyPressed(Input.KEY_RIGHT)) {
                 if (selectedPosition == 2) {
                     buttonList.get(3).setSelected(true);
                     buttonList.get(selectedPosition).setSelected(false);
@@ -116,7 +117,7 @@ public class BossFight extends BasicGameState {
                     selectedPosition = 1;
                 }
             }
-            if (((input.isKeyDown(Input.KEY_ENTER))||input.isMouseButtonDown(0))&&(buttonList.get(selectedPosition).isTheAnswerRight())) {
+            if (((input.isKeyPressed(Input.KEY_ENTER))||input.isMouseButtonDown(0))&&(buttonList.get(selectedPosition).isTheAnswerRight())) {
                     if (!questionAnswered) {
                         bossHp--;
                         questionAnswered = true;
@@ -124,7 +125,7 @@ public class BossFight extends BasicGameState {
                     }
             }
             for(int i=0;i<4;i++){
-                if(buttonList.get(i).isHovered(Mouse.getX(),Mouse.getY())&&!buttonList.get(i).isSelected()){
+                if(buttonList.get(i).isHovered()&&!buttonList.get(i).isSelected()){
                     for(int l=0;l<4;l++){
                         if(buttonList.get(l).isSelected()){
                             buttonList.get(l).setSelected(false);
@@ -135,7 +136,7 @@ public class BossFight extends BasicGameState {
                 }
             }
 
-        }else if(input.isKeyDown(Input.KEY_ESCAPE)){
+        }else if(input.isKeyPressed(Input.KEY_ESCAPE)){
             sbg.enterState(0);
         }
 
