@@ -27,6 +27,7 @@ public class Play extends BasicGameState {
   boolean movingCollides=false;
   Rectangle obstacle;
   Rectangle movingObstacle;
+  private Sound sound;
 
     public Play(int state) {
         obstacle=new Rectangle();
@@ -117,7 +118,7 @@ public class Play extends BasicGameState {
                 paintObstacles(g,movingObstacles.get(i));
             }
     }
-
+    @Override
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         moving=1;
       Input input = gc.getInput();
@@ -272,6 +273,9 @@ public class Play extends BasicGameState {
            }
         }
     }
+
+
+
 
     public int getID() {
         return 1;
