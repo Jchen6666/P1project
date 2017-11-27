@@ -33,18 +33,22 @@ public class Play extends BasicGameState {
         movingObstacle=new Rectangle();
         obstacles=new ArrayList<Rectangle>();
         movingObstacles=new ArrayList<Rectangle>();
-        addObstacles();
+        addObstacles(true);
         addMovingObstacles(true);
         square=new Rectangle((int)shitX,(int)shitY,50,60);
   }
-   public void addObstacles(){
+   public void addObstacles(boolean start){
       int width=50;
       int height=200;
-
-      obstacles.add(new Rectangle((int)heroPositionX+500,(int)heroPositionY,width,height));
-      obstacles.add(new Rectangle((int)heroPositionX+500,(int)heroPositionY+400,width,height));
-     // obstacles.add(new Rectangle((int)heroPositionX+700,(int)heroPositionY+400,width,height));
-
+     if (start) {
+         obstacles.add(new Rectangle((int) heroPositionX + 500, (int) heroPositionY, width, height));
+         obstacles.add(new Rectangle((int) heroPositionX + 500, (int) heroPositionY + 400, width, height));
+         // obstacles.add(new Rectangle((int)heroPositionX+700,(int)heroPositionY+400,width,height));
+     }
+     else {
+         obstacles.add(new Rectangle((int) heroPositionX + 500, (int) heroPositionY, width, height));
+         obstacles.add(new Rectangle((int) heroPositionX + 500, (int) heroPositionY + 400, width, height));
+     }
     }
     public void addMovingObstacles(boolean start){
         int width=20;
@@ -77,10 +81,10 @@ public class Play extends BasicGameState {
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 
         map=new Image("lib/res/img/test1.png");
-       Image[] walkUp={new Image(("lib/res/img/mrio2.png")),new Image("lib/res/img/mrio2.png")};
-       Image[] walkDown={new Image(("lib/res/img/mrio2.png")),new Image("lib/res/img/mrio2.png")};
-       Image[] walkLeft={new Image(("lib/res/img/mrio2.png")),new Image("lib/res/img/mrio2.png")};
-       Image[] walkRight={new Image(("lib/res/img/mrio2.png")),new Image("lib/res/img/mrio2.png")};
+       Image[] walkUp={new Image(("lib/res/img/Hero back.png")),new Image("lib/res/img/Hero back.png")};
+       Image[] walkDown={new Image(("lib/res/img/Hero front.png")),new Image("lib/res/img/Hero front.png")};
+       Image[] walkLeft={new Image(("lib/res/img/Hero left.png")),new Image("lib/res/img/Hero left.png")};
+       Image[] walkRight={new Image(("lib/res/img/Hero right.png")),new Image("lib/res/img/Hero right.png")};
 
        movingUp=new Animation(walkUp,duration,false);
        movingDown=new Animation(walkDown,duration,false);
@@ -134,6 +138,7 @@ public class Play extends BasicGameState {
         //obstacles moving up and down
 
         barriarsCollision(gc);
+        movingCollision();
         for(int z=0;z<movingObstacles.size();z++){
             Rectangle obstacle=movingObstacles.get(z);
             if(obstacle.y>1000){
@@ -149,36 +154,24 @@ public class Play extends BasicGameState {
            movingObstacle = movingObstacles.get(i);
            movingObstacle.y++;
 
-           if (square.intersects(movingObstacle)) {
-               movingCollides = true;
-           } else {
-               movingCollides = false;
-           }
+//           if (square.intersects(movingObstacle)) {
+//               movingCollides = true;
+//           } else {
+//               movingCollides = false;
+//           }
            if (input.isKeyDown(Input.KEY_UP)) {
                movingObstacle.y += moving;
-               if (movingCollides) {
 
-               }
            }
            if (input.isKeyDown(Input.KEY_DOWN)) {
                movingObstacle.y -= moving;
-               if (movingCollides) {
-
-               }
-
            }
            if (input.isKeyDown(Input.KEY_LEFT)) {
                movingObstacle.x += moving;
-               if (movingCollides) {
-
-               }
            }
 
            if (input.isKeyDown(Input.KEY_RIGHT)) {
                movingObstacle.x -= moving;
-               if (movingCollides) {
-
-               }
            }
        }
        //map moving
@@ -262,6 +255,21 @@ public class Play extends BasicGameState {
                     }
                 }
             }
+        }
+    }
+    public void movingCollision(){
+        for (int i=0;i<movingObstacles.size();i++) {
+            Rectangle movingObstacle=movingObstacles.get(i);
+            if (square.intersects(movingObstacle)) {
+              heroPositionX=0;
+              heroPositionY=0;
+              obstacles.clear();
+              addObstacles(false);
+              movingObstacles.clear();
+              addMovingObstacles(false);
+           } else {
+              continue;
+           }
         }
     }
 
