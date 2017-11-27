@@ -25,7 +25,10 @@ public class Core extends StateBasedGame{
         AppGameContainer appgc;
         try {
             appgc = new AppGameContainer(new Core(gamename));
-            appgc.setDisplayMode(800,700,false);
+            Settings.setScreenWidth(800);
+            Settings.setScreenHeight(700);
+            Settings.setFULLSCREEN(false);
+            appgc.setDisplayMode((int)Settings.getScreenWidth(),(int)Settings.getScreenHeight(),Settings.isFULLSCREEN());
             appgc.start();
         }catch (SlickException e){
             e.printStackTrace();
