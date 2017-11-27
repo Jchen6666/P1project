@@ -8,6 +8,8 @@ public class Menu extends BasicGameState {
     Image playNow;
     Image exitGame;
     float xPos,yPos;
+    private Music music;
+    private Sound sound;
 
     public Menu(int state) {
 
@@ -16,6 +18,10 @@ public class Menu extends BasicGameState {
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         playNow = new Image("lib/res/img/playNow.png");
         exitGame = new Image("lib/res/img/exitGame.png");
+        music = new Music("lib/res/thte.ogg");
+        music.setVolume(0.5f);
+        music.loop();
+        sound = new Sound("lib/res/thomas.wav");
 
     }
 
