@@ -34,24 +34,31 @@ public class Play extends BasicGameState {
         obstacles=new ArrayList<Rectangle>();
         movingObstacles=new ArrayList<Rectangle>();
         addObstacles();
-        addMovingObstacles();
+        addMovingObstacles(true);
         square=new Rectangle((int)shitX,(int)shitY,50,60);
   }
    public void addObstacles(){
       int width=50;
-      int height=100;
+      int height=200;
 
-      obstacles.add(new Rectangle((int)heroPositionX+500,(int)heroPositionY+100,width,height));
+      obstacles.add(new Rectangle((int)heroPositionX+500,(int)heroPositionY,width,height));
       obstacles.add(new Rectangle((int)heroPositionX+500,(int)heroPositionY+400,width,height));
      // obstacles.add(new Rectangle((int)heroPositionX+700,(int)heroPositionY+400,width,height));
 
     }
-    public void addMovingObstacles(){
+    public void addMovingObstacles(boolean start){
         int width=20;
-        int height=100;
-        movingObstacles.add(new Rectangle((int)heroPositionX+700,(int)heroPositionY+100,width,height));
-        movingObstacles.add(new Rectangle((int)heroPositionX+700,(int)heroPositionY+250,width,height));
+        int height=150;
+        if (start=true) {
+            movingObstacles.add(new Rectangle((int) heroPositionX + 700, (int) heroPositionY-50 , width, height));
+           // movingObstacles.add(new Rectangle((int) heroPositionX + 700, (int) heroPositionY + 450, width, height));
+        }
+        else {
+            movingObstacles.add(new Rectangle((int) heroPositionX + 700, movingObstacles.get(movingObstacles.size()-1).y-350, width, height));
+          //  movingObstacles.add(new Rectangle((int) heroPositionX + 700, movingObstacles.get(movingObstacles.size()-1).y-850, width, height));
 
+
+        }
 
     }
    public void paintSquare(Graphics g,Rectangle square){
@@ -126,19 +133,22 @@ public class Play extends BasicGameState {
         }
         //obstacles moving up and down
 
-
-
         barriarsCollision(gc);
+        for(int z=0;z<movingObstacles.size();z++){
+            Rectangle obstacle=movingObstacles.get(z);
+            if(obstacle.y>1000){
+                movingObstacles.remove(obstacle);
 
+                 addMovingObstacles(false);
+
+            }
+        }
        //movingobstacles
        for (int i=0;i<movingObstacles.size();i++) {
 
            movingObstacle = movingObstacles.get(i);
            movingObstacle.y++;
-           if (movingObstacles.get(0).y<-50){
-               movingObstacles.clear();
-               addMovingObstacles();
-           }
+
            if (square.intersects(movingObstacle)) {
                movingCollides = true;
            } else {
@@ -171,6 +181,7 @@ public class Play extends BasicGameState {
                }
            }
        }
+       //map moving
          if (input.isKeyDown(Input.KEY_UP)) {
                hero = movingUp;
              heroPositionY += moving;
@@ -253,6 +264,7 @@ public class Play extends BasicGameState {
             }
         }
     }
+
     public int getID() {
         return 1;
     }

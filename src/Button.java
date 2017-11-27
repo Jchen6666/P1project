@@ -1,3 +1,5 @@
+import org.lwjgl.input.Mouse;
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
@@ -10,22 +12,22 @@ public class Button extends Rectangle{
     private boolean isTheAnswerRight;
     public Button(float x, float y, float width, float height) {
         super(x, y, width, height);
-        setText("");
-        setSelected(false);
-        setTheAnswerRight(false);
+//        setText("");
+//        setSelected(false);
+//        setTheAnswerRight(false);
     }
     public Button(float x, float y, float width, float height, String text) {
         super(x, y, width, height);
         setText(text);
-        setSelected(false);
-        setTheAnswerRight(false);
+//        setSelected(false);
+//        setTheAnswerRight(false);
     }
     public void drawText(Graphics g){
         g.drawString(text,x+(width/2),y+(height/2));
     }
     public void drawHighlight(){
         if(isSelected){
-           highlight.draw(this.getX(),this.getY());
+           highlight.draw(this.getX(),this.getY(),width,height);
         }
     }
 
@@ -55,5 +57,18 @@ public class Button extends Rectangle{
     }
     public static void setHighlight(Image highlight) {
         Button.highlight = highlight;
+    }
+    public boolean isHovered(int Xpos, int Ypos){
+        if(Xpos>=x&&Xpos<=x+width){
+            if(Ypos<=Settings.getScreenHeight()-y&&Ypos>=Settings.getScreenHeight()-(y+height))
+                return true;
+        }
+        return false;
+    }
+    public boolean isClicked(Input input){
+        if(isHovered(Mouse.getX(),Mouse.getY())&&input.isMouseButtonDown(0)){
+            return true;
+        }
+        return false;
     }
 }
