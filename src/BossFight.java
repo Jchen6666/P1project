@@ -23,6 +23,7 @@ public class BossFight extends BasicGameState {
         int selectedPosition;
         boolean questionAnswered;
         boolean gameWon;
+        boolean bossIsHit;
         int numberQuestionsAnswered;
         int bossHp;   //Starting amount of boss lifes
         float tabPos; //variable helping to draw the interface
@@ -53,6 +54,7 @@ public class BossFight extends BasicGameState {
         dialogCloud=new DialogCloud((int)Settings.getScreenWidth()/4,(int)Settings.getScreenHeight()/9,(int)Settings.getScreenWidth()/4+200,(int)Settings.getScreenHeight()/4,new Image("lib/res/img/dialogCloud.png"),question.toString());
         bossHp=5;
         questionAnswered=false;
+        bossIsHit=false;
         selectedPosition=0;
         tabPos=(4*Settings.getScreenHeight())/5;
         numberQuestionsAnswered=0;
@@ -64,7 +66,11 @@ public class BossFight extends BasicGameState {
        // background.draw(0,0,Settings.getScreenWidth(), Settings.getScreenHeight());
         platform.draw(-Settings.getScreenWidth()/10,tabPos-Settings.getScreenHeight()/7,Settings.getScreenWidth()/2,(float)0.28*Settings.getScreenHeight());
         platform.draw(Settings.getScreenWidth()/2,Settings.getScreenHeight()/2,Settings.getScreenWidth()/2,(float)0.28*Settings.getScreenHeight());
-        boss.draw(Settings.getScreenWidth()/2+Settings.getScreenWidth()/4-Settings.getScreenWidth()/10,Settings.getScreenHeight()/2+(float)0.14*Settings.getScreenHeight()-(float)0.71*Settings.getScreenHeight(),Settings.getScreenWidth()/5,(float)0.71*Settings.getScreenHeight());
+        if(bossIsHit&&((time>=500&&time<=600)||(time>=1000&&time<=1100))){
+            boss.drawFlash(Settings.getScreenWidth()/2+Settings.getScreenWidth()/4-Settings.getScreenWidth()/10,Settings.getScreenHeight()/2+(float)0.14*Settings.getScreenHeight()-(float)0.71*Settings.getScreenHeight(),Settings.getScreenWidth()/5,(float)0.71*Settings.getScreenHeight());
+            }else {
+            boss.draw(Settings.getScreenWidth() / 2 + Settings.getScreenWidth() / 4 - Settings.getScreenWidth() / 10, Settings.getScreenHeight() / 2 + (float) 0.14 * Settings.getScreenHeight() - (float) 0.71 * Settings.getScreenHeight(), Settings.getScreenWidth() / 5, (float) 0.71 * Settings.getScreenHeight());
+        }
         table.draw(0,tabPos,Settings.getScreenWidth(),Settings.getScreenHeight()-tabPos);
         buttonsTable.draw(Settings.getScreenWidth()/2,tabPos,Settings.getScreenWidth()/2,Settings.getScreenHeight()-tabPos);
         g.setColor(Color.black);
@@ -92,6 +98,7 @@ public class BossFight extends BasicGameState {
             System.out.println(time);
             if((time>3000&&dialogCloud.getState()==2)||(time>1500&&dialogCloud.getState()==3)){
                 dialogCloud.setState(1);
+                bossIsHit=false;
             }
             if (questionAnswered) {
                 time=0;
@@ -155,6 +162,7 @@ public class BossFight extends BasicGameState {
                         heartAnimation.restart();
                         heartAnimation.start();
                         if(bossHp<=0)   gameWon=true;
+                        bossIsHit=true;
                     }else{
                         dialogCloud.setState(3);
                         time=0;
