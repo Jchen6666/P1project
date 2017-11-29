@@ -50,7 +50,7 @@ public class BossFight extends BasicGameState {
         Button.setHighlight(new Image("lib/res/img/highlight.png"));
         buttonList=generateTheLevel(question,rightAnswerPosition,selectedPosition);     //Method returning the array of Buttons(4 of them);
         gameWon=false;
-        dialogCloud=new DialogCloud(300,100,512,256,new Image("lib/res/img/dialogCloud.png"),question.toString());
+        dialogCloud=new DialogCloud((int)Settings.getScreenWidth()/4,(int)Settings.getScreenHeight()/9,(int)Settings.getScreenWidth()/4+200,(int)Settings.getScreenHeight()/4,new Image("lib/res/img/dialogCloud.png"),question.toString());
         bossHp=5;
         questionAnswered=false;
         selectedPosition=0;
@@ -90,7 +90,7 @@ public class BossFight extends BasicGameState {
         input.disableKeyRepeat();
         if(!gameWon) {
             System.out.println(time);
-            if(time>3000&&dialogCloud.getState()!=1){
+            if((time>3000&&dialogCloud.getState()==2)||(time>1500&&dialogCloud.getState()==3)){
                 dialogCloud.setState(1);
             }
             if (questionAnswered) {
@@ -156,6 +156,8 @@ public class BossFight extends BasicGameState {
                         heartAnimation.start();
                         if(bossHp<=0)   gameWon=true;
                     }else{
+                        dialogCloud.setState(3);
+                        time=0;
                     }
             }
             for(int i=0;i<4;i++){
