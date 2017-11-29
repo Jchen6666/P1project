@@ -25,8 +25,8 @@ public class Core extends StateBasedGame{
         AppGameContainer appgc;
         try {
             appgc = new AppGameContainer(new Core(gamename));
-            Settings.setScreenWidth(800);
-            Settings.setScreenHeight(700);
+            Settings.setScreenWidth(1280);
+            Settings.setScreenHeight(720);
             Settings.setFULLSCREEN(false);
             appgc.setDisplayMode((int)Settings.getScreenWidth(),(int)Settings.getScreenHeight(),Settings.isFULLSCREEN());
             appgc.start();
