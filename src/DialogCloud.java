@@ -11,36 +11,45 @@ public class DialogCloud extends Rectangle {
     private String[] defeated={"This cannot be. I got defeated.","I got defeated. Maybe next time"};
     private String question;
     private final SecureRandom generator=new SecureRandom();
-    private static Image texture;
+    private Image texture;
     private int state;  //0-transparent, 1-display question, 2-right answer, 3-wrong answer, 4-defeated
+    private int rightAnswerVariable;
+    private int wrongAnswerVariable;
+    private int defeatedVariable;
 
-    public DialogCloud(int x, int y, int width, int height) {
+    public DialogCloud(int x, int y, int width, int height, Image texture, String question) {
         super(x, y, width, height);
+        setTexture(texture);
+        setQuestion(question);
         setState(1);
+        rightAnswerVariable=generator.nextInt(rightAnswers.length);
+        wrongAnswerVariable=generator.nextInt(wrongAnswers.length);
+        defeatedVariable=generator.nextInt(defeated.length);
+
     }
 
     public void draw(Graphics g){
         g.setColor(Color.black);
         switch(state){
             case 1: texture.draw(x,y,width,height);
-                    g.drawString(question,x+width/8,y-height/4);
+                    g.drawString(question,x+width/8,y+height/2);
                     break;
             case 2: texture.draw(x,y,width,height);
-                    g.drawString(rightAnswers[generator.nextInt(rightAnswers.length-1)],x+width/8,y-height/4);
+                    g.drawString(rightAnswers[rightAnswerVariable],x+width/8,y+height/2);
                     break;
             case 3: texture.draw(x,y,width,height);
-                    g.drawString(wrongAnswers[generator.nextInt(wrongAnswers.length-1)],x+width/8,y-height/4);
+                    g.drawString(wrongAnswers[wrongAnswerVariable],x+width/8,y+height/2);
                     break;
             case 4: texture.draw(x,y,width,height);
-                    g.drawString(defeated[generator.nextInt(defeated.length-1)],x+width/8,y-height/4);
+                    g.drawString(defeated[defeatedVariable],x+width/8,y+height/2);
                     break;
             default:
                     break;
         }
     }
 
-    public static void setTexture(Image texture) {
-        DialogCloud.texture = texture;
+    public void setTexture(Image texture) {
+        this.texture = texture;
     }
 
     public String getQuestion() {
@@ -57,6 +66,9 @@ public class DialogCloud extends Rectangle {
 
     public void setState(int state) {
         this.state = state;
+        rightAnswerVariable=generator.nextInt(rightAnswers.length);
+        wrongAnswerVariable=generator.nextInt(wrongAnswers.length);
+        defeatedVariable=generator.nextInt(defeated.length);
     }
 
 
