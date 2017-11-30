@@ -342,14 +342,14 @@ public class Play extends BasicGameState {
         for (int i=0;i<buttons.size();i++){
                // Button wrongAnswer;
                 Button button =buttons.get(i);
-            if (buttons.get(i).isTheAnswerRight()==false){
-                 wrongAnswer=buttons.get(i);
-            }
-            if (wrongAnswer.intersects(square)){
-                answerCollides=true;
-            }
-            else {
-                answerCollides=false;
+            if (buttons.get(i).isTheAnswerRight()==false) {
+                wrongAnswer = buttons.get(i);
+
+                if (wrongAnswer.intersects(square) && wrongAnswer != null) {
+                    answerCollides = true;
+                } else {
+                    answerCollides = false;
+                }
             }
             if (input.isKeyDown(Input.KEY_UP)) {
                 button.setY(button.getY()+moving);
