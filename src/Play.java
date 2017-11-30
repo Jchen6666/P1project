@@ -12,31 +12,19 @@ import java.util.ArrayList;
 public class Play extends BasicGameState {
   Image map;
   Animation hero,movingUp,movingDown,movingLeft,movingRight;
-  Rectangle square;
   public ArrayList<Rectangle>obstacles;
   public ArrayList<Rectangle>movingObstacles;
   public ArrayList<Button>buttons;
-  boolean quit=false;
   int[] duration={200,200};
-  float heroPositionX=0;
-  float heroPositionY=0;
-  float shitX=heroPositionX+250;
-  float shitY=heroPositionY+250;
-    Button wrongAnswer;
-  static int x,y;
-  int moving;
-  boolean collides=false;
-  boolean answerCollides=false;
-  boolean movingCollides=false;
-  Rectangle obstacle;
-  Rectangle movingObstacle;
+  float heroPositionX=0,heroPositionY=0,shitX=heroPositionX+250,shitY=heroPositionY+250;
+  Button wrongAnswer;
+  int moving,rightAnswerPosition;
+  boolean collides=false,answerCollides=false,movingCollides=false,questionAnswered=false,quit=false;
+  Rectangle obstacle,movingObstacle,square;
   QuestionGenerator question;
-  boolean questionAnswered;
-  int rightAnswerPosition;
- Collision collision;
-    public Play(){}
+  Collision collision;
+
     public Play(int state) {
-        obstacle=new Rectangle();
         movingObstacle=new Rectangle();
         obstacles=new ArrayList<Rectangle>();
         movingObstacles=new ArrayList<Rectangle>();
@@ -45,9 +33,9 @@ public class Play extends BasicGameState {
         addMovingObstacles(true);
         collision=new Collision();
         question=new QuestionGenerator();
-        questionAnswered=false;
         generateAnswers (1,question);
         square=new Rectangle((int)shitX,(int)shitY,50,60);
+        obstacle=new Rectangle();
   }
     public void addObstacles(boolean start){
       int width=50;
@@ -85,7 +73,6 @@ public class Play extends BasicGameState {
         g.setColor(Color.darkGray);
         g.fillRect(obstacle.x, obstacle.y,obstacle.width,obstacle.height);
     }
-
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 
