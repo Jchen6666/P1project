@@ -1,16 +1,18 @@
-public class Obstacle {
+import java.awt.*;
+import org.newdawn.slick.geom.Rectangle;
+
+public class Obstacle extends Rectangle {
     float x,y;
     static int width,height;
 
-    public Obstacle(){
 
-    }
-    public Obstacle(float x, float y, int width,  int height)
+    public Obstacle(float x, float y, float width,  float height)
     {
-    this.x=x;
-    this.y=y;
-    this.width=50;
-    this.height=100;
+        super(x,y,width,height);
+        this.width=50;
+        this.height=100;
+
+
     }
     public float getX() {
         return x;
@@ -28,13 +30,13 @@ public class Obstacle {
         this.y = y;
     }
 
-    public int getWidth() {
+    public float getWidth() {
         return 50;
     }
 
 
 
-    public int getHeight() {
+    public float getHeight() {
         return 100;
     }
 

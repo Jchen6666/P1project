@@ -38,6 +38,10 @@ public class Menu extends BasicGameState {
             }
 
         }
+        if  (input.isKeyDown(Input.KEY_B)) {
+            sbg.getState(2).init(gc,sbg);
+            sbg.enterState(2);
+        }
         if ((xPos > 100 && xPos < 311) && (yPos > 109 && yPos < 160)) {
             if (Mouse.isButtonDown(0)) {
                 System.exit(0);
