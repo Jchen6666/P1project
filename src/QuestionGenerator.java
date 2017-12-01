@@ -1,4 +1,5 @@
 import java.security.SecureRandom;
+import java.util.ArrayList;
 
 public class QuestionGenerator{
     private int firstNumber;    //First number in equation
@@ -7,6 +8,7 @@ public class QuestionGenerator{
     private int operation;  //1-4 where 1- addition, 2- subtraction, 3- multiplication, 4- division
     private final SecureRandom generator=new SecureRandom();    //SecureRandom generator object, do not touch!
     private int questionNumber;
+    private ArrayList<Integer> wrongAnswers;
 
     //
     public QuestionGenerator(){
@@ -15,12 +17,14 @@ public class QuestionGenerator{
     }   //Constructor generating all the variables
     public int generateWrongAnswer(){
         int wrongAnswer=rightAnswer+generator.nextInt(10)-5;
-        while(wrongAnswer==rightAnswer){
+        while(wrongAnswer==rightAnswer||wrongAnswers.contains(wrongAnswer)){
             wrongAnswer=rightAnswer+generator.nextInt(10)-5;
         }
+        wrongAnswers.add(wrongAnswer);
         return wrongAnswer;
     }   //Generates the wrong answer
     public void regenerate(){
+        wrongAnswers=new ArrayList<Integer>(0);
         if(questionNumber<10){
             operation=generator.nextInt(4)+1;
             switch(operation){      //Easy levels
