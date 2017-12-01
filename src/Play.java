@@ -18,7 +18,7 @@ public class Play extends BasicGameState {
   int[] duration={200,200};
   float heroPositionX=0,heroPositionY=0,shitX=heroPositionX+250,shitY=heroPositionY+250;
   Button wrongAnswer;
-  int moving,rightAnswerPosition;
+  int moving,rightAnswerPosition,time=1;
   boolean collides=false,answerCollides=false,movingCollides=false,questionAnswered=false,quit=false;
   Rectangle obstacle,movingObstacle,square;
   QuestionGenerator question;
@@ -33,7 +33,7 @@ public class Play extends BasicGameState {
         addMovingObstacles(true);
         collision=new Collision();
         question=new QuestionGenerator();
-        generateAnswers (1,question);
+        generateAnswers (time,question);
         square=new Rectangle((int)shitX,(int)shitY,50,60);
         obstacle=new Rectangle();
   }
@@ -89,7 +89,7 @@ public class Play extends BasicGameState {
     }
     public void generateAnswers(int time,QuestionGenerator question) {
         float width=30;
-        float height=30;
+        float height=70;
         rightAnswerPosition=question.getGenerator().nextInt(2);
       //  System.out.println(rightAnswerPosition);
         float x=(heroPositionX+500)+200*(time-1);
@@ -104,7 +104,7 @@ public class Play extends BasicGameState {
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
        map.draw(heroPositionX,heroPositionY);
        hero.draw(shitX,shitY);paintSquare(g,square);
-       g.drawString(question.toString(),heroPositionX,heroPositionY);
+       g.drawString(question.toString(),heroPositionX+time*(500),heroPositionY-40);
        g.drawString("Hero X: "+heroPositionX+"\nHero y: "+heroPositionY +"\nCollides: ",600,600);
       if (quit==true){
         g.drawString("Resume(R)",250,200 );
@@ -244,14 +244,22 @@ public class Play extends BasicGameState {
     public void anwserCheck(GameContainer gc){
         Input input=gc.getInput();
         for (int i=0;i<buttons.size();i++){
-               // Button wrongAnswer;
                 Button button =buttons.get(i);
+            if(button.intersects(square)){
+                    questionAnswered=true;
+//                    if (button.isTheAnswerRight()==false&&button.intersects(square)){
+//                        answerCollides=true;
+//                    }
+//                    else {
+//                        answerCollides=false;
+//                    }
+                }
             if (buttons.get(i).isTheAnswerRight()==false) {
                 wrongAnswer = buttons.get(i);
 
                 if (wrongAnswer.intersects(square) && wrongAnswer != null) {
                     answerCollides = true;
-                } else {
+                }  else {
                     answerCollides = false;
                 }
             }
