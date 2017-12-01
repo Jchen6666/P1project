@@ -169,7 +169,7 @@ public class BossFight extends BasicGameState {
                         heartAnimation.restart();
                         heartAnimation.start();
                         if(bossHp<=0)   gameWon=true;
-                        else projectile= new Projectile(100,tabPos,Settings.getScreenWidth() / 2 + Settings.getScreenWidth() / 4 - Settings.getScreenWidth() / 10,Settings.getScreenHeight()/2+(float)0.14*Settings.getScreenHeight()-(float)0.5*Settings.getScreenHeight(),128,128,500);
+                        else projectile= new Projectile(100,tabPos,Settings.getScreenWidth() / 2 + Settings.getScreenWidth() / 4 - Settings.getScreenWidth() / 10,Settings.getScreenHeight()/2+(float)0.14*Settings.getScreenHeight()-(float)0.5*Settings.getScreenHeight(),128,128,500,question.getOperation());
                         bossIsHit=true;
                     }else{
                         dialogCloud.setState(3);

@@ -17,8 +17,9 @@ public class Projectile {
     float speed;
     boolean atTarget;
     int timePassed;
+    int sign;
 
-    public Projectile(float startingX, float startingY, float endingX, float endingY, float width, float heigth, int time) {
+    public Projectile(float startingX, float startingY, float endingX, float endingY, float width, float heigth, int time,int sign) {
         this.startingX = startingX;
         this.startingY = startingY;
         currentX=startingX;
@@ -28,13 +29,14 @@ public class Projectile {
         this.width = width;
         this.heigth = heigth;
         this.time = time;
+        this.sign=sign;
         xSpeed=(endingX-startingX)/time;  //delta in X line/one millisecond
         ySpeed=(endingY-startingY)/time;
         atTarget=false;
         try {
-            setTexture(new Image("lib/res/img/additionProjectile.png"));
+            setTexture(new Image("lib/res/img/projectiles.png"));
         }catch(SlickException e){
-            System.out.println("Couldn't load projectileTexture");
+            System.out.println("Couldn't load projectiles Texture");
         }
         timePassed=0;
     }
@@ -66,8 +68,17 @@ public class Projectile {
         }
     }
 
-    void draw(){
-        texture.drawFlash(currentX,currentY,width,heigth);
+    void draw() {
+        switch (sign) {
+            case 1:texture.getSubImage(0,0,32,32).draw(currentX, currentY, width, heigth);
+                    break;
+            case 2:texture.getSubImage(32,32,32,32).draw(currentX, currentY, width, heigth);
+                break;
+            case 3:texture.getSubImage(32,0,32,32).draw(currentX, currentY, width, heigth);
+                break;
+            case 4:texture.getSubImage(0,32,32,32).draw(currentX, currentY, width, heigth);
+                break;
+        }
     }
 
     public void setTexture(Image texture) {
