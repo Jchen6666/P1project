@@ -18,6 +18,7 @@ public class BossFight extends BasicGameState {
         QuestionGenerator question;
         ArrayList<Button> buttonList;
         SpriteSheet hearts;
+        Projectile projectile;
         int rightAnswerPosition;
         int selectedPosition;
         boolean questionAnswered;
@@ -72,6 +73,11 @@ public class BossFight extends BasicGameState {
         }
         table.draw(0,tabPos,Settings.getScreenWidth(),Settings.getScreenHeight()-tabPos);
         buttonsTable.draw(Settings.getScreenWidth()/2,tabPos,Settings.getScreenWidth()/2,Settings.getScreenHeight()-tabPos);
+        if(projectile!=null){
+            if(!projectile.isAtTarget()) {
+                projectile.draw();
+            }
+        }
         g.setColor(Color.black);
         dialogCloud.draw(g);
         if(gameWon){
@@ -94,7 +100,9 @@ public class BossFight extends BasicGameState {
         Input input=gc.getInput();
         input.disableKeyRepeat();
         if(!gameWon) {
-            System.out.println(time);
+            if(projectile!=null&&!projectile.isAtTarget()){
+                projectile.update(delta);
+            }
             if((time>3000&&dialogCloud.getState()==2)||(time>1500&&dialogCloud.getState()==3)){
                 dialogCloud.setState(1);
                 bossIsHit=false;
@@ -161,6 +169,7 @@ public class BossFight extends BasicGameState {
                         heartAnimation.restart();
                         heartAnimation.start();
                         if(bossHp<=0)   gameWon=true;
+                        else projectile= new Projectile(100,tabPos,Settings.getScreenWidth() / 2 + Settings.getScreenWidth() / 4 - Settings.getScreenWidth() / 10,Settings.getScreenHeight()/2+(float)0.14*Settings.getScreenHeight()-(float)0.5*Settings.getScreenHeight(),128,128,500);
                         bossIsHit=true;
                     }else{
                         dialogCloud.setState(3);
