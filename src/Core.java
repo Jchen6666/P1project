@@ -5,16 +5,19 @@ public class Core extends StateBasedGame{
     public static final String gamename = "Mathness";
     public static final int menu = 0;
     public static final int play = 1;
+    public static final int bossfight = 2;
 
     public Core(String gamename){
         super(gamename);
         this.addState(new Menu(menu));
         this.addState(new Play(play));
+        this.addState(new BossFight(bossfight));
     }
 
     public void initStatesList(GameContainer gc) throws SlickException{ // Give it a list of states
             this.getState(menu).init(gc,this);
             this.getState(play).init(gc,this);
+            this.getState(bossfight).init(gc,this);
             this.enterState(menu); // first screen the user sees
     }
 
@@ -22,7 +25,10 @@ public class Core extends StateBasedGame{
         AppGameContainer appgc;
         try {
             appgc = new AppGameContainer(new Core(gamename));
-            appgc.setDisplayMode(800,700,false);
+            Settings.setScreenWidth(800);
+            Settings.setScreenHeight(700);
+            Settings.setFULLSCREEN(false);
+            appgc.setDisplayMode((int)Settings.getScreenWidth(),(int)Settings.getScreenHeight(),Settings.isFULLSCREEN());
             appgc.start();
         }catch (SlickException e){
             e.printStackTrace();
