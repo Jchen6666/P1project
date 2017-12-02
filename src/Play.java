@@ -44,13 +44,13 @@ public class Play extends BasicGameState {
          obstacles.add(new Rectangle((int) heroPositionX + 500, (int) heroPositionY, width, height));
          obstacles.add(new Rectangle((int) heroPositionX + 500, (int) heroPositionY + 300, width, height));
          obstacles.add(new Rectangle((int) heroPositionX + 500,(int) heroPositionY + 600, width, height));
-         // obstacles.add(new Rectangle((int)heroPositionX+700,(int)heroPositionY+400,width,height));
+          obstacles.add(new Rectangle((int)heroPositionX + 900,(int)heroPositionY,width,height));
      }
      else {
          obstacles.add(new Rectangle((int) heroPositionX + 500, (int) heroPositionY, width, height));
          obstacles.add(new Rectangle((int) heroPositionX + 500, (int) heroPositionY + 300, width, height));
          obstacles.add(new Rectangle((int) heroPositionX + 500,(int) heroPositionY + 600, width, height));
-
+         obstacles.add(new Rectangle((int)heroPositionX + 900,(int)heroPositionY,width,height));
      }
     }
     public void addMovingObstacles(boolean start){
@@ -58,7 +58,7 @@ public class Play extends BasicGameState {
         int height=150;
         if (start=true) {
             movingObstacles.add(new Rectangle((int) heroPositionX + 700, (int) heroPositionY-50 , width, height));
-            movingObstacles.add(new Rectangle((int) heroPositionX + 1000, (int) heroPositionY-50 , width, height));
+            movingObstacles.add(new Rectangle((int) heroPositionX + 1100, (int) heroPositionY-50 , width, height));
         }
         else {
             movingObstacles.add(new Rectangle((int) heroPositionX + 700, movingObstacles.get(movingObstacles.size()-1).y-350, width, height));
@@ -211,14 +211,14 @@ public class Play extends BasicGameState {
             }
             if (input.isKeyDown(Input.KEY_LEFT)) {
                 obstacle.x+=moving;
-                if (collides && heroPositionX<0-(obstacle.x-50)+i*400){
+                if (collides && heroPositionX<0-(obstacle.x-25)+i*400){
                     heroPositionX-=20;
                     collision.left(obstacles,movingObstacles,buttons);
                 }
             }
             if (input.isKeyDown(Input.KEY_RIGHT)) {
                 obstacle.x -= moving;
-                if (collides&&heroPositionX>0-(obstacle.x+50)-i*400 ){
+                if (collides&&heroPositionX>0-(obstacle.x+25)-i*400 ){
                     heroPositionX+=20;
                     collision.right(obstacles,movingObstacles,buttons);
                 }
