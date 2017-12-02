@@ -58,6 +58,7 @@ public class Play extends BasicGameState {
         int height=150;
         if (start=true) {
             movingObstacles.add(new Rectangle((int) heroPositionX + 700, (int) heroPositionY-50 , width, height));
+            movingObstacles.add(new Rectangle((int) heroPositionX + 1000, (int) heroPositionY-50 , width, height));
         }
         else {
             movingObstacles.add(new Rectangle((int) heroPositionX + 700, movingObstacles.get(movingObstacles.size()-1).y-350, width, height));
@@ -134,7 +135,7 @@ public class Play extends BasicGameState {
         for(int z=0;z<movingObstacles.size();z++){
             Rectangle obstacle=movingObstacles.get(z);
             if(obstacle.y>1000){
-                movingObstacles.remove(obstacle);
+                movingObstacles.clear();
                 addMovingObstacles(false);
             }
         }
@@ -210,14 +211,14 @@ public class Play extends BasicGameState {
             }
             if (input.isKeyDown(Input.KEY_LEFT)) {
                 obstacle.x+=moving;
-                if (collides && heroPositionX<0-(obstacle.x-50)){
+                if (collides && heroPositionX<0-(obstacle.x-50)+i*400){
                     heroPositionX-=20;
                     collision.left(obstacles,movingObstacles,buttons);
                 }
             }
             if (input.isKeyDown(Input.KEY_RIGHT)) {
                 obstacle.x -= moving;
-                if (collides&&heroPositionX>0-(obstacle.x+50) ){
+                if (collides&&heroPositionX>0-(obstacle.x+50)-i*400 ){
                     heroPositionX+=20;
                     collision.right(obstacles,movingObstacles,buttons);
                 }
@@ -228,7 +229,7 @@ public class Play extends BasicGameState {
         for (int i=0;i<movingObstacles.size();i++) {
             Rectangle movingObstacle=movingObstacles.get(i);
             if (square.intersects(movingObstacle)) {
-              heroPositionX=0;
+              heroPositionX=-(movingObstacle.x+50)-i*300;
               heroPositionY=0;
               obstacles.clear();
               addObstacles(false);
