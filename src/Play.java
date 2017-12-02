@@ -124,6 +124,7 @@ public class Play extends BasicGameState {
             for(int i=0; i<buttons.size();i++){
                 buttons.get(i).drawText(g);
             }
+
     }
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         moving=1;
@@ -211,14 +212,16 @@ public class Play extends BasicGameState {
             }
             if (input.isKeyDown(Input.KEY_LEFT)) {
                 obstacle.x+=moving;
-                if (collides && heroPositionX<0-(obstacle.x-25)+i*400){
+                if (collides && heroPositionX<0-obstacle.x-50-400*(getColumn(i)-1)){
+                    System.out.println(0-(obstacle.x)+" "+heroPositionX+" "+i);
                     heroPositionX-=20;
                     collision.left(obstacles,movingObstacles,buttons);
                 }
             }
             if (input.isKeyDown(Input.KEY_RIGHT)) {
                 obstacle.x -= moving;
-                if (collides&&heroPositionX>0-(obstacle.x+25)-i*400 ){
+                if (collides&&heroPositionX>0-obstacle.x+50-400*(getColumn(i)-1)){
+                    System.out.println(0-obstacle.x+" "+heroPositionX);
                     heroPositionX+=20;
                     collision.right(obstacles,movingObstacles,buttons);
                 }
@@ -314,7 +317,18 @@ public class Play extends BasicGameState {
             }
         }
     }
-
+    public int getColumn(int i){
+        int x=i+1;
+        if(x%3==0){
+            return x/3;
+        }
+        else if (x/3==0){
+            return 1;
+        }
+        else {
+            return x/3+1;
+        }
+    }
     public int getID() {
         return 1;
     }
