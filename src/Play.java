@@ -59,9 +59,13 @@ public class Play extends BasicGameState {
         if (start=true) {
             movingObstacles.add(new Rectangle((int) heroPositionX + 700, (int) heroPositionY-50 , width, height));
             movingObstacles.add(new Rectangle((int) heroPositionX + 1100, (int) heroPositionY-50 , width, height));
+            movingObstacles.add(new Rectangle((int) heroPositionX + 1500, (int) heroPositionY-50 , width, height));
         }
         else {
             movingObstacles.add(new Rectangle((int) heroPositionX + 700, movingObstacles.get(movingObstacles.size()-1).y-350, width, height));
+            movingObstacles.add(new Rectangle(movingObstacles.get(movingObstacles.size()-1).x+400, (int) heroPositionY-50 , width, height));
+            movingObstacles.add(new Rectangle(movingObstacles.get(movingObstacles.size()-1).x+400, (int) heroPositionY-50 , width, height));
+
         }
 
     }
@@ -89,7 +93,7 @@ public class Play extends BasicGameState {
        hero=movingDown;
     }
     public void generateAnswers(int time,QuestionGenerator question) {
-        float width=30;
+        float width=40;
         float height=70;
         rightAnswerPosition=question.getGenerator().nextInt(2);
       //  System.out.println(rightAnswerPosition);
@@ -213,7 +217,6 @@ public class Play extends BasicGameState {
             if (input.isKeyDown(Input.KEY_LEFT)) {
                 obstacle.x+=moving;
                 if (collides && heroPositionX<0-obstacle.x-50-400*(getColumn(i)-1)){
-                    System.out.println(0-(obstacle.x)+" "+heroPositionX+" "+i);
                     heroPositionX-=20;
                     collision.left(obstacles,movingObstacles,buttons);
                 }
@@ -221,7 +224,6 @@ public class Play extends BasicGameState {
             if (input.isKeyDown(Input.KEY_RIGHT)) {
                 obstacle.x -= moving;
                 if (collides&&heroPositionX>0-obstacle.x+50-400*(getColumn(i)-1)){
-                    System.out.println(0-obstacle.x+" "+heroPositionX);
                     heroPositionX+=20;
                     collision.right(obstacles,movingObstacles,buttons);
                 }
@@ -232,7 +234,7 @@ public class Play extends BasicGameState {
         for (int i=0;i<movingObstacles.size();i++) {
             Rectangle movingObstacle=movingObstacles.get(i);
             if (square.intersects(movingObstacle)) {
-              heroPositionX=-(movingObstacle.x+50)-i*300;
+              heroPositionX=-(movingObstacle.x+50)-i*400;
               heroPositionY=0;
               obstacles.clear();
               addObstacles(false);
