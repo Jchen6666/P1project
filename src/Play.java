@@ -97,7 +97,7 @@ public class Play extends BasicGameState {
         float height=70;
         rightAnswerPosition=question.getGenerator().nextInt(2);
       //  System.out.println(rightAnswerPosition);
-        float x=(heroPositionX+500)+200*(time-1);
+        float x=(heroPositionX+500)+400*(time-1);
         buttons.add(new Button(x,heroPositionY+170,width,height,Integer.toString(question.generateWrongAnswer())));
         buttons.add(new Button(x,heroPositionY+470,width,height,Integer.toString(question.generateWrongAnswer())));
         // buttons.add(new Button(x,heroPositionY+770,width,height,Integer.toString(question.generateWrongAnswer())));
@@ -109,7 +109,7 @@ public class Play extends BasicGameState {
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
        map.draw(heroPositionX,heroPositionY);
        hero.draw(shitX,shitY);paintSquare(g,square);
-       g.drawString(question.toString(),heroPositionX+time*(500),heroPositionY-40);
+       g.drawString(question.toString(),heroPositionX+time*(400)+100,heroPositionY-40);
        g.drawString("Hero X: "+heroPositionX+"\nHero y: "+heroPositionY +"\nCollides: ",600,600);
       if (quit==true){
         g.drawString("Resume(R)",250,200 );
@@ -204,28 +204,28 @@ public class Play extends BasicGameState {
                 obstacle.y += moving;
                 if (collides){
                     heroPositionY-=20;
-                    collision.up(obstacles,movingObstacles,buttons);
+                    collision.up(obstacles,movingObstacles,buttons,20);
                 }
             }
             if (input.isKeyDown(Input.KEY_DOWN)) {
                 obstacle.y -= moving;
                 if (collides){
                     heroPositionY+=20;
-                    collision.down(obstacles,movingObstacles,buttons);
+                    collision.down(obstacles,movingObstacles,buttons,20);
                 }
             }
             if (input.isKeyDown(Input.KEY_LEFT)) {
                 obstacle.x+=moving;
                 if (collides && heroPositionX<0-obstacle.x-50-400*(getColumn(i)-1)){
                     heroPositionX-=20;
-                    collision.left(obstacles,movingObstacles,buttons);
+                    collision.left(obstacles,movingObstacles,buttons,20);
                 }
             }
             if (input.isKeyDown(Input.KEY_RIGHT)) {
                 obstacle.x -= moving;
                 if (collides&&heroPositionX>0-obstacle.x+50-400*(getColumn(i)-1)){
                     heroPositionX+=20;
-                    collision.right(obstacles,movingObstacles,buttons);
+                    collision.right(obstacles,movingObstacles,buttons,20);
                 }
             }
         }
@@ -241,7 +241,7 @@ public class Play extends BasicGameState {
               movingObstacles.clear();
               addMovingObstacles(false);
               buttons.clear();
-              generateAnswers(1,question);
+              generateAnswers(time,question);
            } else {
               continue;
            }
@@ -251,20 +251,21 @@ public class Play extends BasicGameState {
         Input input=gc.getInput();
         for (int i=0;i<buttons.size();i++){
                 Button button =buttons.get(i);
-            if(button.intersects(square)){
+            if(button.intersects(square)&&button.isTheAnswerRight()){
                     questionAnswered=true;
-//                    if (button.isTheAnswerRight()==false&&button.intersects(square)){
-//                        answerCollides=true;
-//                    }
-//                    else {
-//                        answerCollides=false;
-//                    }
+                    time++;
+                    question.regenerate();
+                    buttons.clear();
+                    generateAnswers(time,question);
                 }
             if (buttons.get(i).isTheAnswerRight()==false) {
                 wrongAnswer = buttons.get(i);
 
                 if (wrongAnswer.intersects(square) && wrongAnswer != null) {
                     answerCollides = true;
+                    question.regenerate();
+                    buttons.clear();
+                    generateAnswers(time,question);
                 }  else {
                     answerCollides = false;
                 }
@@ -272,30 +273,30 @@ public class Play extends BasicGameState {
             if (input.isKeyDown(Input.KEY_UP)) {
                 button.setY(button.getY()+moving);
                 if (answerCollides){
-                    heroPositionY-=20;
-                    collision.up(obstacles,movingObstacles,buttons);
+                    heroPositionY-=100;
+                    collision.up(obstacles,movingObstacles,buttons,100);
                 }
             }
             if (input.isKeyDown(Input.KEY_DOWN)) {
                 button.setY(button.getY()-moving);
                 if (answerCollides){
-                    heroPositionY+=20;
-                    collision.down(obstacles,movingObstacles,buttons);
+                    heroPositionY+=100;
+                    collision.down(obstacles,movingObstacles,buttons,100);
                 }
             }
             if (input.isKeyDown(Input.KEY_LEFT)) {
                 button.setX(button.getX()+moving);
                 if (answerCollides){
-                    heroPositionX-=20;
-                    collision.left(obstacles,movingObstacles,buttons);
+                    heroPositionX-=100;
+                    collision.left(obstacles,movingObstacles,buttons,100);
                 }
             }
 
             if (input.isKeyDown(Input.KEY_RIGHT)) {
                 button.setX(button.getX()-moving);
                 if (answerCollides){
-                    heroPositionX+=20;
-                    collision.right(obstacles,movingObstacles,buttons);
+                    heroPositionX+=100;
+                    collision.right(obstacles,movingObstacles,buttons,100);
                 }
             }
         }
