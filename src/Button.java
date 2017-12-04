@@ -71,4 +71,23 @@ public class Button extends Rectangle{
         }
         return false;
     }
+    public boolean intersects(java.awt.Rectangle r) {
+        float tw = this.width;
+        float th = this.height;
+        int rw = r.width;
+        int rh = r.height;
+        if (rw > 0 && rh > 0 && tw > 0 && th > 0) {
+            float tx = this.x;
+            float ty = this.y;
+            int rx = r.x;
+            int ry = r.y;
+            rw += rx;
+            rh += ry;
+            tw += tx;
+            th += ty;
+            return (rw < rx || rw > tx) && (rh < ry || rh > ty) && (tw < tx || tw > rx) && (th < ty || th > ry);
+        } else {
+            return false;
+        }
+    }
 }

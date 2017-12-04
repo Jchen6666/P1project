@@ -46,7 +46,6 @@ public class BossFight extends BasicGameState {
         hpHeart=hearts.getSubImage(0,0,16,16);
         question=new QuestionGenerator();
 
-        buttonList=new ArrayList<Button>(4);
         rightAnswerPosition=(question.getGenerator().nextInt(4)+1);     //Determine the position of the right answer
         Button.setHighlight(new Image("lib/res/img/highlight.png"));
         buttonList=generateTheLevel(question,rightAnswerPosition,selectedPosition);     //Method returning the array of Buttons(4 of them);
