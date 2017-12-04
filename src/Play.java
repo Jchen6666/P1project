@@ -29,7 +29,7 @@ public class Play extends BasicGameState {
         obstacles=new ArrayList<Rectangle>();
         movingObstacles=new ArrayList<Rectangle>();
         buttons=new ArrayList<Button>();
-        addObstacles(true);
+      loadObstacbles();
         addMovingObstacles(true);
         collision=new Collision();
         question=new QuestionGenerator();
@@ -44,13 +44,17 @@ public class Play extends BasicGameState {
          obstacles.add(new Rectangle((int) heroPositionX + 500, (int) heroPositionY, width, height));
          obstacles.add(new Rectangle((int) heroPositionX + 500, (int) heroPositionY + 300, width, height));
          obstacles.add(new Rectangle((int) heroPositionX + 500,(int) heroPositionY + 600, width, height));
-          obstacles.add(new Rectangle((int)heroPositionX + 900,(int)heroPositionY,width,height));
+         obstacles.add(new Rectangle((int) heroPositionX + 500,(int) heroPositionY + 900, width, height));
+
+         // obstacles.add(new Rectangle((int)heroPositionX + 900,(int)heroPositionY,width,height));
      }
      else {
-         obstacles.add(new Rectangle((int) heroPositionX + 500, (int) heroPositionY, width, height));
-         obstacles.add(new Rectangle((int) heroPositionX + 500, (int) heroPositionY + 300, width, height));
-         obstacles.add(new Rectangle((int) heroPositionX + 500,(int) heroPositionY + 600, width, height));
-         obstacles.add(new Rectangle((int)heroPositionX + 900,(int)heroPositionY,width,height));
+         obstacles.add(new Rectangle(obstacles.get(obstacles.size()-1).x+400, (int) heroPositionY, width, height));
+         obstacles.add(new Rectangle(obstacles.get(obstacles.size()-1).x, (int) heroPositionY + 300, width, height));
+         obstacles.add(new Rectangle(obstacles.get(obstacles.size()-1).x,(int) heroPositionY + 600, width, height));
+         obstacles.add(new Rectangle(obstacles.get(obstacles.size()-1).x,(int) heroPositionY + 900, width, height));
+
+         // obstacles.add(new Rectangle(obstacles.get(obstacles.size()-1).x+400,(int)heroPositionY,width,height));
      }
     }
     public void addMovingObstacles(boolean start){
@@ -100,7 +104,7 @@ public class Play extends BasicGameState {
         float x=(heroPositionX+500)+400*(time-1);
         buttons.add(new Button(x,heroPositionY+170,width,height,Integer.toString(question.generateWrongAnswer())));
         buttons.add(new Button(x,heroPositionY+470,width,height,Integer.toString(question.generateWrongAnswer())));
-        // buttons.add(new Button(x,heroPositionY+770,width,height,Integer.toString(question.generateWrongAnswer())));
+        buttons.add(new Button(x,heroPositionY+770,width,height,Integer.toString(question.generateWrongAnswer())));
         buttons.get(rightAnswerPosition).setTheAnswerRight(true);
         buttons.get(rightAnswerPosition).setText(Integer.toString(question.getRightAnswer()));
 
@@ -237,7 +241,8 @@ public class Play extends BasicGameState {
               heroPositionX=-(movingObstacle.x+50)-i*400;
               heroPositionY=0;
               obstacles.clear();
-              addObstacles(false);
+              //addObstacles(false);
+                loadObstacbles();
               movingObstacles.clear();
               addMovingObstacles(false);
               buttons.clear();
@@ -330,6 +335,13 @@ public class Play extends BasicGameState {
         }
         else {
             return x/3+1;
+        }
+    }
+    public void loadObstacbles(){
+        boolean start =true;
+        for (int i=0;i<15;i++){
+            addObstacles(start);
+            start=false;
         }
     }
     public int getID() {
