@@ -39,22 +39,37 @@ public class DialogCloud extends Rectangle {
         try {
             switch (state) {
                 case 1:
+                    if(width<question.length()*12) {
+                        setWidth(question.length() * 12);
+                    }
                     texture.draw(x, y, width, height);
                     g.drawString(question, x + width / 8, y + height / 2);
                     break;
                 case 2:
+                    if(width<question.length()*12) {
+                        setWidth(rightAnswers[rightAnswerVariable].length() * 12);
+                    }
                     texture.draw(x, y, width, height);
                     g.drawString(rightAnswers[rightAnswerVariable], x + width / 8, y + height / 2);
                     break;
                 case 3:
+                    if(width<question.length()*12) {
+                        setWidth(wrongAnswers[wrongAnswerVariable].length() * 12);
+                    }
                     texture.draw(x, y, width, height);
                     g.drawString(wrongAnswers[wrongAnswerVariable], x + width / 8, y + height / 2);
                     break;
                 case 4:
+                    if(width<question.length()*12) {
+                        setWidth(defeated[defeatedVariable].length() * 12);
+                    }
                     texture.draw(x, y, width, height);
                     g.drawString(defeated[defeatedVariable], x + width / 8, y + height / 2);
                     break;
                 case 5:
+                    if(width<question.length()*12) {
+                    setWidth(greeting[greetingVariable].length()*12);
+                    }
                     texture.draw(x, y, width, height);
                     g.drawString(greeting[greetingVariable], x + width / 8, y + height / 2);
                     break;

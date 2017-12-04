@@ -1,7 +1,6 @@
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-
 import java.util.ArrayList;
 
 public class BossFight extends BasicGameState {
@@ -31,6 +30,7 @@ public class BossFight extends BasicGameState {
         float tabPos; //variable helping to draw the interface
         int time;
 
+
         public BossFight(int state) {
 
         }
@@ -42,7 +42,7 @@ public class BossFight extends BasicGameState {
         heartAnimation.stop();
         bossAnimation=new Animation(new SpriteSheet("lib/res/img/bossAnimation.png",32,64),1000);
         heroAnimation=new Animation(new SpriteSheet("lib/res/img/hero.png",32,32),1000);
-        bossDyeingAnimation=new Animation(new SpriteSheet("lib/res/img/bossDyingAnimation.png",32,64),2000);
+        bossDyeingAnimation=new Animation(new SpriteSheet("lib/res/img/bossDyingAnimation.png",32,64),1000);
         bossDyeingAnimation.setLooping(false);
         bossDyeingAnimation.stop();
         heroAnimation.setLooping(false);
@@ -71,7 +71,7 @@ public class BossFight extends BasicGameState {
 
         public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 
-       // background.draw(0,0,Settings.getScreenWidth(), Settings.getScreenHeight());
+        background.draw(0,0,Settings.getScreenWidth(), Settings.getScreenHeight());
         platform.draw(-Settings.getScreenWidth()/10,tabPos-Settings.getScreenHeight()/7,Settings.getScreenWidth()/2,(float)0.28*Settings.getScreenHeight());
         platform.draw(Settings.getScreenWidth()/2,Settings.getScreenHeight()/2,Settings.getScreenWidth()/2,(float)0.28*Settings.getScreenHeight());
         heroAnimation.draw(0,tabPos-256,256,256);
@@ -84,16 +84,17 @@ public class BossFight extends BasicGameState {
                 bossAnimation.draw(Settings.getScreenWidth() / 2 + Settings.getScreenWidth() / 4 - Settings.getScreenWidth() / 10, Settings.getScreenHeight() / 2 + (float) 0.14 * Settings.getScreenHeight() - (float) 0.71 * Settings.getScreenHeight(), Settings.getScreenWidth() / 5, (float) 0.71 * Settings.getScreenHeight());
             }
         }
-
-        table.draw(0,tabPos,Settings.getScreenWidth(),Settings.getScreenHeight()-tabPos);
-        buttonsTable.draw(Settings.getScreenWidth()/2,tabPos,Settings.getScreenWidth()/2,Settings.getScreenHeight()-tabPos);
-        if(projectile!=null){
-            if(!projectile.isAtTarget()) {
-                projectile.draw();
-            }
+        for(int i=0;i<Settings.getScreenWidth();i++) {
+            table.draw(i, tabPos,table.getWidth(), Settings.getScreenHeight() - tabPos);
         }
+        buttonsTable.draw(Settings.getScreenWidth()/2,tabPos,Settings.getScreenWidth()/2,Settings.getScreenHeight()-tabPos);
         g.setColor(Color.black);
         dialogCloud.draw(g);
+        if(projectile!=null){
+                if(!projectile.isAtTarget()) {
+                    projectile.draw();
+                }
+        }
             for (int i = 0; i < bossHp; i++) {
                 hpHeart.draw(i*(Settings.getScreenWidth()/20)+(Settings.getScreenWidth()/128),(Settings.getScreenWidth()/128),Settings.getScreenWidth()/20,Settings.getScreenWidth()/20);
             }
