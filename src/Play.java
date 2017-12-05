@@ -117,7 +117,9 @@ public class Play extends BasicGameState {
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
        map.draw(heroPositionX,heroPositionY);
        hero.draw(squareX, squareY);paintSquare(g,square);
-       g.drawString(question.toString(),heroPositionX+time*(400)+100,heroPositionY-40);
+       if (score<16){
+           g.drawString(question.toString(),heroPositionX+time*(400)+100,heroPositionY-40);
+       }
        g.drawString("Hero X: "+heroPositionX+"\nHero y: "+heroPositionY +"\nScore: "+score,600,600);
        if (quit==true){
         g.drawString("Resume(R)",250,200 );
@@ -208,7 +210,7 @@ public class Play extends BasicGameState {
         for (int i=0;i<obstacles.size();i++) {
 
             obstacle=obstacles.get(i);
-            if (square.intersects(obstacle)){
+            if (square.intersects(obstacle)||heroPositionY>230||heroPositionY<-435){
                 collides=true;
             }
             else {
@@ -266,29 +268,35 @@ public class Play extends BasicGameState {
         Input input=gc.getInput();
         for (int i=0;i<buttons.size();i++){
                 Button button =buttons.get(i);
-            if(button.intersects(square)&&button.isTheAnswerRight()){
-                    questionAnswered=true;
-                    Timer timer = new Timer();
-                    score++;
-                    time++;
-                    question.regenerate();
-                    timea();
-                    buttons.clear();
-                    generateAnswers(time,question);
-                }
-            if (buttons.get(i).isTheAnswerRight()==false) {
+                if (buttons.get(i).isTheAnswerRight()==false) {
                 wrongAnswer = buttons.get(i);
 
                 if (wrongAnswer.intersects(square) && wrongAnswer != null) {
                     answerCollides = true;
                     question.regenerate();
-
                     buttons.clear();
-                    generateAnswers(time,question);
+                    generateAnswers(time, question);
+
                 }  else {
                     answerCollides = false;
                 }
             }
+           else if(button.intersects(square)&&button.isTheAnswerRight()){
+                    questionAnswered=true;
+                    Timer timer = new Timer();
+                    score++;
+                    time++;
+                    buttons.clear();
+                    if(score<16) {
+                        question.regenerate();
+                        timea();
+                        generateAnswers(time, question);
+                    }
+                    else {
+                        break;
+                    }
+                }
+
             if (input.isKeyDown(Input.KEY_UP)) {
                 button.setY(button.getY()+moving);
                 if (answerCollides){
