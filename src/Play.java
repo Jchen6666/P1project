@@ -3,7 +3,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.state.*;
-import org.newdawn.slick.tiled.TiledMap;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -17,9 +16,9 @@ public class Play extends BasicGameState {
   public ArrayList<Rectangle>movingObstacles;
   public ArrayList<Button>buttons;
   int[] duration={200,200};
-  float heroPositionX=0,heroPositionY=0,shitX=heroPositionX+250,shitY=heroPositionY+250;
+  float heroPositionX=0,heroPositionY=0, squareX =heroPositionX+250, squareY =heroPositionY+250;
   Button wrongAnswer, rightAnswer;
-  int moving,rightAnswerPosition,time=1;
+  int moving,rightAnswerPosition,time=1,score=0;
   boolean collides=false,answerCollides=false,movingCollides=false,questionAnswered=false,quit=false;
   Rectangle obstacle,movingObstacle,square;
   QuestionGenerator question;
@@ -35,7 +34,7 @@ public class Play extends BasicGameState {
         collision=new Collision();
         question=new QuestionGenerator();
         generateAnswers (time,question);
-        square=new Rectangle((int)shitX,(int)shitY,50,60);
+        square=new Rectangle((int) squareX,(int) squareY,50,60);
         obstacle=new Rectangle();
   }
     public void addObstacles(boolean start){
@@ -113,7 +112,7 @@ public class Play extends BasicGameState {
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
        map.draw(heroPositionX,heroPositionY);
-       hero.draw(shitX,shitY);paintSquare(g,square);
+       hero.draw(squareX, squareY);paintSquare(g,square);
        g.drawString(question.toString(),heroPositionX+time*(400)+100,heroPositionY-40);
        g.drawString("Hero X: "+heroPositionX+"\nHero y: "+heroPositionY +"\nCollides: ",600,600);
        if (quit==true){
@@ -143,7 +142,7 @@ public class Play extends BasicGameState {
     }
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         moving=1;
-      Input input = gc.getInput();
+        Input input = gc.getInput();
 
         menu(gc,sbg);
         barriarsCollision(gc);
