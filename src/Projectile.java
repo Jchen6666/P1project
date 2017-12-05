@@ -78,13 +78,13 @@ public class Projectile {
     }
     void draw() {
         switch (sign) {
-            case 1:texture.getSubImage(0,0,32,32).draw(currentX, currentY, width, heigth);
+            case 1:texture.getSubImage(0,0,64,64).draw(currentX, currentY, width, heigth);
                     break;
-            case 2:texture.getSubImage(32,32,32,32).draw(currentX, currentY, width, heigth);
+            case 2:texture.getSubImage(64,64,64,64).draw(currentX, currentY, width, heigth);
                 break;
-            case 3:texture.getSubImage(32,0,32,32).draw(currentX, currentY, width, heigth);
+            case 3:texture.getSubImage(64,0,64,64).draw(currentX, currentY, width, heigth);
                 break;
-            case 4:texture.getSubImage(0,32,32,32).draw(currentX, currentY, width, heigth);
+            case 4:texture.getSubImage(0,64,64,64).draw(currentX, currentY, width, heigth);
                 break;
         }
     }

@@ -1,4 +1,4 @@
-public class Settings {
+public abstract class Settings {
     private static float SCREEN_WIDTH;
     private static float SCREEN_HEIGHT;
     private static boolean FULLSCREEN;

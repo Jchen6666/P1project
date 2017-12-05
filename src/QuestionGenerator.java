@@ -28,11 +28,13 @@ public class QuestionGenerator{
         if(questionNumber<10){
             operation=generator.nextInt(4)+1;
             switch(operation){      //Easy levels
-                case 1: firstNumber=generator.nextInt(10)+1;
-                        secondNumber=generator.nextInt(40)+1;
+                case 1: firstNumber=generator.nextInt(20)+1;
+                        secondNumber=generator.nextInt(20)+1;
                         break;
-                case 2: firstNumber=generator.nextInt(50)+1;
-                        secondNumber=generator.nextInt(50)+1;
+                case 2: do {
+                    firstNumber = generator.nextInt(30) + 1;
+                    secondNumber = generator.nextInt(20) + 1;
+                }while(firstNumber<secondNumber);
                         break;
                 case 3: firstNumber=generator.nextInt(9)+1;
                         secondNumber=generator.nextInt(9)+1;
@@ -44,14 +46,16 @@ public class QuestionGenerator{
         }else{                      //Hard levels
             operation=generator.nextInt(4)+1;
             switch(operation){
-                case 1: firstNumber=generator.nextInt(100)+11;
-                    secondNumber=generator.nextInt(300)+11;
+                case 1: firstNumber=generator.nextInt(50)+1;
+                    secondNumber=generator.nextInt(50)+1;
                     break;
-                case 2: firstNumber=generator.nextInt(100)+1;
-                    secondNumber=generator.nextInt(100)+1;
+                case 2: do {
+                    firstNumber = generator.nextInt(40) + 1;
+                    secondNumber = generator.nextInt(20) + 1;
+                }while(firstNumber<secondNumber);
                     break;
-                case 3: firstNumber=generator.nextInt(15)+1;
-                    secondNumber=generator.nextInt(9)+1;
+                case 3: firstNumber=generator.nextInt(20)+1;
+                    secondNumber=generator.nextInt(10)+1;
                     break;
                 case 4: secondNumber=generator.nextInt(9)+1;
                     firstNumber=secondNumber*(generator.nextInt(10)+1);
