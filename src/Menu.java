@@ -18,9 +18,9 @@ public class Menu extends BasicGameState {
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         playNow = new Image("lib/res/img/playNow.png");
         exitGame = new Image("lib/res/img/exitGame.png");
-        music = new Music("lib/res/narko.ogg");
-        music.setVolume(0.5f);
-       music.loop();
+//        music = new Music("lib/res/narko.ogg");
+//        music.setVolume(0.5f);
+//        music.loop();
       // sound = new Sound("lib/res/thomas.wav");
 
     }

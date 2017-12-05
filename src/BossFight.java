@@ -205,7 +205,7 @@ public class BossFight extends BasicGameState {
                     }
                 }
                 for (int i = 0; i < 4; i++) {
-                    if (buttonList.get(i).isHovered(input) && !buttonList.get(i).isSelected()) {
+                    if (buttonList.get(i).isHovered() && !buttonList.get(i).isSelected()) {
                         for (int l = 0; l < 4; l++) {
                             if (buttonList.get(l).isSelected()) {
                                 buttonList.get(l).setSelected(false);

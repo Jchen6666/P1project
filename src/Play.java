@@ -208,7 +208,7 @@ public class Play extends BasicGameState {
         for (int i=0;i<obstacles.size();i++) {
 
             obstacle=obstacles.get(i);
-            if (square.intersects(obstacle)){
+            if (square.intersects(obstacle)||heroPositionY>230||heroPositionY<-435){
                 collides=true;
             }
             else {
@@ -281,10 +281,11 @@ public class Play extends BasicGameState {
 
                 if (wrongAnswer.intersects(square) && wrongAnswer != null) {
                     answerCollides = true;
-                    question.regenerate();
-
-                    buttons.clear();
-                    generateAnswers(time,question);
+                    if (score<16) {
+                        question.regenerate();
+                        buttons.clear();
+                        generateAnswers(time, question);
+                    }
                 }  else {
                     answerCollides = false;
                 }
