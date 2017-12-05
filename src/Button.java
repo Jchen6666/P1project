@@ -1,8 +1,5 @@
 import org.lwjgl.input.Mouse;
-import org.newdawn.slick.Animation;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
+import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
 
 public class Button extends Rectangle{
@@ -89,5 +86,16 @@ public class Button extends Rectangle{
         } else {
             return false;
         }
+    }
+    public static void paintObstacles(Graphics g, Button button){
+        Color myColor=new Color(255,2,2,127);
+        g.setColor(myColor);
+        g.fillRect(button.getX(), button.getY(),button.getWidth(),button.getHeight());
+    }
+    public static void paintRightAnswer(Graphics g,Button button){
+        Color myColor=new Color(119,249,136,127);
+        g.setColor(myColor);
+        g.fillRect(button.getX(), button.getY(),button.getWidth(),button.getHeight());
+
     }
 }
