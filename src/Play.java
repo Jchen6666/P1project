@@ -62,13 +62,17 @@ public class Play extends BasicGameState {
         int height=150;
         if (start=true) {
             movingObstacles.add(new Rectangle((int) heroPositionX + 700, (int) heroPositionY-50 , width, height));
-            movingObstacles.add(new Rectangle((int) heroPositionX + 1100, (int) heroPositionY-50 , width, height));
-            movingObstacles.add(new Rectangle((int) heroPositionX + 1500, (int) heroPositionY-50 , width, height));
+            for (int i =0;i<14;i++){
+                movingObstacles.add(new Rectangle(movingObstacles.get(movingObstacles.size()-1).x+400, (int) heroPositionY-50 , width, height));
+              //  addMovingObstacles(false);
+            }
+          //  movingObstacles.add(new Rectangle((int) heroPositionX + 1100, (int) heroPositionY-50 , width, height));
+          //  movingObstacles.add(new Rectangle((int) heroPositionX + 1500, (int) heroPositionY-50 , width, height));
         }
         else {
-            movingObstacles.add(new Rectangle((int) heroPositionX + 700, movingObstacles.get(movingObstacles.size()-1).y-350, width, height));
+            //movingObstacles.add(new Rectangle((int) heroPositionX + 700, movingObstacles.get(movingObstacles.size()-1).y-350, width, height));
             movingObstacles.add(new Rectangle(movingObstacles.get(movingObstacles.size()-1).x+400, (int) heroPositionY-50 , width, height));
-            movingObstacles.add(new Rectangle(movingObstacles.get(movingObstacles.size()-1).x+400, (int) heroPositionY-50 , width, height));
+            //movingObstacles.add(new Rectangle(movingObstacles.get(movingObstacles.size()-1).x+400, (int) heroPositionY-50 , width, height));
 
         }
 
@@ -114,7 +118,7 @@ public class Play extends BasicGameState {
        map.draw(heroPositionX,heroPositionY);
        hero.draw(squareX, squareY);paintSquare(g,square);
        g.drawString(question.toString(),heroPositionX+time*(400)+100,heroPositionY-40);
-       g.drawString("Hero X: "+heroPositionX+"\nHero y: "+heroPositionY +"\nCollides: ",600,600);
+       g.drawString("Hero X: "+heroPositionX+"\nHero y: "+heroPositionY +"\nScore: "+score,600,600);
        if (quit==true){
         g.drawString("Resume(R)",250,200 );
         g.drawString("Main Menu(M)",250,250 );
@@ -151,7 +155,7 @@ public class Play extends BasicGameState {
             Rectangle obstacle=movingObstacles.get(z);
             if(obstacle.y>1000){
                 movingObstacles.clear();
-                addMovingObstacles(false);
+                addMovingObstacles(true);
             }
         }
        //movingobstacles
@@ -250,7 +254,7 @@ public class Play extends BasicGameState {
               //addObstacles(false);
                 loadObstacbles();
               movingObstacles.clear();
-              addMovingObstacles(false);
+              addMovingObstacles(true);
               buttons.clear();
               generateAnswers(time,question);
            } else {
@@ -265,6 +269,7 @@ public class Play extends BasicGameState {
             if(button.intersects(square)&&button.isTheAnswerRight()){
                     questionAnswered=true;
                     Timer timer = new Timer();
+                    score++;
                     time++;
                     question.regenerate();
                     timea();
@@ -336,14 +341,14 @@ public class Play extends BasicGameState {
     }
     public int getColumn(int i){
         int x=i+1;
-        if(x%3==0){
-            return x/3;
+        if(x%4==0){
+            return x/4;
         }
-        else if (x/3==0){
+        else if (x/4==0){
             return 1;
         }
         else {
-            return x/3+1;
+            return x/4+1;
         }
     }
     public void loadObstacbles(){
@@ -353,6 +358,7 @@ public class Play extends BasicGameState {
             start=false;
         }
     }
+
     public int getID() {
         return 1;
     }
