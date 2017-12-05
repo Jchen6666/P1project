@@ -55,15 +55,15 @@ public class Button extends Rectangle{
     public static void setHighlight(Image highlight) {
         Button.highlight = highlight;
     }
-    public boolean isHovered(int Xpos, int Ypos){
-        if(Xpos>=x&&Xpos<=x+width){
-            if(Ypos<=Settings.getScreenHeight()-y&&Ypos>=Settings.getScreenHeight()-(y+height))
+    public boolean isHovered(){
+        if(Mouse.getX()>=x&&Mouse.getX()<=x+width){
+            if(Mouse.getY()<=Settings.getScreenHeight()-y&&Mouse.getY()>=Settings.getScreenHeight()-(y+height))
                 return true;
         }
         return false;
     }
     public boolean isClicked(Input input){
-        if(isHovered(Mouse.getX(),Mouse.getY())&&input.isMouseButtonDown(0)){
+        if(isHovered()&&input.isMouseButtonDown(0)){
             return true;
         }
         return false;

@@ -1,5 +1,7 @@
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
+import org.newdawn.slick.tiled.TiledMap;
+import org.newdawn.slick.geom.Vector2f;
 
 public class Core extends StateBasedGame{
     public static final String gamename = "Mathness";
@@ -15,9 +17,9 @@ public class Core extends StateBasedGame{
     }
 
     public void initStatesList(GameContainer gc) throws SlickException{ // Give it a list of states
-            this.getState(menu).init(gc,this);
-            this.getState(play).init(gc,this);
-            this.getState(bossfight).init(gc,this);
+            this.getState(menu).init(gc,this); //Initializes the menu state
+            this.getState(play).init(gc,this); //Initializes the play state
+            this.getState(bossfight).init(gc,this); //Initializes the bossfight state
             this.enterState(menu); // first screen the user sees
     }
 
