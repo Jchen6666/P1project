@@ -6,6 +6,11 @@ public class QuestionGenerator{
     private int rightAnswer; //Right answer
     private int operation;  //1-4 where 1- addition, 2- subtraction, 3- multiplication, 4- division
     private final SecureRandom generator=new SecureRandom();    //SecureRandom generator object, do not touch!
+
+    public void setQuestionNumber(int questionNumber) {
+        this.questionNumber = questionNumber;
+    }
+
     private int questionNumber;
 
     //
