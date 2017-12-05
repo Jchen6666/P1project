@@ -3,10 +3,10 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.state.*;
-import org.newdawn.slick.tiled.TiledMap;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Timer;
 
 
 public class Play extends BasicGameState {
@@ -16,9 +16,9 @@ public class Play extends BasicGameState {
   public ArrayList<Rectangle>movingObstacles;
   public ArrayList<Button>buttons;
   int[] duration={200,200};
-  float heroPositionX=0,heroPositionY=0,shitX=heroPositionX+250,shitY=heroPositionY+250;
-  Button wrongAnswer;
-  int moving,rightAnswerPosition,time=1;
+  float heroPositionX=0,heroPositionY=0, squareX =heroPositionX+250, squareY =heroPositionY+250;
+  Button wrongAnswer, rightAnswer;
+  int moving,rightAnswerPosition,time=1,score=0;
   boolean collides=false,answerCollides=false,movingCollides=false,questionAnswered=false,quit=false;
   Rectangle obstacle,movingObstacle,square;
   QuestionGenerator question;
@@ -29,32 +29,36 @@ public class Play extends BasicGameState {
         obstacles=new ArrayList<Rectangle>();
         movingObstacles=new ArrayList<Rectangle>();
         buttons=new ArrayList<Button>();
-        addObstacles(true);
+      loadObstacbles();
         addMovingObstacles(true);
         collision=new Collision();
         question=new QuestionGenerator();
         generateAnswers (time,question);
-        square=new Rectangle((int)shitX,(int)shitY,50,60);
+        square=new Rectangle((int) squareX,(int) squareY,50,60);
         obstacle=new Rectangle();
   }
     public void addObstacles(boolean start){
       int width=50;
-      int height=150;
+      int height=100;
      if (start) {
          obstacles.add(new Rectangle((int) heroPositionX + 500, (int) heroPositionY, width, height));
-         obstacles.add(new Rectangle((int) heroPositionX + 500, (int) heroPositionY + 300, width, height));
-         obstacles.add(new Rectangle((int) heroPositionX + 500,(int) heroPositionY + 600, width, height));
-          obstacles.add(new Rectangle((int)heroPositionX + 900,(int)heroPositionY,width,height));
+         obstacles.add(new Rectangle((int) heroPositionX + 500, (int) heroPositionY + 220, width, height));
+         obstacles.add(new Rectangle((int) heroPositionX + 500,(int) heroPositionY + 440, width, height));
+         obstacles.add(new Rectangle((int) heroPositionX + 500,(int) heroPositionY + 660, width, height));
+
+         // obstacles.add(new Rectangle((int)heroPositionX + 900,(int)heroPositionY,width,height));
      }
      else {
-         obstacles.add(new Rectangle((int) heroPositionX + 500, (int) heroPositionY, width, height));
-         obstacles.add(new Rectangle((int) heroPositionX + 500, (int) heroPositionY + 300, width, height));
-         obstacles.add(new Rectangle((int) heroPositionX + 500,(int) heroPositionY + 600, width, height));
-         obstacles.add(new Rectangle((int)heroPositionX + 900,(int)heroPositionY,width,height));
+         obstacles.add(new Rectangle(obstacles.get(obstacles.size()-1).x+400, (int) heroPositionY, width, height));
+         obstacles.add(new Rectangle(obstacles.get(obstacles.size()-1).x, (int) heroPositionY + 220, width, height));
+         obstacles.add(new Rectangle(obstacles.get(obstacles.size()-1).x,(int) heroPositionY + 440, width, height));
+         obstacles.add(new Rectangle(obstacles.get(obstacles.size()-1).x,(int) heroPositionY + 660, width, height));
+
+         // obstacles.add(new Rectangle(obstacles.get(obstacles.size()-1).x+400,(int)heroPositionY,width,height));
      }
     }
     public void addMovingObstacles(boolean start){
-        int width=20;
+        int width=40;
         int height=150;
         if (start=true) {
             movingObstacles.add(new Rectangle((int) heroPositionX + 700, (int) heroPositionY-50 , width, height));
@@ -74,8 +78,8 @@ public class Play extends BasicGameState {
         g.setColor(myColor);
         g.fillRect(square.x,square.y,square.width,square.height);
    }
-    public void paintObstacles(Graphics g, Rectangle obstacle){
-        g.setColor(Color.darkGray);
+    public void paintObstacles(Graphics g, Rectangle obstacle,Color color){
+        g.setColor(color);
         g.fillRect(obstacle.x, obstacle.y,obstacle.width,obstacle.height);
     }
 
@@ -94,13 +98,13 @@ public class Play extends BasicGameState {
     }
     public void generateAnswers(int time,QuestionGenerator question) {
         float width=40;
-        float height=70;
-        rightAnswerPosition=question.getGenerator().nextInt(2);
+        float height=80;
+        rightAnswerPosition=question.getGenerator().nextInt(3);
       //  System.out.println(rightAnswerPosition);
         float x=(heroPositionX+500)+400*(time-1);
-        buttons.add(new Button(x,heroPositionY+170,width,height,Integer.toString(question.generateWrongAnswer())));
-        buttons.add(new Button(x,heroPositionY+470,width,height,Integer.toString(question.generateWrongAnswer())));
-        // buttons.add(new Button(x,heroPositionY+770,width,height,Integer.toString(question.generateWrongAnswer())));
+        buttons.add(new Button(x,heroPositionY+120,width,height,Integer.toString(question.generateWrongAnswer())));
+        buttons.add(new Button(x,heroPositionY+340,width,height,Integer.toString(question.generateWrongAnswer())));
+        buttons.add(new Button(x,heroPositionY+560,width,height,Integer.toString(question.generateWrongAnswer())));
         buttons.get(rightAnswerPosition).setTheAnswerRight(true);
         buttons.get(rightAnswerPosition).setText(Integer.toString(question.getRightAnswer()));
 
@@ -108,10 +112,10 @@ public class Play extends BasicGameState {
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
        map.draw(heroPositionX,heroPositionY);
-       hero.draw(shitX,shitY);paintSquare(g,square);
+       hero.draw(squareX, squareY);paintSquare(g,square);
        g.drawString(question.toString(),heroPositionX+time*(400)+100,heroPositionY-40);
        g.drawString("Hero X: "+heroPositionX+"\nHero y: "+heroPositionY +"\nCollides: ",600,600);
-      if (quit==true){
+       if (quit==true){
         g.drawString("Resume(R)",250,200 );
         g.drawString("Main Menu(M)",250,250 );
         g.drawString("Quit Game(Q)",250,300);
@@ -120,19 +124,25 @@ public class Play extends BasicGameState {
         }
       }
             for (int i=0;i<obstacles.size();i++) {
-                paintObstacles(g,obstacles.get(i));
+                paintObstacles(g,obstacles.get(i),Color.darkGray);
             }
             for (int i=0;i<movingObstacles.size();i++){
-                paintObstacles(g,movingObstacles.get(i));
+                paintObstacles(g,movingObstacles.get(i),Color.darkGray);
             }
             for(int i=0; i<buttons.size();i++){
                 buttons.get(i).drawText(g);
+                Button.paintObstacles(g,buttons.get(i));
+                if (buttons.get(i).intersects(square)&&buttons.get(i).isTheAnswerRight()){
+                    Button.paintRightAnswer(g,buttons.get(i));
+                   // buttons.remove(rightAnswer);
+                }
             }
+
 
     }
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         moving=1;
-      Input input = gc.getInput();
+        Input input = gc.getInput();
 
         menu(gc,sbg);
         barriarsCollision(gc);
@@ -237,7 +247,8 @@ public class Play extends BasicGameState {
               heroPositionX=-(movingObstacle.x+50)-i*400;
               heroPositionY=0;
               obstacles.clear();
-              addObstacles(false);
+              //addObstacles(false);
+                loadObstacbles();
               movingObstacles.clear();
               addMovingObstacles(false);
               buttons.clear();
@@ -253,8 +264,10 @@ public class Play extends BasicGameState {
                 Button button =buttons.get(i);
             if(button.intersects(square)&&button.isTheAnswerRight()){
                     questionAnswered=true;
+                    Timer timer = new Timer();
                     time++;
                     question.regenerate();
+                    timea();
                     buttons.clear();
                     generateAnswers(time,question);
                 }
@@ -264,6 +277,7 @@ public class Play extends BasicGameState {
                 if (wrongAnswer.intersects(square) && wrongAnswer != null) {
                     answerCollides = true;
                     question.regenerate();
+
                     buttons.clear();
                     generateAnswers(time,question);
                 }  else {
@@ -332,8 +346,23 @@ public class Play extends BasicGameState {
             return x/3+1;
         }
     }
+    public void loadObstacbles(){
+        boolean start =true;
+        for (int i=0;i<15;i++){
+            addObstacles(start);
+            start=false;
+        }
+    }
     public int getID() {
         return 1;
+    }
+    public void timea(){
+        try{
+            Thread.sleep(100);
+        }
+        catch (Exception e){
+
+        }
     }
 
 }
