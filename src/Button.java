@@ -88,7 +88,7 @@ public class Button extends Rectangle{
         }
     }
     public static void paintObstacles(Graphics g, Button button){
-        Color myColor=new Color(255,2,2,127);
+        Color myColor=new Color(255,2,2,80);
         g.setColor(myColor);
         g.fillRect(button.getX(), button.getY(),button.getWidth(),button.getHeight());
     }
