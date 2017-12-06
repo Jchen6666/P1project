@@ -5,6 +5,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.state.*;
 
 import java.awt.*;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Timer;
 
@@ -88,8 +89,7 @@ public class Play extends BasicGameState {
     }
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-
-        map=new Image("lib/res/img/test1.png");
+        map=new Image("lib/res/img/background2.png");
        Image[] walkUp={new Image(("lib/res/img/Hero back.png")),new Image("lib/res/img/Hero back.png")};
        Image[] walkDown={new Image(("lib/res/img/Hero front.png")),new Image("lib/res/img/Hero front.png")};
        Image[] walkLeft={new Image(("lib/res/img/Hero left.png")),new Image("lib/res/img/Hero left.png")};
@@ -117,6 +117,7 @@ public class Play extends BasicGameState {
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
        map.draw(heroPositionX,heroPositionY);
        hero.draw(squareX, squareY);paintSquare(g,square);
+     // g.setFont((org.newdawn.slick.Font) new Font("serif", Font.BOLD,17));
        if (score<16){
            g.drawString(question.toString(),heroPositionX+time*(400)+100,heroPositionY-40);
        }
@@ -130,7 +131,7 @@ public class Play extends BasicGameState {
         }
       }
             for (int i=0;i<obstacles.size();i++) {
-                paintObstacles(g,obstacles.get(i),Color.darkGray);
+                paintObstacles(g,obstacles.get(i),Color.cyan);
             }
             for (int i=0;i<movingObstacles.size();i++){
                 paintObstacles(g,movingObstacles.get(i),Color.darkGray);
@@ -210,7 +211,7 @@ public class Play extends BasicGameState {
         for (int i=0;i<obstacles.size();i++) {
 
             obstacle=obstacles.get(i);
-            if (square.intersects(obstacle)||heroPositionY>230||heroPositionY<-435){
+            if (square.intersects(obstacle)||heroPositionY>250||heroPositionY<-500){
                 collides=true;
             }
             else {
