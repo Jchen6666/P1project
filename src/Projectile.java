@@ -88,6 +88,18 @@ public class Projectile {
                 break;
         }
     }
+    void drawFlash() {
+        switch (sign) {
+            case 1:texture.getSubImage(0,0,64,64).drawFlash(currentX, currentY, width, heigth);
+                break;
+            case 2:texture.getSubImage(64,64,64,64).drawFlash(currentX, currentY, width, heigth);
+                break;
+            case 3:texture.getSubImage(64,0,64,64).drawFlash(currentX, currentY, width, heigth);
+                break;
+            case 4:texture.getSubImage(0,64,64,64).drawFlash(currentX, currentY, width, heigth);
+                break;
+        }
+    }
     void setNewStartingPosition(float startingX,float startingY){
         this.startingX = startingX;
         this.startingY = startingY;
