@@ -2,6 +2,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.Color;
+
 
 public class Button extends Rectangle{
     private static Image highlight;
@@ -28,6 +30,7 @@ public class Button extends Rectangle{
 
     public void drawText(Graphics g){
         g.drawString(text,x+(width/2),y+(height/2));
+
     }
     public void drawHighlight(){
         if(isSelected){
@@ -79,5 +82,35 @@ public class Button extends Rectangle{
             return true;
         }
         return false;
+    }
+    public boolean intersects(java.awt.Rectangle r) {
+        float tw = this.width;
+        float th = this.height;
+        int rw = r.width;
+        int rh = r.height;
+        if (rw > 0 && rh > 0 && tw > 0 && th > 0) {
+            float tx = this.x;
+            float ty = this.y;
+            int rx = r.x;
+            int ry = r.y;
+            rw += rx;
+            rh += ry;
+            tw += tx;
+            th += ty;
+            return (rw < rx || rw > tx) && (rh < ry || rh > ty) && (tw < tx || tw > rx) && (th < ty || th > ry);
+        } else {
+            return false;
+        }
+    }
+    public static void paintObstacles(Graphics g, Button button){
+        Color myColor=new Color(255,2,2,80);
+        g.setColor(myColor);
+        g.fillRect(button.getX(), button.getY(),button.getWidth(),button.getHeight());
+    }
+    public static void paintRightAnswer(Graphics g,Button button){
+        Color myColor=new Color(119,249,136,127);
+        g.setColor(myColor);
+        g.fillRect(button.getX(), button.getY(),button.getWidth(),button.getHeight());
+
     }
 }
