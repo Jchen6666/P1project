@@ -37,6 +37,7 @@ public class Play extends BasicGameState {
         generateAnswers (time,question);
         square=new Rectangle((int) squareX,(int) squareY,50,60);
         obstacle=new Rectangle();
+
   }
     public void addObstacles(boolean start){
       int width=50;
@@ -117,10 +118,10 @@ public class Play extends BasicGameState {
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
        map.draw(heroPositionX,heroPositionY);
        hero.draw(squareX, squareY);paintSquare(g,square);
-     // g.setFont((org.newdawn.slick.Font) new Font("serif", Font.BOLD,17));
-       if (score<16){
+        if (score<16){
            g.drawString(question.toString(),heroPositionX+time*(400)+100,heroPositionY-40);
        }
+       //g.setFont(font);
        g.drawString("Hero X: "+heroPositionX+"\nHero y: "+heroPositionY +"\nScore: "+score,600,600);
        if (quit==true){
         g.drawString("Resume(R)",250,200 );
@@ -138,6 +139,7 @@ public class Play extends BasicGameState {
             }
             for(int i=0; i<buttons.size();i++){
                 buttons.get(i).drawText(g);
+
                 Button.paintObstacles(g,buttons.get(i));
                 if (buttons.get(i).intersects(square)&&buttons.get(i).isTheAnswerRight()){
                     Button.paintRightAnswer(g,buttons.get(i));
