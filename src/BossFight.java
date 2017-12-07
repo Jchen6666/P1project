@@ -16,6 +16,7 @@ public class BossFight extends BasicGameState {
         Animation heartAnimation;
         Animation bossAnimation;
         Animation bossDyeingAnimation;
+        Animation bossShieldAnimation;
         QuestionGenerator question;
         ArrayList<Button> buttonList;
         SpriteSheet hearts;
@@ -40,7 +41,10 @@ public class BossFight extends BasicGameState {
         heartAnimation= new Animation(hearts,500);
         heartAnimation.setLooping(false);
         heartAnimation.stop();
+        bossShieldAnimation=new Animation(new SpriteSheet("lib/res/img/bossShieldAnimation.png",32,64),1200);
         bossAnimation=new Animation(new SpriteSheet("lib/res/img/bossAnimation.png",32,64),1000);
+        bossShieldAnimation.setLooping(false);
+        bossShieldAnimation.stop();
         heroAnimation=new Animation(new SpriteSheet("lib/res/img/hero.png",32,32),1000);
         bossDyeingAnimation=new Animation(new SpriteSheet("lib/res/img/bossDyingAnimation.png",32,64),1000);
         bossDyeingAnimation.setLooping(false);
@@ -81,7 +85,11 @@ public class BossFight extends BasicGameState {
             if(gameWon&&time>3000){
                 bossDyeingAnimation.draw(Settings.getScreenWidth() / 2 + Settings.getScreenWidth() / 4 - Settings.getScreenWidth() / 10, Settings.getScreenHeight() / 2 + (float) 0.14 * Settings.getScreenHeight() - (float) 0.71 * Settings.getScreenHeight(), Settings.getScreenWidth() / 5, (float) 0.71 * Settings.getScreenHeight());
             }else {
-                bossAnimation.draw(Settings.getScreenWidth() / 2 + Settings.getScreenWidth() / 4 - Settings.getScreenWidth() / 10, Settings.getScreenHeight() / 2 + (float) 0.14 * Settings.getScreenHeight() - (float) 0.71 * Settings.getScreenHeight(), Settings.getScreenWidth() / 5, (float) 0.71 * Settings.getScreenHeight());
+                if(dialogCloud.getState()==3){
+                    bossShieldAnimation.draw(Settings.getScreenWidth() / 2 + Settings.getScreenWidth() / 4 - Settings.getScreenWidth() / 10, Settings.getScreenHeight() / 2 + (float) 0.14 * Settings.getScreenHeight() - (float) 0.71 * Settings.getScreenHeight(), Settings.getScreenWidth() / 5, (float) 0.71 * Settings.getScreenHeight());
+                }else {
+                    bossAnimation.draw(Settings.getScreenWidth() / 2 + Settings.getScreenWidth() / 4 - Settings.getScreenWidth() / 10, Settings.getScreenHeight() / 2 + (float) 0.14 * Settings.getScreenHeight() - (float) 0.71 * Settings.getScreenHeight(), Settings.getScreenWidth() / 5, (float) 0.71 * Settings.getScreenHeight());
+                }
             }
         }
         g.setColor(Color.black);
@@ -89,6 +97,9 @@ public class BossFight extends BasicGameState {
         if(projectile!=null){
                 if(!projectile.isAtTarget()) {
                     projectile.draw();
+                }
+                if(projectile.isAtTarget()&&dialogCloud.getState()==3&&bossShieldAnimation.getFrame()!=4){
+                    projectile.drawFlash();
                 }
         }
         for(int i=0;i<Settings.getScreenWidth();i++) {
@@ -117,6 +128,7 @@ public class BossFight extends BasicGameState {
         input.disableKeyRepeat();
         bossAnimation.update(delta);
         heroAnimation.update(delta);
+        bossShieldAnimation.update(delta);
         bossDyeingAnimation.update(delta);
         if(heroAnimation.getFrame()==1&&projectile!=null&&!projectile.isModified()){
             projectile.setNewStartingPosition(projectile.getCurrentX(),projectile.getCurrentY()-Settings.getScreenWidth()/10);
@@ -200,7 +212,10 @@ public class BossFight extends BasicGameState {
                         projectile = new Projectile(Settings.getScreenWidth()/10, tabPos-Settings.getScreenWidth()/20, Settings.getScreenWidth() / 2 + Settings.getScreenWidth() / 4 - Settings.getScreenWidth() / 10, Settings.getScreenHeight() / 2 + (float) 0.14 * Settings.getScreenHeight() - (float) 0.5 * Settings.getScreenHeight(), Settings.getScreenWidth()/10, Settings.getScreenWidth()/10, 500, question.getOperation());
                         bossIsHit = true;
                     } else {
+                        bossShieldAnimation.restart();
                         dialogCloud.setState(3);
+                        heroAnimation.restart();
+                        projectile = new Projectile(Settings.getScreenWidth()/10, tabPos-Settings.getScreenWidth()/20, Settings.getScreenWidth() / 2 + Settings.getScreenWidth() / 4 - Settings.getScreenWidth() / 10, Settings.getScreenHeight() / 2 + (float) 0.14 * Settings.getScreenHeight() - (float) 0.5 * Settings.getScreenHeight(), Settings.getScreenWidth()/10, Settings.getScreenWidth()/10, 500, question.getOperation());
                         time = 0;
                     }
                 }
