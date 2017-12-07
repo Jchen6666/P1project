@@ -5,6 +5,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class Button extends Rectangle{
     private static Image highlight;
+    private Image texture;
     private String text;
     private boolean isSelected;
     private boolean isTheAnswerRight;
@@ -20,6 +21,11 @@ public class Button extends Rectangle{
         setSelected(false);
         setTheAnswerRight(false);
     }
+    public Button(float x, float y, float width, float height,Image texture){
+        super(x,y,width,height);
+        setTexture(texture);
+    }
+
     public void drawText(Graphics g){
         g.drawString(text,x+(width/2),y+(height/2));
     }
@@ -28,10 +34,15 @@ public class Button extends Rectangle{
            highlight.draw(this.getX(),this.getY(),width,height);
         }
     }
-
-
-
-
+    public void draw(){
+        texture.draw(x,y,width,height);
+    }
+    public Image getTexture() {
+        return texture;
+    }
+    public void setTexture(Image texture) {
+        this.texture = texture;
+    }
     public boolean isSelected() {
         return isSelected;
     }
