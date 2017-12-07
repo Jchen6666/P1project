@@ -8,7 +8,7 @@ import org.newdawn.slick.tiled.TiledMap;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Timer;
-
+import java.io.*;
 
 public class Play extends BasicGameState {
   Image map;
@@ -25,6 +25,10 @@ public class Play extends BasicGameState {
   QuestionGenerator question;
   Collision collision;
 
+
+
+    public Play(){
+    }
     public Play(int state) {
         movingObstacle=new Rectangle();
         obstacles=new ArrayList<Rectangle>();
@@ -39,6 +43,7 @@ public class Play extends BasicGameState {
         obstacle=new Rectangle();
   }
     public void addObstacles(boolean start){
+
       int width=50;
       int height=100;
      if (start) {
@@ -145,7 +150,11 @@ public class Play extends BasicGameState {
         moving=1;
       Input input = gc.getInput();
 
-        menu(gc,sbg);
+        try {
+            menu(gc,sbg);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         barriarsCollision(gc);
         movingCollision();
         for(int z=0;z<movingObstacles.size();z++){
@@ -316,14 +325,33 @@ public class Play extends BasicGameState {
             }
         }
     }
-    public void menu(GameContainer gc,StateBasedGame sbg){
+
+
+    public void menu(GameContainer gc,StateBasedGame sbg) throws IOException {
         Input input = gc.getInput();
         if (input.isKeyDown(Input.KEY_ESCAPE)){
             quit=true;
         }
+
+
         if (quit == true){
             if (input.isKeyDown(Input.KEY_Q)){
+
+                File gamedata = new File("C:\\Users\\dries\\Documents\\gameset.txt");
+                FileOutputStream FOP = new FileOutputStream(gamedata);
+                DataOutputStream outStream = new DataOutputStream(new BufferedOutputStream(FOP));
+                if (!gamedata.exists()){
+                    gamedata.createNewFile();
+                }
+
+                String heroPosXFloat = Float.toString(heroPositionX);
+                String heroPosYFloat = Float.toString(heroPositionY);
+                outStream.writeUTF(heroPosXFloat);
+                outStream.writeUTF(heroPosYFloat);
+                outStream.close();
                 gc.exit();
+
+
             }
 
             if (input.isKeyDown(Input.KEY_M)){
