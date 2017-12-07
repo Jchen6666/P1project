@@ -6,18 +6,21 @@ public class Core extends StateBasedGame{
     public static final int menu = 0;
     public static final int play = 1;
     public static final int bossfight = 2;
+    public static final int optionsScreen = 3;
 
     public Core(String gamename){
         super(gamename);
         this.addState(new Menu(menu));
         this.addState(new Play(play));
         this.addState(new BossFight(bossfight));
+        this.addState(new OptionsScreen(optionsScreen));
     }
 
     public void initStatesList(GameContainer gc) throws SlickException{ // Give it a list of states
             this.getState(menu).init(gc,this);
             this.getState(play).init(gc,this);
             this.getState(bossfight).init(gc,this);
+            this.getState(optionsScreen).init(gc,this);
             this.enterState(menu); // first screen the user sees
     }
 

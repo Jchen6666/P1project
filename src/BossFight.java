@@ -98,7 +98,7 @@ public class BossFight extends BasicGameState {
                 if(!projectile.isAtTarget()) {
                     projectile.draw();
                 }
-                if(projectile.isAtTarget()&&dialogCloud.getState()==3){
+                if(projectile.isAtTarget()&&dialogCloud.getState()==3&&bossShieldAnimation.getFrame()!=4){
                     projectile.drawFlash();
                 }
         }
