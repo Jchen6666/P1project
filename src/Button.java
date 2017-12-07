@@ -1,16 +1,26 @@
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Font;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
+
+import java.awt.*;
 
 public class Button extends Rectangle{
     private static Image highlight;
     private String text;
     private boolean isSelected;
     private boolean isTheAnswerRight;
+   // java.awt.Font font=new java.awt.Font("serief", java.awt.Font.BOLD,20);
+    Font font;
     public Button(float x, float y, float width, float height) {
         super(x, y, width, height);
+
     }
     public Button(float x, float y, float width, float height, String text) {
+
         super(x, y, width, height);
         setText(text);
 
