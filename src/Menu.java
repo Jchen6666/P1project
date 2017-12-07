@@ -1,5 +1,6 @@
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Image;
 
 
@@ -7,6 +8,8 @@ public class Menu extends BasicGameState {
     Image playNow;
     Image exitGame;
     float xPos,yPos;
+    private Music music;
+    private Sound sound;
 
     public Menu(int state) {
 
@@ -15,10 +18,16 @@ public class Menu extends BasicGameState {
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         playNow = new Image("lib/res/img/playNow.png");
         exitGame = new Image("lib/res/img/exitGame.png");
+//        music = new Music("lib/res/narko.ogg");
+//        music.setVolume(0.5f);
+//        music.loop();
+      // sound = new Sound("lib/res/thomas.wav");
 
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+        xPos = Mouse.getX();
+        yPos = Mouse.getY();
         g.drawString("Mathness", 100, 50);
         System.out.println(xPos+" "+yPos);
         playNow.draw(100, 100);
@@ -29,15 +38,13 @@ public class Menu extends BasicGameState {
 
 
         Input input = gc.getInput();
-        xPos = input.getMouseX();
-        yPos = input.getMouseY();
         if ((xPos > 106 && xPos < 296) && (yPos > 560 && yPos < 590)) {
-            if (input.isMousePressed(0)) { // Code 0 = left click, code 1 = right click etc.
-                sbg.enterState(1); // id 1 = Takes you to  a new state/screen
+            if (input.isMouseButtonDown(0)) { // Code 0 = left click, code 1 = right click etc.
+                sbg.enterState(1); // id 1 = Takes you to  a new state/screen.
             }
 
         }
-        if  (input.isKeyPressed(Input.KEY_B)) {
+        if  (input.isKeyDown(Input.KEY_B)) {
             sbg.getState(2).init(gc,sbg);
             sbg.enterState(2);
         }
@@ -45,13 +52,16 @@ public class Menu extends BasicGameState {
             sbg.enterState(3);
         }
         if ((xPos > 100 && xPos < 311) && (yPos > 109 && yPos < 160)) {
-            if (input.isMousePressed(0)) {
+            if (Mouse.isButtonDown(0)) {
                 System.exit(0);
 
             }
         }
     }
 
-    public int getID() { return 0; }
+    public int getID() {
+        return 0;
+
+    }
 
 }
