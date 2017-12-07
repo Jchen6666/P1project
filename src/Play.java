@@ -141,8 +141,8 @@ public class Play extends BasicGameState {
             }
             for(int i=0; i<buttons.size();i++){
                 Button button=buttons.get(i);
-             //   buttons.get(i).drawText(g);
-                font.drawString(button.getX(),button.getY(),button.getText());
+                buttons.get(i).drawText(g);
+            //    font.drawString(button.getX(),button.getY(),button.getText());
                 Button.paintObstacles(g,buttons.get(i));
                 if (buttons.get(i).intersects(square)&&buttons.get(i).isTheAnswerRight()){
                     Button.paintRightAnswer(g,buttons.get(i));
