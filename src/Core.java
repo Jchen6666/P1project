@@ -1,5 +1,7 @@
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
+import org.newdawn.slick.tiled.TiledMap;
+import org.newdawn.slick.geom.Vector2f;
 
 public class Core extends StateBasedGame{
     public static final String gamename = "Mathness";
@@ -17,6 +19,7 @@ public class Core extends StateBasedGame{
     }
 
     public void initStatesList(GameContainer gc) throws SlickException{ // Give it a list of states
+
             this.getState(menu).init(gc,this);
             this.getState(play).init(gc,this);
             this.getState(bossfight).init(gc,this);
@@ -28,8 +31,8 @@ public class Core extends StateBasedGame{
         AppGameContainer appgc;
         try {
             appgc = new AppGameContainer(new Core(gamename));
-            Settings.setScreenWidth(1280);
-            Settings.setScreenHeight(720);
+            Settings.setScreenWidth(800);
+            Settings.setScreenHeight(700);
             Settings.setFULLSCREEN(false);
             appgc.setDisplayMode((int)Settings.getScreenWidth(),(int)Settings.getScreenHeight(),Settings.isFULLSCREEN());
             appgc.start();
