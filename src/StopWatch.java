@@ -78,6 +78,6 @@ public class StopWatch {
     }
     @Override
     public String toString(){
-       return getElapsedHours()+"hour "+getElapsedMinutes()+"minute "+getElapsedSeconds()+"second ";
+       return getElapsedHours()+" h "+getElapsedMinutes()+" min "+getElapsedSeconds()+" sec ";
     }
 }
