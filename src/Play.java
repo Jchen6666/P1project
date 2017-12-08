@@ -26,6 +26,7 @@ public class Play extends BasicGameState {
   Collision collision;
   org.newdawn.slick.Font font;
 
+
     public Play(int state) {
         movingObstacle=new Rectangle();
         obstacles=new ArrayList<Rectangle>();

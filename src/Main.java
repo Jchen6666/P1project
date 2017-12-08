@@ -1,7 +1,10 @@
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] argv){
+
+    public static  long second,minute,hour;
+
+    public static void main(String[] argv) {
 //        Scanner input=new Scanner(System.in);
 //        QuestionGenerator question=new QuestionGenerator();
 //        int wrongAnswer1,wrongAnswer2;
@@ -20,6 +23,28 @@ public class Main {
 //            System.out.println("2. "+wrongAnswer2);
 //            System.out.println();
 //            question.regenerate();
- //       }
+        //       }
+        StopWatch sw = new StopWatch();
+        sw.start();
+
+        int minute = 0;
+
+        // System.out.println(sw.toString());
+        while (true) {
+            // timea();
+            System.out.println(sw.toString());
+//            int second = (int) sw.getElapsedSeconds();
+
+        }
     }
+    public static void timea(){
+        try{
+            Thread.sleep(950);
+        }
+        catch (Exception e){
+
+        }
+    }
+
+
 }
