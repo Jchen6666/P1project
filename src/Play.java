@@ -120,7 +120,7 @@ public class Play extends BasicGameState {
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
        map.draw(heroPositionX,heroPositionY);
        hero.draw(squareX, squareY);paintSquare(g,square);
-        if (score<16){
+            if (score<15){
            g.drawString(question.toString(),heroPositionX+time*(400)+100,heroPositionY-40);
        }
        //g.setFont(font);
@@ -155,10 +155,13 @@ public class Play extends BasicGameState {
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         moving=1;
         Input input = gc.getInput();
-
+       // System.out.println(obstacles.get(obstacles.size()-1).x);
         menu(gc,sbg);
         barriarsCollision(gc);
         movingCollision();
+        if (heroPositionX<-5910){
+            sbg.enterState(2);
+        }
         for(int z=0;z<movingObstacles.size();z++){
             Rectangle obstacle=movingObstacles.get(z);
             if(obstacle.y>1000){
@@ -166,6 +169,7 @@ public class Play extends BasicGameState {
                 addMovingObstacles(true);
             }
         }
+
        //movingobstacles
        for (int i=0;i<movingObstacles.size();i++) {
 
@@ -293,7 +297,7 @@ public class Play extends BasicGameState {
                     score++;
                     time++;
                     buttons.clear();
-                    if(score<16) {
+                    if(score<15) {
                         question.regenerate();
                         timea();
                         generateAnswers(time, question);
