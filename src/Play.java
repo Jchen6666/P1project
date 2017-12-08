@@ -25,7 +25,7 @@ public class Play extends BasicGameState {
   QuestionGenerator question;
   Collision collision;
   org.newdawn.slick.Font font;
-
+    StopWatch sw;
 
     public Play(int state) {
         movingObstacle=new Rectangle();
@@ -39,8 +39,8 @@ public class Play extends BasicGameState {
         generateAnswers (time,question);
         square=new Rectangle((int) squareX,(int) squareY,50,60);
         obstacle=new Rectangle();
-
-
+        sw=new StopWatch();
+        sw.start();
   }
     public void addObstacles(boolean start){
       int width=50;
@@ -125,7 +125,7 @@ public class Play extends BasicGameState {
            g.drawString(question.toString(),heroPositionX+time*(400)+100,heroPositionY-40);
        }
        //g.setFont(font);
-       g.drawString("Hero X: "+heroPositionX+"\nHero y: "+heroPositionY +"\nScore: "+score,600,600);
+       g.drawString("Hero X: "+heroPositionX+"\nHero y: "+heroPositionY +"\nScore: "+score+"\nTime: "+sw.toString(),600,600);
        if (quit==true){
         g.drawString("Resume(R)",250,200 );
         g.drawString("Main Menu(M)",250,250 );
