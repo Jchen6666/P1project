@@ -26,25 +26,13 @@ public class Main {
         //       }
         StopWatch sw = new StopWatch();
         sw.start();
-
         int minute = 0;
-
         // System.out.println(sw.toString());
         while (true) {
-            // timea();
             System.out.println(sw.toString());
-//            int second = (int) sw.getElapsedSeconds();
-
         }
     }
-    public static void timea(){
-        try{
-            Thread.sleep(950);
-        }
-        catch (Exception e){
 
-        }
-    }
 
 
 }
