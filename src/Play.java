@@ -24,6 +24,7 @@ public class Play extends BasicGameState {
   Rectangle obstacle,movingObstacle,square;
   QuestionGenerator question;
   Collision collision;
+  org.newdawn.slick.Font font;
 
     public Play(int state) {
         movingObstacle=new Rectangle();
@@ -37,6 +38,7 @@ public class Play extends BasicGameState {
         generateAnswers (time,question);
         square=new Rectangle((int) squareX,(int) squareY,50,60);
         obstacle=new Rectangle();
+
 
   }
     public void addObstacles(boolean start){
@@ -138,8 +140,9 @@ public class Play extends BasicGameState {
                 paintObstacles(g,movingObstacles.get(i),Color.darkGray);
             }
             for(int i=0; i<buttons.size();i++){
+                Button button=buttons.get(i);
                 buttons.get(i).drawText(g);
-
+            //    font.drawString(button.getX(),button.getY(),button.getText());
                 Button.paintObstacles(g,buttons.get(i));
                 if (buttons.get(i).intersects(square)&&buttons.get(i).isTheAnswerRight()){
                     Button.paintRightAnswer(g,buttons.get(i));
