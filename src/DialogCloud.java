@@ -1,13 +1,15 @@
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Rectangle;
 
+import java.awt.*;
 import java.security.SecureRandom;
 
 public class DialogCloud extends Rectangle {
     private String[] rightAnswers={"This is harder than I expected..","I am just warming up. Just hold on.","This is not good...","I wasn't even trying anyways.","Impressive.","I was not expecting this kind of challenge","Finally someone who can put up a good fight.","I might have to call for assistance soon...","This is getting intense.","I can not let you win."};
-    private String[] wrongAnswers={"Ha Ha. You are no challenge for me","Looks like this will be an easy one.","This is easier than I expected.","I haven't begun to use my full power. Come on, give me a challenge!","No matter how much you try, you still won't beat me.","You're going to have to do better than that.","I've done my homework! Looks like you haven't.","Do you think you can beat me?","How silly of you.. Thinking that you have a chance of beating me.","YOU SHALL NOT PASS!"};
+    private String[] wrongAnswers={"Ha Ha. You are no challenge for me","Looks like this will be an easy one.","This is easier than I expected.","Come on, give me a challenge!","No matter how much you try, you still won't beat me.","You're going to have to do better than that.","I've done my homework! Looks like you haven't.","Do you think you can beat me?","How silly of you...","YOU SHALL NOT PASS!"};
     private String[] defeated={"I have fallen... But I shall return!","Aaaarghh! I have been defeated.","You won this time. But this will be your last victory!","I will return. Stronger than ever.","Oh no! How could I have been defeated?","This will not be the last time we meet...","I almost had you...","NOOOOOOOO!!!!","My perfect plan.... RUINED!","You are too much for me.","I did the math correctly... But I still lost."};
     private String[] greeting={"Welcome to the arena!","Hey there"};
     private String question;
@@ -18,6 +20,7 @@ public class DialogCloud extends Rectangle {
     private int wrongAnswerVariable;
     private int defeatedVariable;
     private int greetingVariable;
+    private int fontSize;
 
     public DialogCloud(int x, int y, int width, int height, Image texture, String question) {
         super(x, y, width, height);
@@ -39,39 +42,24 @@ public class DialogCloud extends Rectangle {
         try {
             switch (state) {
                 case 1:
-                    if(width<question.length()*13) {
-                        setWidth(question.length() * 13);
-                    }
                     texture.draw(x, y, width, height);
-                    g.drawString(question, x + width / 8, y + height / 2);
+                    g.drawString(question, x+((width-g.getFont().getWidth(question))/2), y +( (height-g.getFont().getHeight(question))/ 2));
                     break;
                 case 2:
-                    if(width<question.length()*13) {
-                        setWidth(rightAnswers[rightAnswerVariable].length() * 12);
-                    }
                     texture.draw(x, y, width, height);
-                    g.drawString(rightAnswers[rightAnswerVariable], x + width / 8, y + height / 2);
+                    g.drawString(rightAnswers[rightAnswerVariable], x+((width-g.getFont().getWidth(rightAnswers[rightAnswerVariable]))/2), y +( (height-g.getFont().getHeight(rightAnswers[rightAnswerVariable]))/ 2));
                     break;
                 case 3:
-                    if(width<question.length()*13) {
-                        setWidth(wrongAnswers[wrongAnswerVariable].length() * 13);
-                    }
                     texture.draw(x, y, width, height);
-                    g.drawString(wrongAnswers[wrongAnswerVariable], x + width / 8, y + height / 2);
+                    g.drawString(wrongAnswers[wrongAnswerVariable], x+((width-g.getFont().getWidth(wrongAnswers[wrongAnswerVariable]))/2), y +( (height-g.getFont().getHeight(wrongAnswers[wrongAnswerVariable]))/ 2));
                     break;
                 case 4:
-                    if(width<question.length()*13) {
-                        setWidth(defeated[defeatedVariable].length() * 13);
-                    }
                     texture.draw(x, y, width, height);
-                    g.drawString(defeated[defeatedVariable], x + width / 8, y + height / 2);
+                    g.drawString(defeated[defeatedVariable], x+((width-g.getFont().getWidth(defeated[defeatedVariable]))/2), y +( (height-g.getFont().getHeight(defeated[defeatedVariable]))/ 2));
                     break;
                 case 5:
-                    if(width<question.length()*13) {
-                    setWidth(greeting[greetingVariable].length()*13);
-                    }
                     texture.draw(x, y, width, height);
-                    g.drawString(greeting[greetingVariable], x + width / 8, y + height / 2);
+                    g.drawString(greeting[greetingVariable], x+((width-g.getFont().getWidth(greeting[greetingVariable]))/2), y +( (height-g.getFont().getHeight(greeting[greetingVariable]))/ 2));
                     break;
                 default:
                     break;

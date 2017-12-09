@@ -27,10 +27,14 @@ public class Button extends Rectangle{
         super(x,y,width,height);
         setTexture(texture);
     }
+    public Button(float x, float y, float width, float height,Image texture,String text){
+        super(x,y,width,height);
+        setText(text);
+        setTexture(texture);
+    }
 
     public void drawText(Graphics g){
-        g.drawString(text,x+(width/2),y+(height/2));
-
+        g.drawString(text,(width-g.getFont().getWidth(text))/2+x,(height-g.getFont().getHeight(text))/2+y);
     }
     public void drawHighlight(){
         if(isSelected){
@@ -78,7 +82,7 @@ public class Button extends Rectangle{
         return false;
     }
     public boolean isClicked(Input input){
-        if(isHovered(input)&&input.isMouseButtonDown(0)){
+        if(isHovered(input)&&input.isMousePressed(0)){
             return true;
         }
         return false;
