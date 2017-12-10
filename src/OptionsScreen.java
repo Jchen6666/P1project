@@ -20,14 +20,14 @@ public class OptionsScreen extends BasicGameState {
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 
-        background=new Image("/lib/res/img/background.png");
-        resTextBox=new ResolutionTextBox();
-        rightResButton=new Button(Settings.getScreenWidth()/5*3,Settings.getScreenHeight()/9*2,26,26,new Image("lib/res/img/changeButton.png"));
-        leftResButton=new Button(Settings.getScreenWidth()/5*2,Settings.getScreenHeight()/9*2,26,26,rightResButton.getTexture().getFlippedCopy(true,false));
-        musicBar=new MusicBar(Settings.getScreenWidth()/2-200,Settings.getScreenHeight()/9*4,400,Settings.getScreenHeight()/18);
-        leftVolumeButton=new Button(Settings.getScreenWidth()/2-200-Settings.getScreenHeight()/18,Settings.getScreenHeight()/9*4,Settings.getScreenHeight()/18,Settings.getScreenHeight()/18,rightResButton.getTexture().getFlippedCopy(true,false));
-        rightVolumeButton=new Button(Settings.getScreenWidth()/2+200+Settings.getScreenHeight()/18,Settings.getScreenHeight()/9*4,Settings.getScreenHeight()/18,Settings.getScreenHeight()/18,rightResButton.getTexture().copy());
-        applyButton=new Button(Settings.getScreenWidth()/2-200,Settings.getScreenHeight()/9*5,400,Settings.getScreenHeight()/18,new Image("/lib/res/img/bossFightTable.png"),"Apply the changes.");
+//        background=new Image("/lib/res/img/background.png");
+//        resTextBox=new ResolutionTextBox();
+//       rightResButton=new Button(Settings.getScreenWidth()/5*3,Settings.getScreenHeight()/9*2,26,26,new Image("lib/res/img/changeButton.png"));
+//       leftResButton=new Button(Settings.getScreenWidth()/5*2,Settings.getScreenHeight()/9*2,26,26,rightResButton.getTexture().getFlippedCopy(true,false));
+//        musicBar=new MusicBar(Settings.getScreenWidth()/2-200,Settings.getScreenHeight()/9*4,400,Settings.getScreenHeight()/18);
+//        leftVolumeButton=new Button(Settings.getScreenWidth()/2-200-Settings.getScreenHeight()/18,Settings.getScreenHeight()/9*4,Settings.getScreenHeight()/18,Settings.getScreenHeight()/18,rightResButton.getTexture().getFlippedCopy(true,false));
+//        rightVolumeButton=new Button(Settings.getScreenWidth()/2+200+Settings.getScreenHeight()/18,Settings.getScreenHeight()/9*4,Settings.getScreenHeight()/18,Settings.getScreenHeight()/18,rightResButton.getTexture().copy());
+//        applyButton=new Button(Settings.getScreenWidth()/2-200,Settings.getScreenHeight()/9*5,400,Settings.getScreenHeight()/18,new Image("/lib/res/img/bossFightTable.png"),"Apply the changes.");
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {

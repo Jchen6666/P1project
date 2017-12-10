@@ -149,6 +149,7 @@ public class Play extends BasicGameState {
             }
             for(int i=0; i<buttons.size();i++){
                 Button button=buttons.get(i);
+                g.setFont(OurFonts.getFont18B());
                 buttons.get(i).drawText(g);
             //    font.drawString(button.getX(),button.getY(),button.getText());
                 //Button.paintObstacles(g,buttons.get(i));
