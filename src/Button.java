@@ -6,11 +6,14 @@ import org.newdawn.slick.Color;
 
 
 public class Button extends Rectangle{
-    private static Image highlight;
-    private Image texture;
-    private String text;
-    private boolean isSelected;
-    private boolean isTheAnswerRight;
+    //Instance variables
+    private static Image highlight;     //Image object drawn when the button is selected
+    private Image texture;              //Image of the button
+    private Image hoveredTexture;       //Brighter instance of the basic texture, for drawing when hovered
+    private String text;                //Text to draw on the button
+    private boolean isSelected;         //Logic value specifying whether button is selected or not (false by default)
+    private boolean isTheAnswerRight;   //Logic value storing information whether the answer contained in a button instance is the right one (used in BossFight)
+    //Different overloaded constructors
     public Button(float x, float y, float width, float height) {
         super(x, y, width, height);
         setText("");
@@ -32,10 +35,18 @@ public class Button extends Rectangle{
         setText(text);
         setTexture(texture);
     }
-
+    //Draw methods
+    /**
+     * Draws the text in the centre of a button
+     * @param  g  a Graphics object passed from the game state on the runtime
+     * @see Graphics
+     */
     public void drawText(Graphics g){
         g.drawString(text,(width-g.getFont().getWidth(text))/2+x,(height-g.getFont().getHeight(text))/2+y);
     }
+    /**
+     * Draws the highlight image if the button is selected
+     */
     public void drawHighlight(){
         if(isSelected){
            highlight.draw(this.getX(),this.getY(),width,height);
@@ -43,6 +54,16 @@ public class Button extends Rectangle{
     }
     public void draw(){
         texture.draw(x,y,width,height);
+    }
+    public void drawHovered(){
+        if(hoveredTexture!=null) {
+            hoveredTexture.draw(x, y, width, height);
+        }
+    }
+
+
+    public void setHoveredTexture(Image hoveredTexture) {
+        this.hoveredTexture = hoveredTexture;
     }
     public Image getTexture() {
         return texture;

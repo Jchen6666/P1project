@@ -63,7 +63,7 @@ public class BossFight extends BasicGameState {
         Button.setHighlight(new Image("lib/res/img/highlight.png"));
         buttonList=generateTheLevel(question,rightAnswerPosition,selectedPosition);     //Method returning the array of Buttons(4 of them);
         gameWon=false;
-        dialogCloud=new DialogCloud((int)Settings.getScreenWidth()/4,(int)Settings.getScreenHeight()/9,(int)Settings.getScreenWidth()/4+200,(int)Settings.getScreenHeight()/4,new Image("lib/res/img/dialogCloud.png"),question.toString());
+        dialogCloud=new DialogCloud((int)Settings.getScreenWidth()/8,(int)Settings.getScreenHeight()/9,(int)Settings.getScreenWidth()/2,(int)Settings.getScreenHeight()/4,new Image("lib/res/img/dialogCloud.png"),question.toString());
         bossHp=5;
         questionAnswered=false;
         bossIsHit=false;
@@ -92,9 +92,13 @@ public class BossFight extends BasicGameState {
             }
         }
         g.setColor(Color.black);
-        g.setFont(OurFonts.getFont18B());
+        if(Settings.getScreenWidth()>1000) {
+            g.setFont(OurFonts.getFont18());
+        }else{
+            g.setFont(OurFonts.getFont14());
+        }
         dialogCloud.draw(g);
-        g.setFont(OurFonts.getFont26B());
+        g.setFont(OurFonts.getFont22B());
         if(projectile!=null){
                 if(!projectile.isAtTarget()) {
                     projectile.draw();
