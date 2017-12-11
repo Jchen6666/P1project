@@ -8,7 +8,9 @@ import java.awt.*;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Timer;
+import java.io.*;
 
+import static javax.swing.text.html.HTML.Tag.HEAD;
 
 public class Play extends BasicGameState {
   Image map;
@@ -27,6 +29,10 @@ public class Play extends BasicGameState {
   org.newdawn.slick.Font font;
     StopWatch sw;
 
+
+
+    public Play(){
+    }
     public Play(int state) {
         movingObstacle=new Rectangle();
         obstacles=new ArrayList<Rectangle>();
@@ -43,6 +49,7 @@ public class Play extends BasicGameState {
         sw.start();
   }
     public void addObstacles(boolean start){
+
       int width=50;
       int height=100;
      if (start) {
@@ -164,8 +171,18 @@ public class Play extends BasicGameState {
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         moving=1;
         Input input = gc.getInput();
+
+        try {
+            menu(gc,sbg);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
        // System.out.println(obstacles.get(obstacles.size()-1).x);
-        menu(gc,sbg);
+        try {
+            menu(gc,sbg);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         barriarsCollision(gc);
         movingCollision();
         if (heroPositionX<-5910){
@@ -347,14 +364,27 @@ public class Play extends BasicGameState {
             }
         }
     }
-    public void menu(GameContainer gc,StateBasedGame sbg){
+
+
+    public void menu(GameContainer gc,StateBasedGame sbg) throws IOException {
         Input input = gc.getInput();
         if (input.isKeyDown(Input.KEY_ESCAPE)){
             quit=true;
         }
+
+
         if (quit == true){
             if (input.isKeyDown(Input.KEY_Q)){
-                gc.exit();
+
+                BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\dries\\Documents\\gameset.txt"));
+                int heroX = (int)heroPositionX;
+                String heroY = Float.toString(heroPositionY);
+                writer.write(heroX);
+                writer.append(' ');
+                writer.append(heroY);
+                writer.close();
+
+
             }
 
             if (input.isKeyDown(Input.KEY_M)){
