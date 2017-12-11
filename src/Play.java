@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Timer;
-import java.io.*;
+
 
 public class Play extends BasicGameState {
   Image map;
@@ -24,11 +24,9 @@ public class Play extends BasicGameState {
   Rectangle obstacle,movingObstacle,square;
   QuestionGenerator question;
   Collision collision;
+  org.newdawn.slick.Font font;
+    StopWatch sw;
 
-
-
-    public Play(){
-    }
     public Play(int state) {
         movingObstacle=new Rectangle();
         obstacles=new ArrayList<Rectangle>();
@@ -39,12 +37,12 @@ public class Play extends BasicGameState {
         collision=new Collision();
         question=new QuestionGenerator();
         generateAnswers (time,question);
-        square=new Rectangle((int) squareX,(int) squareY,50,60);
+        square=new Rectangle((int) squareX,(int) squareY,50,50);
         obstacle=new Rectangle();
-
+        sw=new StopWatch();
+        sw.start();
   }
     public void addObstacles(boolean start){
-
       int width=50;
       int height=100;
      if (start) {
@@ -85,13 +83,18 @@ public class Play extends BasicGameState {
 
     }
     public void paintSquare(Graphics g,Rectangle square){
-        Color myColor=new Color(255,2,2,127);
+        Color myColor=new Color(255,2,2,10);
         g.setColor(myColor);
         g.fillRect(square.x,square.y,square.width,square.height);
    }
     public void paintObstacles(Graphics g, Rectangle obstacle,Color color){
         g.setColor(color);
         g.fillRect(obstacle.x, obstacle.y,obstacle.width,obstacle.height);
+    }
+    public void paintQuestion(Graphics g){
+        Color myColor=new Color(255,2,2,127);
+        g.setColor(myColor);
+        g.drawString(question.toString(),heroPositionX+time*(400)+100,heroPositionY-40);
     }
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
@@ -121,13 +124,15 @@ public class Play extends BasicGameState {
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-       map.draw(heroPositionX,heroPositionY);
-       hero.draw(squareX, squareY);paintSquare(g,square);
-        if (score<16){
-           g.drawString(question.toString(),heroPositionX+time*(400)+100,heroPositionY-40);
+       //map.draw(heroPositionX,heroPositionY);
+       hero.draw(squareX, squareY);
+       paintSquare(g,square);
+            if (score<15){
+                paintQuestion(g);
+          // g.drawString(question.toString(),heroPositionX+time*(400)+100,heroPositionY-40);
        }
        //g.setFont(font);
-       g.drawString("Hero X: "+heroPositionX+"\nHero y: "+heroPositionY +"\nScore: "+score,600,600);
+       g.drawString("Hero X: "+heroPositionX+"\nHero y: "+heroPositionY +"\nScore: "+score+"\nTime: "+sw.toString(),600,600);
        if (quit==true){
         g.drawString("Resume(R)",250,200 );
         g.drawString("Main Menu(M)",250,250 );
@@ -143,9 +148,11 @@ public class Play extends BasicGameState {
                 paintObstacles(g,movingObstacles.get(i),Color.darkGray);
             }
             for(int i=0; i<buttons.size();i++){
+                Button button=buttons.get(i);
+                g.setFont(OurFonts.getFont18B());
                 buttons.get(i).drawText(g);
-
-                Button.paintObstacles(g,buttons.get(i));
+            //    font.drawString(button.getX(),button.getY(),button.getText());
+                //Button.paintObstacles(g,buttons.get(i));
                 if (buttons.get(i).intersects(square)&&buttons.get(i).isTheAnswerRight()){
                     Button.paintRightAnswer(g,buttons.get(i));
                    // buttons.remove(rightAnswer);
@@ -157,14 +164,13 @@ public class Play extends BasicGameState {
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         moving=1;
         Input input = gc.getInput();
-
-        try {
-            menu(gc,sbg);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+       // System.out.println(obstacles.get(obstacles.size()-1).x);
+        menu(gc,sbg);
         barriarsCollision(gc);
         movingCollision();
+        if (heroPositionX<-5910){
+            sbg.enterState(2);
+        }
         for(int z=0;z<movingObstacles.size();z++){
             Rectangle obstacle=movingObstacles.get(z);
             if(obstacle.y>1000){
@@ -172,6 +178,7 @@ public class Play extends BasicGameState {
                 addMovingObstacles(true);
             }
         }
+
        //movingobstacles
        for (int i=0;i<movingObstacles.size();i++) {
 
@@ -222,7 +229,7 @@ public class Play extends BasicGameState {
         for (int i=0;i<obstacles.size();i++) {
 
             obstacle=obstacles.get(i);
-            if (square.intersects(obstacle)||heroPositionY>250||heroPositionY<-500){
+            if (square.intersects(obstacle)||heroPositionY>290||heroPositionY<-500){
                 collides=true;
             }
             else {
@@ -299,7 +306,7 @@ public class Play extends BasicGameState {
                     score++;
                     time++;
                     buttons.clear();
-                    if(score<16) {
+                    if(score<15) {
                         question.regenerate();
                         timea();
                         generateAnswers(time, question);
@@ -340,33 +347,14 @@ public class Play extends BasicGameState {
             }
         }
     }
-
-
-    public void menu(GameContainer gc,StateBasedGame sbg) throws IOException {
+    public void menu(GameContainer gc,StateBasedGame sbg){
         Input input = gc.getInput();
         if (input.isKeyDown(Input.KEY_ESCAPE)){
             quit=true;
         }
-
-
         if (quit == true){
             if (input.isKeyDown(Input.KEY_Q)){
-
-                File gamedata = new File("C:\\Users\\dries\\Documents\\gameset.txt");
-                FileOutputStream FOP = new FileOutputStream(gamedata);
-                DataOutputStream outStream = new DataOutputStream(new BufferedOutputStream(FOP));
-                if (!gamedata.exists()){
-                    gamedata.createNewFile();
-                }
-
-                String heroPosXFloat = Float.toString(heroPositionX);
-                String heroPosYFloat = Float.toString(heroPositionY);
-                outStream.writeUTF(heroPosXFloat);
-                outStream.writeUTF(heroPosYFloat);
-                outStream.close();
                 gc.exit();
-
-
             }
 
             if (input.isKeyDown(Input.KEY_M)){

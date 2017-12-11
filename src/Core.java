@@ -23,7 +23,7 @@ public class Core extends StateBasedGame{
             this.getState(menu).init(gc,this);
             this.getState(play).init(gc,this);
             this.getState(bossfight).init(gc,this);
-            this.getState(optionsScreen).init(gc,this);
+//            this.getState(optionsScreen).init(gc,this);
             this.enterState(menu); // first screen the user sees
     }
 
@@ -31,9 +31,10 @@ public class Core extends StateBasedGame{
         AppGameContainer appgc;
         try {
             appgc = new AppGameContainer(new Core(gamename));
-            Settings.setScreenWidth(800);
-            Settings.setScreenHeight(700);
+            Settings.setScreenWidth(1280);
+            Settings.setScreenHeight(720);
             Settings.setFULLSCREEN(false);
+            Settings.setMusicVolume(1);
             appgc.setDisplayMode((int)Settings.getScreenWidth(),(int)Settings.getScreenHeight(),Settings.isFULLSCREEN());
             appgc.start();
         }catch (SlickException e){
