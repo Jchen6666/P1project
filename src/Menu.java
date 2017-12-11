@@ -10,7 +10,6 @@ public class Menu extends BasicGameState {
     Image background;
     Image buttonsTexture;
     Image hoveredButtonsTexture;
-    float xPos,yPos;
     private Music music;
     private Sound sound;
     ArrayList<Button> buttons;
