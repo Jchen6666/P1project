@@ -8,6 +8,8 @@ public class Menu extends BasicGameState {
     Image playNow;
     Image exitGame;
     float xPos,yPos;
+    private Music music;
+    private Sound sound;
 
     public Menu(int state) {
 
@@ -16,6 +18,10 @@ public class Menu extends BasicGameState {
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         playNow = new Image("lib/res/img/playNow.png");
         exitGame = new Image("lib/res/img/exitGame.png");
+//        music = new Music("lib/res/narko.ogg");
+//        music.setVolume(0.5f);
+//        music.loop();
+      // sound = new Sound("lib/res/thomas.wav");
 
     }
 
@@ -34,13 +40,16 @@ public class Menu extends BasicGameState {
         Input input = gc.getInput();
         if ((xPos > 106 && xPos < 296) && (yPos > 560 && yPos < 590)) {
             if (input.isMouseButtonDown(0)) { // Code 0 = left click, code 1 = right click etc.
-                sbg.enterState(1); // id 1 = Takes you to  a new state/screen
+                sbg.enterState(1); // id 1 = Takes you to  a new state/screen.
             }
 
         }
         if  (input.isKeyDown(Input.KEY_B)) {
             sbg.getState(2).init(gc,sbg);
             sbg.enterState(2);
+        }
+        if(input.isKeyPressed(Input.KEY_O)){
+            sbg.enterState(3);
         }
         if ((xPos > 100 && xPos < 311) && (yPos > 109 && yPos < 160)) {
             if (Mouse.isButtonDown(0)) {
@@ -50,6 +59,9 @@ public class Menu extends BasicGameState {
         }
     }
 
-    public int getID() { return 0; }
+    public int getID() {
+        return 0;
+
+    }
 
 }

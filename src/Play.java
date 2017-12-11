@@ -3,9 +3,9 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.state.*;
-import org.newdawn.slick.tiled.TiledMap;
 
 import java.awt.*;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.io.*;
@@ -17,9 +17,9 @@ public class Play extends BasicGameState {
   public ArrayList<Rectangle>movingObstacles;
   public ArrayList<Button>buttons;
   int[] duration={200,200};
-  float heroPositionX=0,heroPositionY=0,shitX=heroPositionX+250,shitY=heroPositionY+250;
+  float heroPositionX=0,heroPositionY=0, squareX =heroPositionX+250, squareY =heroPositionY+250;
   Button wrongAnswer, rightAnswer;
-  int moving,rightAnswerPosition,time=1;
+  int moving,rightAnswerPosition,time=1,score=0;
   boolean collides=false,answerCollides=false,movingCollides=false,questionAnswered=false,quit=false;
   Rectangle obstacle,movingObstacle,square;
   QuestionGenerator question;
@@ -39,8 +39,9 @@ public class Play extends BasicGameState {
         collision=new Collision();
         question=new QuestionGenerator();
         generateAnswers (time,question);
-        square=new Rectangle((int)shitX,(int)shitY,50,60);
+        square=new Rectangle((int) squareX,(int) squareY,50,60);
         obstacle=new Rectangle();
+
   }
     public void addObstacles(boolean start){
 
@@ -68,13 +69,17 @@ public class Play extends BasicGameState {
         int height=150;
         if (start=true) {
             movingObstacles.add(new Rectangle((int) heroPositionX + 700, (int) heroPositionY-50 , width, height));
-            movingObstacles.add(new Rectangle((int) heroPositionX + 1100, (int) heroPositionY-50 , width, height));
-            movingObstacles.add(new Rectangle((int) heroPositionX + 1500, (int) heroPositionY-50 , width, height));
+            for (int i =0;i<14;i++){
+                movingObstacles.add(new Rectangle(movingObstacles.get(movingObstacles.size()-1).x+400, (int) heroPositionY-50 , width, height));
+              //  addMovingObstacles(false);
+            }
+          //  movingObstacles.add(new Rectangle((int) heroPositionX + 1100, (int) heroPositionY-50 , width, height));
+          //  movingObstacles.add(new Rectangle((int) heroPositionX + 1500, (int) heroPositionY-50 , width, height));
         }
         else {
-            movingObstacles.add(new Rectangle((int) heroPositionX + 700, movingObstacles.get(movingObstacles.size()-1).y-350, width, height));
+            //movingObstacles.add(new Rectangle((int) heroPositionX + 700, movingObstacles.get(movingObstacles.size()-1).y-350, width, height));
             movingObstacles.add(new Rectangle(movingObstacles.get(movingObstacles.size()-1).x+400, (int) heroPositionY-50 , width, height));
-            movingObstacles.add(new Rectangle(movingObstacles.get(movingObstacles.size()-1).x+400, (int) heroPositionY-50 , width, height));
+            //movingObstacles.add(new Rectangle(movingObstacles.get(movingObstacles.size()-1).x+400, (int) heroPositionY-50 , width, height));
 
         }
 
@@ -90,8 +95,7 @@ public class Play extends BasicGameState {
     }
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-
-        map=new Image("lib/res/img/test1.png");
+        map=new Image("lib/res/img/background2.png");
        Image[] walkUp={new Image(("lib/res/img/Hero back.png")),new Image("lib/res/img/Hero back.png")};
        Image[] walkDown={new Image(("lib/res/img/Hero front.png")),new Image("lib/res/img/Hero front.png")};
        Image[] walkLeft={new Image(("lib/res/img/Hero left.png")),new Image("lib/res/img/Hero left.png")};
@@ -118,9 +122,12 @@ public class Play extends BasicGameState {
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
        map.draw(heroPositionX,heroPositionY);
-       hero.draw(shitX,shitY);paintSquare(g,square);
-       g.drawString(question.toString(),heroPositionX+time*(400)+100,heroPositionY-40);
-       g.drawString("Hero X: "+heroPositionX+"\nHero y: "+heroPositionY +"\nCollides: ",600,600);
+       hero.draw(squareX, squareY);paintSquare(g,square);
+        if (score<16){
+           g.drawString(question.toString(),heroPositionX+time*(400)+100,heroPositionY-40);
+       }
+       //g.setFont(font);
+       g.drawString("Hero X: "+heroPositionX+"\nHero y: "+heroPositionY +"\nScore: "+score,600,600);
        if (quit==true){
         g.drawString("Resume(R)",250,200 );
         g.drawString("Main Menu(M)",250,250 );
@@ -130,13 +137,14 @@ public class Play extends BasicGameState {
         }
       }
             for (int i=0;i<obstacles.size();i++) {
-                paintObstacles(g,obstacles.get(i),Color.darkGray);
+                paintObstacles(g,obstacles.get(i),Color.cyan);
             }
             for (int i=0;i<movingObstacles.size();i++){
                 paintObstacles(g,movingObstacles.get(i),Color.darkGray);
             }
             for(int i=0; i<buttons.size();i++){
                 buttons.get(i).drawText(g);
+
                 Button.paintObstacles(g,buttons.get(i));
                 if (buttons.get(i).intersects(square)&&buttons.get(i).isTheAnswerRight()){
                     Button.paintRightAnswer(g,buttons.get(i));
@@ -148,7 +156,7 @@ public class Play extends BasicGameState {
     }
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         moving=1;
-      Input input = gc.getInput();
+        Input input = gc.getInput();
 
         try {
             menu(gc,sbg);
@@ -161,7 +169,7 @@ public class Play extends BasicGameState {
             Rectangle obstacle=movingObstacles.get(z);
             if(obstacle.y>1000){
                 movingObstacles.clear();
-                addMovingObstacles(false);
+                addMovingObstacles(true);
             }
         }
        //movingobstacles
@@ -214,7 +222,7 @@ public class Play extends BasicGameState {
         for (int i=0;i<obstacles.size();i++) {
 
             obstacle=obstacles.get(i);
-            if (square.intersects(obstacle)){
+            if (square.intersects(obstacle)||heroPositionY>250||heroPositionY<-500){
                 collides=true;
             }
             else {
@@ -260,7 +268,7 @@ public class Play extends BasicGameState {
               //addObstacles(false);
                 loadObstacbles();
               movingObstacles.clear();
-              addMovingObstacles(false);
+              addMovingObstacles(true);
               buttons.clear();
               generateAnswers(time,question);
            } else {
@@ -272,28 +280,35 @@ public class Play extends BasicGameState {
         Input input=gc.getInput();
         for (int i=0;i<buttons.size();i++){
                 Button button =buttons.get(i);
-            if(button.intersects(square)&&button.isTheAnswerRight()){
-                    questionAnswered=true;
-                    Timer timer = new Timer();
-                    time++;
-                    question.regenerate();
-                    timea();
-                    buttons.clear();
-                    generateAnswers(time,question);
-                }
-            if (buttons.get(i).isTheAnswerRight()==false) {
+                if (buttons.get(i).isTheAnswerRight()==false) {
                 wrongAnswer = buttons.get(i);
 
                 if (wrongAnswer.intersects(square) && wrongAnswer != null) {
                     answerCollides = true;
                     question.regenerate();
-
                     buttons.clear();
-                    generateAnswers(time,question);
+                    generateAnswers(time, question);
+
                 }  else {
                     answerCollides = false;
                 }
             }
+           else if(button.intersects(square)&&button.isTheAnswerRight()){
+                    questionAnswered=true;
+                    Timer timer = new Timer();
+                    score++;
+                    time++;
+                    buttons.clear();
+                    if(score<16) {
+                        question.regenerate();
+                        timea();
+                        generateAnswers(time, question);
+                    }
+                    else {
+                        break;
+                    }
+                }
+
             if (input.isKeyDown(Input.KEY_UP)) {
                 button.setY(button.getY()+moving);
                 if (answerCollides){
@@ -365,14 +380,14 @@ public class Play extends BasicGameState {
     }
     public int getColumn(int i){
         int x=i+1;
-        if(x%3==0){
-            return x/3;
+        if(x%4==0){
+            return x/4;
         }
-        else if (x/3==0){
+        else if (x/4==0){
             return 1;
         }
         else {
-            return x/3+1;
+            return x/4+1;
         }
     }
     public void loadObstacbles(){
@@ -382,6 +397,7 @@ public class Play extends BasicGameState {
             start=false;
         }
     }
+
     public int getID() {
         return 1;
     }
