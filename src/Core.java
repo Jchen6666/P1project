@@ -23,7 +23,7 @@ public class Core extends StateBasedGame{
             this.getState(menu).init(gc,this);
             this.getState(play).init(gc,this);
             this.getState(bossfight).init(gc,this);
-            this.getState(optionsScreen).init(gc,this);
+//            this.getState(optionsScreen).init(gc,this);
             this.enterState(menu); // first screen the user sees
     }
 
