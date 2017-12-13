@@ -40,6 +40,7 @@ public class Core extends StateBasedGame{
             Settings.setScreenHeight(720);
             Settings.setFULLSCREEN(false);
             Settings.setMusicVolume(1);
+            Score.resetScore();
             appgc.setDisplayMode((int)Settings.getScreenWidth(),(int)Settings.getScreenHeight(),Settings.isFULLSCREEN());
             appgc.start();
         }catch (SlickException e){

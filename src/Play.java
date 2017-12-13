@@ -45,6 +45,7 @@ public class Play extends BasicGameState {
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         map=new Image("lib/res/img/background2.png");
+        Score.resetScore();
        Image[] walkUp={new Image(("lib/res/img/Hero back.png")),new Image("lib/res/img/Hero back.png")};
        Image[] walkDown={new Image(("lib/res/img/Hero front.png")),new Image("lib/res/img/Hero front.png")};
        Image[] walkLeft={new Image(("lib/res/img/Hero left.png")),new Image("lib/res/img/Hero left.png")};
@@ -110,6 +111,7 @@ public class Play extends BasicGameState {
     }
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         moving=1;
+        Score.update(delta);
         Input input = gc.getInput();
        // System.out.println(obstacles.get(obstacles.size()-1).x);
         menu(gc,sbg);
@@ -294,10 +296,12 @@ public class Play extends BasicGameState {
         for (int i=0;i<buttons.size();i++){
                 Button button =buttons.get(i);
                 if (buttons.get(i).isTheAnswerRight()==false) {
+
                 wrongAnswer = buttons.get(i);
 
                 if (wrongAnswer.intersects(square) && wrongAnswer != null) {
                     answerCollides = true;
+                    Score.wrongAnswers++;
                     question.regenerate();
                     buttons.clear();
                     generateAnswers(time, question);
@@ -310,6 +314,7 @@ public class Play extends BasicGameState {
                     questionAnswered=true;
                     Timer timer = new Timer();
                     score++;
+                    Score.score++;
                     time++;
                     buttons.clear();
                     if(score<15) {

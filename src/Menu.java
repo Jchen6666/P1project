@@ -80,6 +80,9 @@ public class Menu extends BasicGameState {
             sbg.getState(2).init(gc,sbg);
             sbg.enterState(2);
         }
+        if  (input.isKeyDown(Input.KEY_K)) {
+            sbg.enterState(5);
+        }
 
     }
 

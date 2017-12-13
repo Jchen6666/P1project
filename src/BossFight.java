@@ -156,7 +156,9 @@ public class BossFight extends BasicGameState {
         public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         Input input=gc.getInput();
         input.disableKeyRepeat();
+        System.out.println(Score.timeToString());
         if(!gamePaused) {
+            Score.update(delta);
             bossAnimation.update(delta);
             heroAnimation.update(delta);
             bossShieldAnimation.update(delta);
@@ -235,6 +237,7 @@ public class BossFight extends BasicGameState {
                     if (((input.isKeyPressed(Input.KEY_ENTER)) || input.isMousePressed(0))) {
                         if (buttonList.get(selectedPosition).isTheAnswerRight()) {
                             bossHp--;
+                            Score.score++;
                             numberQuestionsAnswered++;
                             questionAnswered = true;
                             heartAnimation.update(delta);
@@ -245,6 +248,7 @@ public class BossFight extends BasicGameState {
                         } else {
                             bossShieldAnimation.restart();
                             dialogCloud.setState(3);
+                            Score.wrongAnswers++;
                             heroAnimation.restart();
                             projectile = new Projectile(Settings.getScreenWidth() / 10, tabPos - Settings.getScreenWidth() / 20, Settings.getScreenWidth() / 2 + Settings.getScreenWidth() / 4 - Settings.getScreenWidth() / 10, Settings.getScreenHeight() / 2 + (float) 0.14 * Settings.getScreenHeight() - (float) 0.5 * Settings.getScreenHeight(), Settings.getScreenWidth() / 10, Settings.getScreenWidth() / 10, 500, question.getOperation());
                             time = 0;
