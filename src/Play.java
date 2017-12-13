@@ -161,12 +161,18 @@ public class Play extends BasicGameState {
          if (input.isKeyDown(Input.KEY_UP)) {
              hero = movingUp;
              heroPositionY += moving;
-
+            if(heroPositionY>278){
+                heroPositionY-=20;
+                collision.up(obstacles,movingObstacles,buttons,20);
+            }
            }
            if (input.isKeyDown(Input.KEY_DOWN)) {
                hero = movingDown;
                heroPositionY -= moving;
-
+               if(heroPositionY<-493){
+                   heroPositionY+=20;
+                   collision.down(obstacles,movingObstacles,buttons,20);
+               }
            }
            if (input.isKeyDown(Input.KEY_LEFT)) {
                hero = movingLeft;
@@ -247,14 +253,16 @@ public class Play extends BasicGameState {
             if (input.isKeyDown(Input.KEY_UP)) {
                 obstacle.y += moving;
                 if (collides&&heroPositionY<155-(getNum(i)-1)*220){
-                    System.out.println("obstacleY "+obstacles.get(i).y+" "+heroPositionY);
+                 //   System.out.println("obstacleY "+obstacles.get(i).y+" "+heroPositionY);
                     heroPositionY-=20;
                     collision.up(obstacles,movingObstacles,buttons,20);
                 }
             }
             if (input.isKeyDown(Input.KEY_DOWN)) {
                 obstacle.y -= moving;
-                if (collides){
+                if (collides&&heroPositionY>298-(getNum(i)-1)*220){
+                    System.out.println("obstacleY "+obstacles.get(i).y+" "+heroPositionY);
+
                     heroPositionY+=20;
                     collision.down(obstacles,movingObstacles,buttons,20);
                 }
