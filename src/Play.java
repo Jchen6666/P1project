@@ -31,7 +31,19 @@ public class Play extends BasicGameState {
 
 
 
-    public Play(){
+    public Play() throws IOException {
+        String[] data;
+        data = new String[2];
+        FileReader in = new FileReader("C:\\Users\\dries\\Documents\\gameset.txt");
+        BufferedReader br = new BufferedReader(in);
+        for (int i=0;i<2;i++){
+            data[i] = br.readLine();
+            br.readLine();
+
+        }
+        heroPositionX = Float.parseFloat(data[0]);
+        heroPositionY = Float.parseFloat(data[1]);
+
     }
     public Play(int state) {
         movingObstacle=new Rectangle();
@@ -377,13 +389,14 @@ public class Play extends BasicGameState {
             if (input.isKeyDown(Input.KEY_Q)){
 
                 BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\dries\\Documents\\gameset.txt"));
-                int heroX = (int)heroPositionX;
+                String heroX = Float.toString(heroPositionX);
                 String heroY = Float.toString(heroPositionY);
                 writer.write(heroX);
                 writer.append(' ');
                 writer.append(heroY);
                 writer.close();
 
+                gc.exit();
 
             }
 
