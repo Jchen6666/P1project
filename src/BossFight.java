@@ -7,6 +7,7 @@ import java.awt.Font;
 public class BossFight extends BasicGameState {
         Image background;
         Image hpHeart;
+        Image transparentPauseBackground;
         Image table;
         Image buttonsTable;
         Image bossInterface;
@@ -14,6 +15,7 @@ public class BossFight extends BasicGameState {
         Image pauseButtons;
         Image pauseBackground;
         Image hoveredPauseButtons;
+        Image menuMenuBackground;
         DialogCloud dialogCloud;
         Animation heroAnimation;
         Animation heartAnimation;
@@ -42,6 +44,7 @@ public class BossFight extends BasicGameState {
         }
 
         public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+            menuMenuBackground=new Image("lib/res/img/menuMenuBackground1.png");
         SpriteSheet hearts=new SpriteSheet("lib/res/img/heartsNew.png",16,16);
         pauseButtons=new Image("lib/res/img/menuButtons.png");
         pauseBackground=new Image("lib/res/img/menuBackground.png");
@@ -49,6 +52,7 @@ public class BossFight extends BasicGameState {
         heartAnimation= new Animation(hearts,500);
         heartAnimation.setLooping(false);
         heartAnimation.stop();
+        transparentPauseBackground=new Image("lib/res/img/transparentPauseBackground.png");
         bossShieldAnimation=new Animation(new SpriteSheet("lib/res/img/bossShieldAnimation.png",32,64),1200);
         bossAnimation=new Animation(new SpriteSheet("lib/res/img/bossAnimation.png",32,64),1000);
         bossShieldAnimation.setLooping(false);
@@ -66,7 +70,7 @@ public class BossFight extends BasicGameState {
         platform = new Image("lib/res/img/platform.png");
         hpHeart=hearts.getSubImage(0,0,16,16);
         question=new QuestionGenerator();
-        buttonList=new ArrayList<Button>(4);
+        buttonList=new ArrayList<>(4);
         rightAnswerPosition=(question.getGenerator().nextInt(4)+1);     //Determine the position of the right answer
         Button.setHighlight(new Image("lib/res/img/highlight.png"));
         buttonList=generateTheLevel(question,rightAnswerPosition,selectedPosition);     //Method returning the array of Buttons(4 of them);
@@ -128,14 +132,17 @@ public class BossFight extends BasicGameState {
                 if (numberQuestionsAnswered != 0) {
                     heartAnimation.draw((bossHp) * (Settings.getScreenWidth() / 20) + (Settings.getScreenWidth() / 128), (Settings.getScreenWidth() / 128), Settings.getScreenWidth() / 20, Settings.getScreenWidth() / 20);
                 }
-                if (dialogCloud.getState() != 5 && dialogCloud.getState() != 2 && dialogCloud.getState() != 4) {
+                if (dialogCloud.getState() != 5 && dialogCloud.getState() != 2 && dialogCloud.getState() != 4 && dialogCloud.getState()!=6) {
                     for (int i = 0; i < 4; i++) {
                         buttonList.get(i).drawText(g);
                         buttonList.get(i).drawHighlight();
                     }
                 }
                 if(gamePaused){
-                    pauseBackground.draw(Settings.getScreenWidth()/8,Settings.getScreenHeight()/9,Settings.getScreenWidth()/8*6,Settings.getScreenHeight()/9*7);
+                    //pauseBackground.draw(Settings.getScreenWidth()/8,Settings.getScreenHeight()/9,Settings.getScreenWidth()/8*6,Settings.getScreenHeight()/9*7);
+                    transparentPauseBackground.draw(0,0,Settings.getScreenWidth(),Settings.getScreenHeight());
+                    menuMenuBackground.draw((Settings.getScreenWidth()-menuMenuBackground.getWidth())/2,Settings.getScreenHeight()/9,menuMenuBackground.getWidth(),Settings.getScreenHeight()/9*7);
+                    OurFonts.getFont26B().drawString((Settings.getScreenWidth()-OurFonts.getFont26B().getWidth("Game Paused"))/2,Settings.getScreenHeight()/9*2,"Game Paused");
                     for(int i=0;i<pauseButtonList.size();i++){
                         if(pauseButtonList.get(i).isSelected()){
                             pauseButtonList.get(i).drawHovered();
@@ -263,12 +270,15 @@ public class BossFight extends BasicGameState {
                 if (bossDyeingAnimation.getFrame() == 0) {
                     bossDyeingAnimation.start();
                 }
+                if(bossDyeingAnimation.isStopped()&&dialogCloud.getState()!=6){
+                    dialogCloud.setState(6);
+                }
                 if (time > 3000) {
-                    if (dialogCloud.getState() != 4) {
+                    if (dialogCloud.getState() != 4&&dialogCloud.getState()!=6) {
                         dialogCloud.setState(4);
                     }
-                    if (input.isKeyPressed(Input.KEY_ESCAPE)) {
-                        sbg.enterState(0);
+                    if (input.isKeyPressed(Input.KEY_ENTER)) {
+                        sbg.enterState(5);
                     }
                 }
             }
@@ -276,8 +286,8 @@ public class BossFight extends BasicGameState {
                 gamePaused=true;
                 pauseButtonList=new ArrayList<Button>(2);
                 for(int i=0;i<2;i++) {
-                    pauseButtonList.add(new Button((Settings.getScreenWidth() - Settings.getScreenWidth() / 8) / 2, Settings.getScreenHeight() / 9 * (i+3), Settings.getScreenWidth() / 8, Settings.getScreenWidth() / 16, pauseButtons.getSubImage(i*64, 0, 64, 32)));
-                    pauseButtonList.get(i).setHoveredTexture(hoveredPauseButtons.getSubImage(i*64,0,64,32));
+                    pauseButtonList.add(new Button((Settings.getScreenWidth() - Settings.getScreenWidth() / 8) / 2, Settings.getScreenHeight() / 9 * (i+3), Settings.getScreenWidth() / 8, Settings.getScreenWidth() / 16, pauseButtons.getSubImage(128-64*i, 0, 64, 32)));
+                    pauseButtonList.get(i).setHoveredTexture(hoveredPauseButtons.getSubImage(128-64*i,0,64,32));
                 }
             }
         }else{              //if the game is paused

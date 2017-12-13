@@ -59,6 +59,7 @@ public class Play extends BasicGameState {
         float width=40;
         float height=80;
         rightAnswerPosition=question.getGenerator().nextInt(3);
+        question.clearWrongAnswers();
       //  System.out.println(rightAnswerPosition);
         float x=(heroPositionX+500)+400*(time-1);
         buttons.add(new Button(x,heroPositionY+120,width,height,Integer.toString(question.generateWrongAnswer())));
@@ -95,7 +96,7 @@ public class Play extends BasicGameState {
             }
             for(int i=0; i<buttons.size();i++){
                 Button button=buttons.get(i);
-                g.setFont(OurFonts.getFont18B());
+                g.setFont(OurFonts.getFont18());
                 buttons.get(i).drawText(g);
             //    font.drawString(button.getX(),button.getY(),button.getText());
                 //Button.paintObstacles(g,buttons.get(i));

@@ -10,6 +10,8 @@ public class Menu extends BasicGameState {
     Image background;
     Image buttonsTexture;
     Image hoveredButtonsTexture;
+    Image gameLogo;
+    //Image menuMenuBackground;
     private Music music;
     private Sound sound;
     ArrayList<Button> buttons;
@@ -22,6 +24,8 @@ public class Menu extends BasicGameState {
         background=new Image("lib/res/img/menuBackground.png");
         buttonsTexture=new Image("lib/res/img/menuButtons.png");
         hoveredButtonsTexture=new Image("lib/res/img/hoveredMenuButtons.png");
+        //menuMenuBackground=new Image("lib/res/img/menuMenuBackground.png");
+        gameLogo= new Image("lib/res/img/gameLogo.png");
         buttons=new ArrayList<>(4);
         for(int i=0;i<4;i++){
             if(i<2){
@@ -32,16 +36,12 @@ public class Menu extends BasicGameState {
                 buttons.get(i).setHoveredTexture(hoveredButtonsTexture.getSubImage((i-2)*64,32,64,32));
             }
         }
-//        music = new Music("lib/res/narko.ogg");
-//        music.setVolume(0.5f);
-//        music.loop();
-      // sound = new Sound("lib/res/thomas.wav");
-
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
         background.draw(0,0,Settings.getScreenWidth(),Settings.getScreenHeight());
-        g.drawString("Mathness", 100, 50);
+        //menuMenuBackground.draw((Settings.getScreenWidth()-menuMenuBackground.getWidth())/2,Settings.getScreenHeight()/9,menuMenuBackground.getWidth(),Settings.getScreenHeight()/9*7);
+        gameLogo.draw((Settings.getScreenWidth()-gameLogo.getWidth())/2,Settings.getScreenHeight()/9*2);
         for(int i=0;i<4;i++){
             if(buttons.get(i).isSelected()){
                 buttons.get(i).drawHovered();
@@ -64,6 +64,7 @@ public class Menu extends BasicGameState {
             }
         }
         if(buttons.get(0).isClicked(input)){
+            sbg.getState(1).init(gc,sbg);
             sbg.enterState(1);
         }
         if(buttons.get(1).isClicked(input)){
@@ -71,6 +72,9 @@ public class Menu extends BasicGameState {
         }
         if(buttons.get(2).isClicked(input)){
             sbg.enterState(3);
+        }
+        if(buttons.get(3).isClicked(input)){
+            sbg.enterState(4);
         }
         if  (input.isKeyDown(Input.KEY_B)) {
             sbg.getState(2).init(gc,sbg);

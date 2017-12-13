@@ -23,6 +23,9 @@ public class QuestionGenerator{
         wrongAnswers.add(wrongAnswer);
         return wrongAnswer;
     }   //Generates the wrong answer
+    public void clearWrongAnswers(){
+        wrongAnswers.clear();
+    }
     public void regenerate(){
         wrongAnswers=new ArrayList<Integer>(0);
         if(questionNumber<10){
