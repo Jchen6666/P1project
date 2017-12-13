@@ -295,6 +295,7 @@ public class BossFight extends BasicGameState {
                 pauseButtonList=null;
             }
             if(pauseButtonList!=null&&pauseButtonList.get(1).isClicked(input)){
+                gamePaused=false;
                 pauseButtonList=null;
                 sbg.enterState(0);
             }
