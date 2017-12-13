@@ -24,7 +24,7 @@ public class Play extends BasicGameState {
   Rectangle obstacle,movingObstacle,square;
   QuestionGenerator question;
   Collision collision;
-  StopWatch sw;
+  static StopWatch sw;
 
 
     public Play(int state) {
@@ -99,6 +99,9 @@ public class Play extends BasicGameState {
                 if (buttons.get(i).intersects(square)&&buttons.get(i).isTheAnswerRight()){
                     Button.paintRightAnswer(g,buttons.get(i));
                 }
+                if (buttons.get(i).intersects(square)&&buttons.get(i).isTheAnswerRight()==false){
+                    Button.paintObstacles(g,buttons.get(i));
+                }
             }
 
 
@@ -110,6 +113,8 @@ public class Play extends BasicGameState {
         barriarsCollision(gc);
         movingCollision();
         if (heroPositionX<-5910){
+            sw.stop();
+        //    System.out.println(sw.toString());
             sbg.enterState(2);
         }
         for(int z=0;z<movingObstacles.size();z++){
@@ -119,20 +124,6 @@ public class Play extends BasicGameState {
                 addMovingObstacles(true);
             }
         }
-        if (restart){
-            score=0;
-            heroPositionX=0;
-            heroPositionY=0;
-            time=1;
-            movingObstacles.clear();
-            obstacles.clear();
-            loadObstacbles();
-            addMovingObstacles(true);
-            buttons.clear();
-            generateAnswers(time,question);
-            restart=false;
-        }
-
        //movingobstacles
        for (int i=0;i<movingObstacles.size();i++) {
 
@@ -311,6 +302,7 @@ public class Play extends BasicGameState {
                 if (wrongAnswer.intersects(square) && wrongAnswer != null) {
                     answerCollides = true;
                     question.regenerate();
+                    timea();
                     buttons.clear();
                     generateAnswers(time, question);
 
@@ -380,7 +372,7 @@ public class Play extends BasicGameState {
             }
 
             if (input.isKeyDown(Input.KEY_R)){
-                restart=true;
+                restart();
                 quit = false;
             }
 
@@ -409,6 +401,21 @@ public class Play extends BasicGameState {
             addObstacles(start);
             start=false;
         }
+    }
+    public void restart(){
+        score=0;
+        heroPositionX=0;
+        heroPositionY=0;
+        time=1;
+        movingObstacles.clear();
+        obstacles.clear();
+        loadObstacbles();
+        addMovingObstacles(true);
+        buttons.clear();
+        generateAnswers(time,question);
+        sw.reset();
+        sw.start();
+        restart=false;
     }
     public void timea(){
         try{
