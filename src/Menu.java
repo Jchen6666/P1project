@@ -76,14 +76,6 @@ public class Menu extends BasicGameState {
         if(buttons.get(3).isClicked(input)){
             sbg.enterState(4);
         }
-        if  (input.isKeyDown(Input.KEY_B)) {
-            sbg.getState(2).init(gc,sbg);
-            sbg.enterState(2);
-        }
-        if  (input.isKeyDown(Input.KEY_K)) {
-            sbg.enterState(5);
-        }
-
     }
 
     public int getID() {
