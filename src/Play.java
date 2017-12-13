@@ -20,11 +20,12 @@ public class Play extends BasicGameState {
   float heroPositionX=0,heroPositionY=0, squareX =heroPositionX+250, squareY =heroPositionY+250;
   Button wrongAnswer, rightAnswer;
   int moving,rightAnswerPosition,time=1,score=0;
-  boolean collides=false,answerCollides=false,movingCollides=false,questionAnswered=false,quit=false;
+  boolean collides=false,answerCollides=false,restart=false,questionAnswered=false,quit=false;
   Rectangle obstacle,movingObstacle,square;
   QuestionGenerator question;
   Collision collision;
-  StopWatch sw;
+  static StopWatch sw;
+
 
     public Play(int state) {
         movingObstacle=new Rectangle();
@@ -72,12 +73,10 @@ public class Play extends BasicGameState {
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-       //map.draw(heroPositionX,heroPositionY);
        hero.draw(squareX, squareY);
        paintSquare(g,square);
             if (score<15){
                 paintQuestion(g);
-          // g.drawString(question.toString(),heroPositionX+time*(400)+100,heroPositionY-40);
        }
        //g.setFont(font);
        g.drawString("Hero X: "+heroPositionX+"\nHero y: "+heroPositionY +"\nScore: "+score+"\nTime: "+sw.toString(),600,600);
@@ -99,11 +98,11 @@ public class Play extends BasicGameState {
                 Button button=buttons.get(i);
                 g.setFont(OurFonts.getFont18());
                 buttons.get(i).drawText(g);
-            //    font.drawString(button.getX(),button.getY(),button.getText());
-                //Button.paintObstacles(g,buttons.get(i));
                 if (buttons.get(i).intersects(square)&&buttons.get(i).isTheAnswerRight()){
                     Button.paintRightAnswer(g,buttons.get(i));
-                   // buttons.remove(rightAnswer);
+                }
+                if (buttons.get(i).intersects(square)&&buttons.get(i).isTheAnswerRight()==false){
+                    Button.paintObstacles(g,buttons.get(i));
                 }
             }
 
@@ -113,11 +112,12 @@ public class Play extends BasicGameState {
         moving=1;
         Score.update(delta);
         Input input = gc.getInput();
-       // System.out.println(obstacles.get(obstacles.size()-1).x);
         menu(gc,sbg);
         barriarsCollision(gc);
         movingCollision();
         if (heroPositionX<-5910){
+            sw.stop();
+        //    System.out.println(sw.toString());
             sbg.enterState(2);
         }
         for(int z=0;z<movingObstacles.size();z++){
@@ -127,7 +127,6 @@ public class Play extends BasicGameState {
                 addMovingObstacles(true);
             }
         }
-
        //movingobstacles
        for (int i=0;i<movingObstacles.size();i++) {
 
@@ -156,12 +155,18 @@ public class Play extends BasicGameState {
          if (input.isKeyDown(Input.KEY_UP)) {
              hero = movingUp;
              heroPositionY += moving;
-
+            if(heroPositionY>278){
+                heroPositionY-=20;
+                collision.up(obstacles,movingObstacles,buttons,20);
+            }
            }
            if (input.isKeyDown(Input.KEY_DOWN)) {
                hero = movingDown;
                heroPositionY -= moving;
-
+               if(heroPositionY<-493){
+                   heroPositionY+=20;
+                   collision.down(obstacles,movingObstacles,buttons,20);
+               }
            }
            if (input.isKeyDown(Input.KEY_LEFT)) {
                hero = movingLeft;
@@ -202,14 +207,10 @@ public class Play extends BasicGameState {
                 movingObstacles.add(new Rectangle(movingObstacles.get(movingObstacles.size()-1).x+400, (int) heroPositionY-50 , width, height));
                 //  addMovingObstacles(false);
             }
-            //  movingObstacles.add(new Rectangle((int) heroPositionX + 1100, (int) heroPositionY-50 , width, height));
-            //  movingObstacles.add(new Rectangle((int) heroPositionX + 1500, (int) heroPositionY-50 , width, height));
         }
         else {
-            //movingObstacles.add(new Rectangle((int) heroPositionX + 700, movingObstacles.get(movingObstacles.size()-1).y-350, width, height));
             movingObstacles.add(new Rectangle(movingObstacles.get(movingObstacles.size()-1).x+400, (int) heroPositionY-50 , width, height));
             //movingObstacles.add(new Rectangle(movingObstacles.get(movingObstacles.size()-1).x+400, (int) heroPositionY-50 , width, height));
-
         }
 
     }
@@ -237,7 +238,7 @@ public class Play extends BasicGameState {
         for (int i=0;i<obstacles.size();i++) {
 
             obstacle=obstacles.get(i);
-            if (square.intersects(obstacle)||heroPositionY>290||heroPositionY<-500){
+            if (square.intersects(obstacle)){
                 collides=true;
             }
             else {
@@ -245,14 +246,17 @@ public class Play extends BasicGameState {
             }
             if (input.isKeyDown(Input.KEY_UP)) {
                 obstacle.y += moving;
-                if (collides){
+                if (collides&&heroPositionY<155-(getNum(i)-1)*220){
+                 //   System.out.println("obstacleY "+obstacles.get(i).y+" "+heroPositionY);
                     heroPositionY-=20;
                     collision.up(obstacles,movingObstacles,buttons,20);
                 }
             }
             if (input.isKeyDown(Input.KEY_DOWN)) {
                 obstacle.y -= moving;
-                if (collides){
+                if (collides&&heroPositionY>298-(getNum(i)-1)*220){
+                    System.out.println("obstacleY "+obstacles.get(i).y+" "+heroPositionY);
+
                     heroPositionY+=20;
                     collision.down(obstacles,movingObstacles,buttons,20);
                 }
@@ -303,6 +307,7 @@ public class Play extends BasicGameState {
                     answerCollides = true;
                     Score.wrongAnswers++;
                     question.regenerate();
+                    timea();
                     buttons.clear();
                     generateAnswers(time, question);
 
@@ -373,9 +378,16 @@ public class Play extends BasicGameState {
             }
 
             if (input.isKeyDown(Input.KEY_R)){
+                restart();
                 quit = false;
             }
+
         }
+    }
+    public int getNum(int i){
+       int x= getColumn(i);
+
+        return (i+1)-(x-1)*4;
     }
     public int getColumn(int i){
         int x=i+1;
@@ -395,6 +407,21 @@ public class Play extends BasicGameState {
             addObstacles(start);
             start=false;
         }
+    }
+    public void restart(){
+        score=0;
+        heroPositionX=0;
+        heroPositionY=0;
+        time=1;
+        movingObstacles.clear();
+        obstacles.clear();
+        loadObstacbles();
+        addMovingObstacles(true);
+        buttons.clear();
+        generateAnswers(time,question);
+        sw.reset();
+        sw.start();
+        restart=false;
     }
     public void timea(){
         try{
