@@ -2,9 +2,9 @@ import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import java.util.ArrayList;
+import java.awt.Font;
 
 public class BossFight extends BasicGameState {
-
         Image background;
         Image hpHeart;
         Image table;
@@ -74,7 +74,6 @@ public class BossFight extends BasicGameState {
         }
 
         public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-
         background.draw(0,0,Settings.getScreenWidth(), Settings.getScreenHeight());
         platform.draw(-Settings.getScreenWidth()/10,tabPos-Settings.getScreenHeight()/7,Settings.getScreenWidth()/2,(float)0.28*Settings.getScreenHeight());
         platform.draw(Settings.getScreenWidth()/2,Settings.getScreenHeight()/2,Settings.getScreenWidth()/2,(float)0.28*Settings.getScreenHeight());
@@ -93,12 +92,14 @@ public class BossFight extends BasicGameState {
             }
         }
         g.setColor(Color.black);
+        g.setFont(OurFonts.getFont18B());
         dialogCloud.draw(g);
+        g.setFont(OurFonts.getFont26B());
         if(projectile!=null){
                 if(!projectile.isAtTarget()) {
                     projectile.draw();
                 }
-                if(projectile.isAtTarget()&&dialogCloud.getState()==3){
+                if(projectile.isAtTarget()&&dialogCloud.getState()==3&&bossShieldAnimation.getFrame()!=4){
                     projectile.drawFlash();
                 }
         }
@@ -220,7 +221,7 @@ public class BossFight extends BasicGameState {
                     }
                 }
                 for (int i = 0; i < 4; i++) {
-                    if (buttonList.get(i).isHovered() && !buttonList.get(i).isSelected()) {
+                    if (buttonList.get(i).isHovered(input) && !buttonList.get(i).isSelected()) {
                         for (int l = 0; l < 4; l++) {
                             if (buttonList.get(l).isSelected()) {
                                 buttonList.get(l).setSelected(false);
