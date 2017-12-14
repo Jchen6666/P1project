@@ -23,7 +23,7 @@ public class ResolutionTextBox{
     }
     public void calculatePosition(Graphics g){
         x=(Settings.getScreenWidth()-g.getFont().getWidth(toString()))/2;
-        y=Settings.getScreenHeight()/9*2;
+        y=Settings.getScreenHeight()/9*3;
 
     }
     public String toString(){

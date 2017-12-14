@@ -1,4 +1,5 @@
 import java.security.SecureRandom;
+import java.util.ArrayList;
 
 public class QuestionGenerator{
     private int firstNumber;    //First number in equation
@@ -6,12 +7,8 @@ public class QuestionGenerator{
     private int rightAnswer; //Right answer
     private int operation;  //1-4 where 1- addition, 2- subtraction, 3- multiplication, 4- division
     private final SecureRandom generator=new SecureRandom();    //SecureRandom generator object, do not touch!
-
-    public void setQuestionNumber(int questionNumber) {
-        this.questionNumber = questionNumber;
-    }
-
     private int questionNumber;
+    private ArrayList<Integer> wrongAnswers;
 
     //
     public QuestionGenerator(){
@@ -20,20 +17,25 @@ public class QuestionGenerator{
     }   //Constructor generating all the variables
     public int generateWrongAnswer(){
         int wrongAnswer=rightAnswer+generator.nextInt(10)-5;
-        while(wrongAnswer==rightAnswer){
+        while(wrongAnswer==rightAnswer||wrongAnswers.contains(wrongAnswer)){
             wrongAnswer=rightAnswer+generator.nextInt(10)-5;
         }
+        wrongAnswers.add(wrongAnswer);
         return wrongAnswer;
     }   //Generates the wrong answer
+    public void clearWrongAnswers(){
+        wrongAnswers.clear();
+    }
     public void regenerate(){
+        wrongAnswers=new ArrayList<Integer>(0);
         if(questionNumber<10){
-            operation=generator.nextInt(4)+1;
+            operation=generator.nextInt(4)+1;   //Generating the operation
             switch(operation){      //Easy levels
                 case 1: firstNumber=generator.nextInt(20)+1;
                         secondNumber=generator.nextInt(20)+1;
                         break;
                 case 2: do {
-                    firstNumber = generator.nextInt(30) + 1;
+                    firstNumber = generator.nextInt(20) + 1;
                     secondNumber = generator.nextInt(20) + 1;
                 }while(firstNumber<secondNumber);
                         break;
@@ -51,14 +53,14 @@ public class QuestionGenerator{
                     secondNumber=generator.nextInt(50)+1;
                     break;
                 case 2: do {
-                    firstNumber = generator.nextInt(40) + 1;
-                    secondNumber = generator.nextInt(20) + 1;
+                    firstNumber = generator.nextInt(30) + 1;
+                    secondNumber = generator.nextInt(30) + 1;
                 }while(firstNumber<secondNumber);
                     break;
-                case 3: firstNumber=generator.nextInt(20)+1;
-                    secondNumber=generator.nextInt(10)+1;
+                case 3: firstNumber=generator.nextInt(15)+1;
+                    secondNumber=generator.nextInt(15)+1;
                     break;
-                case 4: secondNumber=generator.nextInt(9)+1;
+                case 4: secondNumber=generator.nextInt(10)+1;
                     firstNumber=secondNumber*(generator.nextInt(10)+1);
                     break;
             }
@@ -104,16 +106,7 @@ public class QuestionGenerator{
         questionNumber=0;
     }   //Resets the number of questions (resets the game)
 
-    public static int[] generateIntArray(int arrayLength,int minValue, int maxValue){
-        int[] array=new int[arrayLength];
-        SecureRandom generator=new SecureRandom();
-        for(int i=0;i<arrayLength;i++){
-            array[i]=generator.nextInt(maxValue)+minValue;
-        }
-        return array;
-    }
     //Getters
-
     public SecureRandom getGenerator() {
         return generator;
     }
@@ -131,5 +124,8 @@ public class QuestionGenerator{
     }
     public int getQuestionNumber() {
         return questionNumber;
+    }
+    public void setQuestionNumber(int questionNumber) {
+        this.questionNumber = questionNumber;
     }
 }

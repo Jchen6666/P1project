@@ -46,6 +46,7 @@ public class Play extends BasicGameState {
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         map=new Image("lib/res/img/background2.png");
+        Score.resetScore();
        Image[] walkUp={new Image(("lib/res/img/Hero back.png")),new Image("lib/res/img/Hero back.png")};
        Image[] walkDown={new Image(("lib/res/img/Hero front.png")),new Image("lib/res/img/Hero front.png")};
        Image[] walkLeft={new Image(("lib/res/img/Hero left.png")),new Image("lib/res/img/Hero left.png")};
@@ -60,6 +61,7 @@ public class Play extends BasicGameState {
         float width=40;
         float height=80;
         rightAnswerPosition=question.getGenerator().nextInt(3);
+        question.clearWrongAnswers();
       //  System.out.println(rightAnswerPosition);
         float x=(heroPositionX+500)+400*(time-1);
         buttons.add(new Button(x,heroPositionY+120,width,height,Integer.toString(question.generateWrongAnswer())));
@@ -94,7 +96,7 @@ public class Play extends BasicGameState {
             }
             for(int i=0; i<buttons.size();i++){
                 Button button=buttons.get(i);
-                g.setFont(OurFonts.getFont18B());
+                g.setFont(OurFonts.getFont18());
                 buttons.get(i).drawText(g);
                 if (buttons.get(i).intersects(square)&&buttons.get(i).isTheAnswerRight()){
                     Button.paintRightAnswer(g,buttons.get(i));
@@ -108,6 +110,7 @@ public class Play extends BasicGameState {
     }
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         moving=1;
+        Score.update(delta);
         Input input = gc.getInput();
         menu(gc,sbg);
         barriarsCollision(gc);
@@ -297,10 +300,12 @@ public class Play extends BasicGameState {
         for (int i=0;i<buttons.size();i++){
                 Button button =buttons.get(i);
                 if (buttons.get(i).isTheAnswerRight()==false) {
+
                 wrongAnswer = buttons.get(i);
 
                 if (wrongAnswer.intersects(square) && wrongAnswer != null) {
                     answerCollides = true;
+                    Score.wrongAnswers++;
                     question.regenerate();
                     timea();
                     buttons.clear();
@@ -314,6 +319,7 @@ public class Play extends BasicGameState {
                     questionAnswered=true;
                     Timer timer = new Timer();
                     score++;
+                    Score.score++;
                     time++;
                     buttons.clear();
                     if(score<15) {

@@ -26,7 +26,7 @@ public class MusicBar extends Rectangle {
     }
 
     public void update(Input input){
-        if(input.getMouseX()>x&&input.getMouseY()<x+width){
+        if(input.getMouseX()>x&&input.getMouseX()<x+width){
             if(input.getMouseY()>y&&input.getMouseY()<y+height){
                 if(input.isMouseButtonDown(0)){
                     if((input.getMouseX()-x)/width<0){
