@@ -116,8 +116,6 @@ public class Play extends BasicGameState {
         barriarsCollision(gc);
         movingCollision();
         if (heroPositionX<-5910){
-         //   sw.stop();
-        //    System.out.println(sw.toString());
             sbg.enterState(2);
         }
         for(int z=0;z<movingObstacles.size();z++){
@@ -128,54 +126,12 @@ public class Play extends BasicGameState {
             }
         }
        //movingobstacles
-       for (int i=0;i<movingObstacles.size();i++) {
+        obstaclesMoving(gc);
 
-           movingObstacle = movingObstacles.get(i);
-           movingObstacle.y++;
-
-           if (input.isKeyDown(Input.KEY_UP)) {
-               movingObstacle.y += moving;
-
-           }
-           if (input.isKeyDown(Input.KEY_DOWN)) {
-               movingObstacle.y -= moving;
-           }
-           if (input.isKeyDown(Input.KEY_LEFT)) {
-               movingObstacle.x += moving;
-           }
-
-           if (input.isKeyDown(Input.KEY_RIGHT)) {
-               movingObstacle.x -= moving;
-           }
-       }
        //answer moving
         anwserCheck(gc);
+        mapMoving(gc);
 
-       //map moving
-         if (input.isKeyDown(Input.KEY_UP)) {
-             hero = movingUp;
-             heroPositionY += moving;
-            if(heroPositionY>278){
-//                heroPositionY-=20;
-//                collision.up(obstacles,movingObstacles,buttons,20);
-            }
-           }
-           if (input.isKeyDown(Input.KEY_DOWN)) {
-               hero = movingDown;
-               heroPositionY -= moving;
-               if(heroPositionY<-493){
-                   heroPositionY+=20;
-                   collision.down(obstacles,movingObstacles,buttons,20);
-               }
-           }
-           if (input.isKeyDown(Input.KEY_LEFT)) {
-               hero = movingLeft;
-               heroPositionX += moving;
-           }
-           if (input.isKeyDown(Input.KEY_RIGHT)) {
-
-               hero = movingRight;
-               heroPositionX -= moving;}
         }
 
     public void addObstacles(boolean start){
@@ -293,6 +249,57 @@ public class Play extends BasicGameState {
            } else {
               continue;
            }
+        }
+    }
+    public void obstaclesMoving(GameContainer gc){
+        for (int i=0;i<movingObstacles.size();i++) {
+            Input input = gc.getInput();
+            movingObstacle = movingObstacles.get(i);
+            movingObstacle.y++;
+
+            if (input.isKeyDown(Input.KEY_UP)) {
+                movingObstacle.y += moving;
+
+            }
+            if (input.isKeyDown(Input.KEY_DOWN)) {
+                movingObstacle.y -= moving;
+            }
+            if (input.isKeyDown(Input.KEY_LEFT)) {
+                movingObstacle.x += moving;
+            }
+
+            if (input.isKeyDown(Input.KEY_RIGHT)) {
+                movingObstacle.x -= moving;
+            }
+        }
+    }
+    public void mapMoving(GameContainer gc){
+        Input input = gc.getInput();
+
+        if (input.isKeyDown(Input.KEY_UP)) {
+            hero = movingUp;
+            heroPositionY += moving;
+            if(heroPositionY>278){
+                heroPositionY-=20;
+                collision.up(obstacles,movingObstacles,buttons,20);
+            }
+        }
+        if (input.isKeyDown(Input.KEY_DOWN)) {
+            hero = movingDown;
+            heroPositionY -= moving;
+            if(heroPositionY<-493){
+                heroPositionY+=20;
+                collision.down(obstacles,movingObstacles,buttons,20);
+            }
+        }
+        if (input.isKeyDown(Input.KEY_LEFT)) {
+            hero = movingLeft;
+            heroPositionX += moving;
+        }
+        if (input.isKeyDown(Input.KEY_RIGHT)) {
+
+            hero = movingRight;
+            heroPositionX -= moving;
         }
     }
     public void anwserCheck(GameContainer gc){
