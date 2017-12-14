@@ -67,7 +67,7 @@ public abstract class Settings {
         return FULLSCREEN;
     }
 
-    public static void setFULLSCREEN(boolean FULLSCREEN) {
+    public static void setFULLSCREEN(boolean FULLSCREEN)     {
         Settings.FULLSCREEN = FULLSCREEN;
     }
 }

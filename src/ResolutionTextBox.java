@@ -7,6 +7,7 @@ public class ResolutionTextBox{
     private int screenHeigth[]={360,540,720,768,900,1080};
     private float x;
     private float y;
+
     ResolutionTextBox(){
         setState(2);    //set the state of entry resolution
     }

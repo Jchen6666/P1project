@@ -24,13 +24,7 @@ public class Main {
 //            System.out.println();
 //            question.regenerate();
         //       }
-        StopWatch sw = new StopWatch();
-        sw.start();
-        int minute = 0;
-        // System.out.println(sw.toString());
-        while (true) {
-            System.out.println(sw.toString());
-        }
+
     }
 
 
