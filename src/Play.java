@@ -116,7 +116,7 @@ public class Play extends BasicGameState {
         barriarsCollision(gc);
         movingCollision();
         if (heroPositionX<-5910){
-            sw.stop();
+         //   sw.stop();
         //    System.out.println(sw.toString());
             sbg.enterState(2);
         }
@@ -156,8 +156,8 @@ public class Play extends BasicGameState {
              hero = movingUp;
              heroPositionY += moving;
             if(heroPositionY>278){
-                heroPositionY-=20;
-                collision.up(obstacles,movingObstacles,buttons,20);
+//                heroPositionY-=20;
+//                collision.up(obstacles,movingObstacles,buttons,20);
             }
            }
            if (input.isKeyDown(Input.KEY_DOWN)) {

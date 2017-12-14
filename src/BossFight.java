@@ -151,12 +151,15 @@ public class BossFight extends BasicGameState {
                         }
                     }
                 }
+                //Show how much time kids use to go through the whole game
+                if (gameWon){
+                    System.out.println(Play.sw.toString());
+                }
 
         }
         public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         Input input=gc.getInput();
         input.disableKeyRepeat();
-        System.out.println(Score.timeToString());
         if(!gamePaused) {
             Score.update(delta);
             bossAnimation.update(delta);
@@ -174,6 +177,7 @@ public class BossFight extends BasicGameState {
                     projectile.update(delta);
                 }
                 if (projectile != null && projectile.isAtTarget() && bossHp == 0) {
+                    Play.sw.stop();
                     gameWon = true;
                 }
                 if (time > 3000 && ((dialogCloud.getState() == 2) || dialogCloud.getState() == 3 || dialogCloud.getState() == 5)) {
