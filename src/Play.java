@@ -18,7 +18,7 @@ public class Play extends BasicGameState {
   public ArrayList<Button>buttons;
   int[] duration={200,200};
   float heroPositionX=0,heroPositionY=0, squareX =heroPositionX+250, squareY =heroPositionY+250;
-  Button wrongAnswer, rightAnswer;
+  Button wrongAnswer;
   int moving,rightAnswerPosition,time=1,score=0;
   boolean collides=false,answerCollides=false,restart=false,questionAnswered=false,quit=false;
   Rectangle obstacle,movingObstacle,square;
@@ -32,7 +32,7 @@ public class Play extends BasicGameState {
         obstacles=new ArrayList<Rectangle>();
         movingObstacles=new ArrayList<Rectangle>();
         buttons=new ArrayList<Button>();
-      loadObstacbles();
+        loadObstacbles();
         addMovingObstacles(true);
         collision=new Collision();
         question=new QuestionGenerator();
@@ -42,7 +42,6 @@ public class Play extends BasicGameState {
         sw=new StopWatch();
         sw.start();
   }
-
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         map=new Image("lib/res/img/background2.png");
@@ -56,20 +55,6 @@ public class Play extends BasicGameState {
        movingLeft=new Animation(walkLeft,duration,false);
        movingRight=new Animation(walkRight,duration,false);
        hero=movingDown;
-    }
-    public void generateAnswers(int time,QuestionGenerator question) {
-        float width=40;
-        float height=80;
-        rightAnswerPosition=question.getGenerator().nextInt(3);
-        question.clearWrongAnswers();
-      //  System.out.println(rightAnswerPosition);
-        float x=(heroPositionX+500)+400*(time-1);
-        buttons.add(new Button(x,heroPositionY+120,width,height,Integer.toString(question.generateWrongAnswer())));
-        buttons.add(new Button(x,heroPositionY+340,width,height,Integer.toString(question.generateWrongAnswer())));
-        buttons.add(new Button(x,heroPositionY+560,width,height,Integer.toString(question.generateWrongAnswer())));
-        buttons.get(rightAnswerPosition).setTheAnswerRight(true);
-        buttons.get(rightAnswerPosition).setText(Integer.toString(question.getRightAnswer()));
-
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
@@ -108,6 +93,7 @@ public class Play extends BasicGameState {
 
 
     }
+
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         moving=1;
         Score.update(delta);
@@ -170,6 +156,20 @@ public class Play extends BasicGameState {
         }
 
     }
+    public void generateAnswers(int time,QuestionGenerator question) {
+        float width=40;
+        float height=80;
+        rightAnswerPosition=question.getGenerator().nextInt(3);
+        question.clearWrongAnswers();
+        //  System.out.println(rightAnswerPosition);
+        float x=(heroPositionX+500)+400*(time-1);
+        buttons.add(new Button(x,heroPositionY+120,width,height,Integer.toString(question.generateWrongAnswer())));
+        buttons.add(new Button(x,heroPositionY+340,width,height,Integer.toString(question.generateWrongAnswer())));
+        buttons.add(new Button(x,heroPositionY+560,width,height,Integer.toString(question.generateWrongAnswer())));
+        buttons.get(rightAnswerPosition).setTheAnswerRight(true);
+        buttons.get(rightAnswerPosition).setText(Integer.toString(question.getRightAnswer()));
+
+    }
     public void paintSquare(Graphics g,Rectangle square){
         Color myColor=new Color(255,2,2,10);
         g.setColor(myColor);
@@ -187,8 +187,6 @@ public class Play extends BasicGameState {
 
 
     }
-
-
     public void barriarsCollision(GameContainer gc){
         Input input=gc.getInput();
         for (int i=0;i<obstacles.size();i++) {
@@ -391,23 +389,7 @@ public class Play extends BasicGameState {
 
         }
     }
-    public int getNum(int i){
-       int x= getColumn(i);
 
-        return (i+1)-(x-1)*4;
-    }
-    public int getColumn(int i){
-        int x=i+1;
-        if(x%4==0){
-            return x/4;
-        }
-        else if (x/4==0){
-            return 1;
-        }
-        else {
-            return x/4+1;
-        }
-    }
     public void loadObstacbles(){
         boolean start =true;
         for (int i=0;i<15;i++){
@@ -436,6 +418,23 @@ public class Play extends BasicGameState {
         }
         catch (Exception e){
 
+        }
+    }
+    public int getNum(int i){
+        int x= getColumn(i);
+
+        return (i+1)-(x-1)*4;
+    }
+    public int getColumn(int i){
+        int x=i+1;
+        if(x%4==0){
+            return x/4;
+        }
+        else if (x/4==0){
+            return 1;
+        }
+        else {
+            return x/4+1;
         }
     }
     public int getID() {
