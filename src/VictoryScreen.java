@@ -33,7 +33,7 @@ public class VictoryScreen extends BasicGameState {
 
         g.drawString(Integer.toString(Score.score),(Settings.getScreenWidth()/2)+20,Settings.getScreenHeight()/9*3+5);
         g.drawString(Integer.toString(Score.wrongAnswers),(Settings.getScreenWidth()/2)+20,Settings.getScreenHeight()/9*4+5);
-        g.drawString(Score.timeToString(),(Settings.getScreenWidth()/2)+20,Settings.getScreenHeight()/9*5+5);
+        g.drawString(Play.sw.toString(),(Settings.getScreenWidth()/2)+20,Settings.getScreenHeight()/9*5+5);
         if(backButton.isSelected()){
             backButton.drawHovered();
         }else{
