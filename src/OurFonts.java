@@ -7,10 +7,13 @@ public abstract class OurFonts {
     private static Font javaFont18=new Font("Verdana",Font.PLAIN,18);
     private static Font javaFont22=new Font("Verdana",Font.BOLD,22);
     private static Font javaFont26=new Font("Verdana",Font.BOLD,26);
+    private static Font javaFont28=new Font("Verdana",Font.BOLD,28);
+
     private static TrueTypeFont font14=new TrueTypeFont(javaFont14,true);
     private static TrueTypeFont font18=new TrueTypeFont(javaFont18,true);
     private static TrueTypeFont font22B=new TrueTypeFont(javaFont22,true);
     private static TrueTypeFont font26B=new TrueTypeFont(javaFont26,true);
+    private static TrueTypeFont font28B=new TrueTypeFont(javaFont28,true);
 
 
     public static TrueTypeFont getFont14() {

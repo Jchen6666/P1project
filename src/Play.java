@@ -63,8 +63,6 @@ public class Play extends BasicGameState {
             if (score<15){
                 paintQuestion(g);
        }
-       //g.setFont(font);
-       // g.drawString("Hero X: "+heroPositionX+"\nHero y: "+heroPositionY +"\nScore: "+score+"\nTime: "+sw.toString(),600,600);
        if (quit==true){
         g.drawString("Resume(R)",250,200 );
         g.drawString("Main Menu(M)",250,250 );
@@ -80,8 +78,10 @@ public class Play extends BasicGameState {
                 paintObstacles(g,movingObstacles.get(i),Color.darkGray);
             }
             for(int i=0; i<buttons.size();i++){
-                Button button=buttons.get(i);
-                g.setFont(OurFonts.getFont18());
+                Color white=new Color(255,255,255,300);
+
+                g.setColor(white);
+                g.setFont(OurFonts.getFont22B());
                 buttons.get(i).drawText(g);
                 if (buttons.get(i).intersects(square)&&buttons.get(i).isTheAnswerRight()){
                     Button.paintRightAnswer(g,buttons.get(i));
@@ -90,6 +90,12 @@ public class Play extends BasicGameState {
                     Button.paintObstacles(g,buttons.get(i));
                 }
             }
+        for(int i=0; i<buttons.size();i++){
+            Color grey=new Color(160,160,160,127);
+            g.setColor(grey);
+            g.setFont(OurFonts.getFont22B());
+            buttons.get(i).drawText(g);
+        }
 
 
     }
@@ -143,17 +149,14 @@ public class Play extends BasicGameState {
     public void addMovingObstacles(boolean start){
         int width=40;
         int height=150;
-        if (start=true) {
+        if (start) {
             movingObstacles.add(new Rectangle((int) heroPositionX + 700, (int) heroPositionY-50 , width, height));
             for (int i =0;i<14;i++){
                 movingObstacles.add(new Rectangle(movingObstacles.get(movingObstacles.size()-1).x+400, (int) heroPositionY-50 , width, height));
                 //  addMovingObstacles(false);
             }
         }
-        else {
-            movingObstacles.add(new Rectangle(movingObstacles.get(movingObstacles.size()-1).x+400, (int) heroPositionY-50 , width, height));
-            //movingObstacles.add(new Rectangle(movingObstacles.get(movingObstacles.size()-1).x+400, (int) heroPositionY-50 , width, height));
-        }
+
 
     }
     public void generateAnswers(int time,QuestionGenerator question) {
@@ -180,7 +183,8 @@ public class Play extends BasicGameState {
         g.fillRect(obstacle.x, obstacle.y,obstacle.width,obstacle.height);
     }
     public void paintQuestion(Graphics g){
-        Color myColor=new Color(255,2,2,127);
+        Color myColor=new Color(255,2,2,300);
+        g.setFont(OurFonts.getFont22B());
         g.setColor(myColor);
         g.drawString(question.toString(),heroPositionX+time*(400)+100,heroPositionY-40);
         g.drawString(question.toString(),heroPositionX+time*(400)+100,heroPositionY+770);
@@ -249,6 +253,7 @@ public class Play extends BasicGameState {
            }
         }
     }
+
     public void obstaclesMoving(GameContainer gc){
         for (int i=0;i<movingObstacles.size();i++) {
             Input input = gc.getInput();
@@ -368,6 +373,8 @@ public class Play extends BasicGameState {
             }
         }
     }
+
+
     public void menu(GameContainer gc,StateBasedGame sbg){
         Input input = gc.getInput();
         if (input.isKeyDown(Input.KEY_ESCAPE)){
@@ -389,7 +396,6 @@ public class Play extends BasicGameState {
 
         }
     }
-
     public void loadObstacbles(){
         boolean start =true;
         for (int i=0;i<15;i++){
