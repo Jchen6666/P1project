@@ -207,7 +207,7 @@ public class Play extends BasicGameState {
                 if (collides&&heroPositionY<155-(getNum(i)-1)*220){
                  //   System.out.println("obstacleY "+obstacles.get(i).y+" "+heroPositionY);
                     heroPositionY-=20;
-                    collision.up(obstacles,movingObstacles,buttons,20);
+                    Collision.up(obstacles,movingObstacles,buttons,20);
                 }
             }
             if (input.isKeyDown(Input.KEY_DOWN)) {
@@ -216,21 +216,21 @@ public class Play extends BasicGameState {
                     System.out.println("obstacleY "+obstacles.get(i).y+" "+heroPositionY);
 
                     heroPositionY+=20;
-                    collision.down(obstacles,movingObstacles,buttons,20);
+                    Collision.down(obstacles,movingObstacles,buttons,20);
                 }
             }
             if (input.isKeyDown(Input.KEY_LEFT)) {
                 obstacle.x+=moving;
                 if (collides && heroPositionX<0-obstacle.x-50-400*(getColumn(i)-1)){
                     heroPositionX-=20;
-                    collision.left(obstacles,movingObstacles,buttons,20);
+                    Collision.left(obstacles,movingObstacles,buttons,20);
                 }
             }
             if (input.isKeyDown(Input.KEY_RIGHT)) {
                 obstacle.x -= moving;
                 if (collides&&heroPositionX>0-obstacle.x+50-400*(getColumn(i)-1)){
                     heroPositionX+=20;
-                    collision.right(obstacles,movingObstacles,buttons,20);
+                    Collision.right(obstacles,movingObstacles,buttons,20);
                 }
             }
         }
@@ -284,7 +284,7 @@ public class Play extends BasicGameState {
             heroPositionY += moving;
             if(heroPositionY>278){
                 heroPositionY-=20;
-                collision.up(obstacles,movingObstacles,buttons,20);
+                Collision.up(obstacles,movingObstacles,buttons,20);
             }
         }
         if (input.isKeyDown(Input.KEY_DOWN)) {
@@ -292,7 +292,7 @@ public class Play extends BasicGameState {
             heroPositionY -= moving;
             if(heroPositionY<-493){
                 heroPositionY+=20;
-                collision.down(obstacles,movingObstacles,buttons,20);
+                Collision.down(obstacles,movingObstacles,buttons,20);
             }
         }
         if (input.isKeyDown(Input.KEY_LEFT)) {

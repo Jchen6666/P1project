@@ -25,6 +25,9 @@ public class Menu extends BasicGameState {
         buttonsTexture=new Image("lib/res/img/menuButtons.png");
         hoveredButtonsTexture=new Image("lib/res/img/hoveredMenuButtons.png");
         //menuMenuBackground=new Image("lib/res/img/menuMenuBackground.png");
+        music=new Music("/Users/jerrychen/IdeaProjects/P1project new/lib/res/game.ogg");
+        music.setVolume(0.5f);
+        music.loop();
         gameLogo= new Image("lib/res/img/gameLogo.png");
         buttons=new ArrayList<>(4);
         for(int i=0;i<4;i++){
