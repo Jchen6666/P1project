@@ -79,7 +79,7 @@ public class Play extends BasicGameState {
                 paintQuestion(g);
        }
        if (quit==true){
-        g.drawString("Resume(R)",250,200 );
+        g.drawString("Restart(R)",250,200 );
         g.drawString("Main Menu(M)",250,250 );
         g.drawString("Quit Game(Q)",250,300);
         if (quit==false){
@@ -370,7 +370,7 @@ public class Play extends BasicGameState {
 
     /**
      * check the answer that user chooses correct or not, if it is wrong question will regenerate
-     * @param gc
+     * @param gc GameContainer object passed from the GameState at runtime
      */
     public void anwserCheck(GameContainer gc){
         Input input=gc.getInput();
@@ -440,6 +440,12 @@ public class Play extends BasicGameState {
             }
         }
     }
+
+    /**
+     * users can restart, back to main menu and quit games by clicking corresponding key
+     * @param gc
+     * @param sbg
+     */
     public void menu(GameContainer gc,StateBasedGame sbg){
         Input input = gc.getInput();
         if (input.isKeyDown(Input.KEY_ESCAPE)){
