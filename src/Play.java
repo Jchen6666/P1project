@@ -333,6 +333,11 @@ public class Play extends BasicGameState {
             }
         }
     }
+
+    /**
+     * map moves to the opposite directions as the character moving to
+     * @param gc GameContainer object passed from the GameState at runtime
+     */
     public void mapMoving(GameContainer gc){
         Input input = gc.getInput();
 
@@ -362,6 +367,11 @@ public class Play extends BasicGameState {
             heroPositionX -= moving;
         }
     }
+
+    /**
+     * check the answer that user chooses correct or not, if it is wrong question will regenerate
+     * @param gc
+     */
     public void anwserCheck(GameContainer gc){
         Input input=gc.getInput();
         for (int i=0;i<buttons.size();i++){
