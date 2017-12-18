@@ -7,6 +7,9 @@ import org.newdawn.slick.geom.Rectangle;
 import java.awt.*;
 import java.security.SecureRandom;
 
+/**
+ * This class is used to implement a dialog cloud to display boss's messages
+ */
 public class DialogCloud extends Rectangle {
     private String[] rightAnswers={"This is harder than I expected..","I am just warming up. Just hold on.","This is not good...","I wasn't even trying anyways.","Impressive.","I was not expecting this kind of challenge","Finally someone who can put up a good fight.","I might have to call for assistance soon...","This is getting intense.","I can not let you win."};
     private String[] wrongAnswers={"Ha Ha. You are no challenge for me","Looks like this will be an easy one.","This is easier than I expected.","Come on, give me a challenge!","You will never beat me.","You're going to have to do better than that.","I've done my homework! Looks like you haven't.","Do you think you can beat me?","How silly of you...","YOU SHALL NOT PASS!"};
@@ -21,8 +24,16 @@ public class DialogCloud extends Rectangle {
     private int wrongAnswerVariable;
     private int defeatedVariable;
     private int greetingVariable;
-    private int fontSize;
 
+    /**
+     * Constructor initializing a dialog cloud object
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @param width the dialog cloud's width
+     * @param height the dialog cloud's height
+     * @param texture the dialog cloud's texture
+     * @param question a question to be displayed of type String
+     */
     public DialogCloud(int x, int y, int width, int height, Image texture, String question) {
         super(x, y, width, height);
         try{setTexture(texture);}
@@ -38,6 +49,12 @@ public class DialogCloud extends Rectangle {
 
     }
 
+    /**
+     * Draws the dialog cloud and the text in the centre of it (depending on the state)
+     * state: 0-transparent, 1-display question, 2-right answer, 3-wrong answer, 4-defeated, 5-greeting, 6- game end
+     * @param g a Graphics object passed from the game state on the runtime
+     * @see Graphics
+     */
     public void draw(Graphics g){
         g.setColor(Color.black);
         try {

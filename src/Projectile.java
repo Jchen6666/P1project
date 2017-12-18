@@ -20,6 +20,17 @@ public class Projectile {
     private int timePassed;
     private int sign;
 
+    /**
+     * Constructor, initializes the projectile object and loading predefined projectile textures
+     * @param startingX starting x position of a projectile
+     * @param startingY starting y position of a projectile
+     * @param endingX target ending x position
+     * @param endingY target ending y position
+     * @param width the width of a projectile
+     * @param heigth the height of a projectile
+     * @param time time projectile takes to get to its destination in milliseconds
+     * @param sign specify the type of a projectile (1-addition 2-subtraction 3-multiplication 4-division)
+     */
     public Projectile(float startingX, float startingY, float endingX, float endingY, float width, float heigth, int time,int sign) {
         this.startingX = startingX;
         this.startingY = startingY;
@@ -64,6 +75,10 @@ public class Projectile {
         return currentY;
     }
 
+    /**
+     * Updates the position of a projectile
+     * @param delta parameter of init method which states for amount of time that passed from a last call of game state's init method (in milliseconds)
+     */
     void update(int delta){
         if(start) {
             if (timePassed < time) {
@@ -76,6 +91,10 @@ public class Projectile {
             }
         }
     }
+
+    /**
+     * Draws a projectile at current position
+     */
     void draw() {
         switch (sign) {
             case 1:texture.getSubImage(0,0,64,64).draw(currentX, currentY, width, heigth);
@@ -88,6 +107,10 @@ public class Projectile {
                 break;
         }
     }
+
+    /**
+     * Draws a flash of a projectile at current position
+     */
     void drawFlash() {
         switch (sign) {
             case 1:texture.getSubImage(0,0,64,64).drawFlash(currentX, currentY, width, heigth);
@@ -100,6 +123,12 @@ public class Projectile {
                 break;
         }
     }
+
+    /**
+     * Resets the starting position of a projectile and recalculates its speed and direction
+     * @param startingX new starting x
+     * @param startingY new starting y
+     */
     void setNewStartingPosition(float startingX,float startingY){
         this.startingX = startingX;
         this.startingY = startingY;

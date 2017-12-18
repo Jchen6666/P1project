@@ -3,8 +3,9 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.Color;
-
-
+/**
+ * This class is used to implement interactive buttons
+ */
 public class Button extends Rectangle{
     //Instance variables
     private static Image highlight;     //Image object drawn when the button is selected
@@ -14,27 +15,60 @@ public class Button extends Rectangle{
     private boolean isSelected;         //Logic value specifying whether button is selected or not (false by default)
     private boolean isTheAnswerRight;   //Logic value storing information whether the answer contained in a button instance is the right one (used in BossFight)
     //Different overloaded constructors
+
+    /**
+     *Constructor initializing a button with no texture and text
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @param width button's width
+     * @param height button's height
+     */
     public Button(float x, float y, float width, float height) {
         super(x, y, width, height);
         setText("");
         setSelected(false);
         setTheAnswerRight(false);
     }
+    /**
+     *Constructor initializing a button with no texture
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @param width button's width
+     * @param height button's height
+     * @param text text on the button
+     */
     public Button(float x, float y, float width, float height, String text) {
         super(x, y, width, height);
         setText(text);
         setSelected(false);
         setTheAnswerRight(false);
     }
+    /**
+     *Constructor initializing a button with no texture
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @param width button's width
+     * @param height button's height
+     * @param texture button's texture
+     * @param text text on the button
+     */
+    public Button(float x, float y, float width, float height,Image texture,String text){
+        this(x,y,width,height,texture);
+        setText(text);
+    }
+    /**
+     *Constructor initializing a button with no text
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @param width button's width
+     * @param height button's height
+     * @param texture button's texture
+     */
     public Button(float x, float y, float width, float height,Image texture){
         super(x,y,width,height);
         setTexture(texture);
     }
-    public Button(float x, float y, float width, float height,Image texture,String text){
-        super(x,y,width,height);
-        setText(text);
-        setTexture(texture);
-    }
+
     //Draw methods
     /**
      * Draws the text in the centre of a button
@@ -52,16 +86,24 @@ public class Button extends Rectangle{
            highlight.draw(this.getX(),this.getY(),width,height);
         }
     }
+    /**
+     * Draws the button
+     */
     public void draw(){
         texture.draw(x,y,width,height);
     }
+    /**
+     * Draws the hovered texture of a button (if it has been initialized)
+     */
     public void drawHovered(){
         if(hoveredTexture!=null) {
             hoveredTexture.draw(x, y, width, height);
         }
     }
-
-
+    /**
+     * Sets a texture to draw when the button is hovered
+     * @param hoveredTexture object of type Image
+     */
     public void setHoveredTexture(Image hoveredTexture) {
         this.hoveredTexture = hoveredTexture;
     }
@@ -108,6 +150,7 @@ public class Button extends Rectangle{
         }
         return false;
     }
+
     public boolean intersects(java.awt.Rectangle r) {
         float tw = this.width;
         float th = this.height;

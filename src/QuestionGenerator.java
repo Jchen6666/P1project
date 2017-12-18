@@ -1,6 +1,12 @@
 import java.security.SecureRandom;
 import java.util.ArrayList;
 
+/**
+ * This class is used to generate:
+ * question
+ * right answer
+ * wrong answers
+ */
 public class QuestionGenerator{
     private int firstNumber;    //First number in equation
     private int secondNumber;   //Second number in equation
@@ -11,10 +17,19 @@ public class QuestionGenerator{
     private ArrayList<Integer> wrongAnswers;
 
     //
+
+    /**
+     * Constructor initializing all of the initial values and generating a question
+     */
     public QuestionGenerator(){
         questionNumber=0;
         regenerate();
     }   //Constructor generating all the variables
+
+    /**
+     * Generates an unique integer answer different from the right one by adding a number from a span of -5 (included) to 5(excluded) to it
+     * @return  Wrong answer of type integer
+     */
     public int generateWrongAnswer(){
         int wrongAnswer=rightAnswer+generator.nextInt(10)-5;
         while(wrongAnswer==rightAnswer||wrongAnswers.contains(wrongAnswer)){
@@ -23,9 +38,17 @@ public class QuestionGenerator{
         wrongAnswers.add(wrongAnswer);
         return wrongAnswer;
     }   //Generates the wrong answer
+
+    /**
+     * clears an arraylist of previously generated wrong answers
+     */
     public void clearWrongAnswers(){
         wrongAnswers.clear();
     }
+
+    /**
+     * Generates the question, operation sign and calculates the right answer
+     */
     public void regenerate(){
         wrongAnswers=new ArrayList<Integer>(0);
         if(questionNumber<10){
@@ -68,6 +91,11 @@ public class QuestionGenerator{
         calculateRightAnswer();
         questionNumber++;
     }   //Method generating all the variables
+
+    /**
+     * Returns the content of the question as a string ex. "2x2=?"
+     * @return  Question of type String
+     */
     @Override
     public String toString(){
         String sign="";
@@ -88,6 +116,10 @@ public class QuestionGenerator{
         String question=Integer.toString(firstNumber)+" "+sign+" "+Integer.toString(secondNumber)+" = ?";
         return question;
     }   //Returns the content of the question ex. " 2x2=? "
+
+    /**
+     * calculates the right answer
+     */
     public void calculateRightAnswer(){
         switch(operation){
             case 1: rightAnswer=firstNumber+secondNumber;
@@ -102,6 +134,10 @@ public class QuestionGenerator{
                 break;
         }
     }   //Calculates the right answer
+
+    /**
+     * resets the number of answered questions
+     */
     public void reset(){
         questionNumber=0;
     }   //Resets the number of questions (resets the game)
