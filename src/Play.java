@@ -35,7 +35,7 @@ public class Play extends BasicGameState {
         movingObstacles=new ArrayList<Rectangle>();
         buttons=new ArrayList<Button>();
         loadObstacbles();
-        addMovingObstacles(true);
+        addMovingObstacles();
         collision=new Collision();
         question=new QuestionGenerator();
         generateAnswers (time,question);
@@ -49,7 +49,7 @@ public class Play extends BasicGameState {
      * initilize map and animations
      * @param gc gamecontainer object passed from the gamestate at runtime
      * @param sbg StateBasedGame object
-     * @throws SlickException
+     * @throws SlickException A generic exception thrown by everything in the library
      */
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         map=new Image("lib/res/img/background2.png");
@@ -65,6 +65,13 @@ public class Play extends BasicGameState {
        hero=movingDown;
     }
 
+    /**
+     * print objects(obstacles, question, answer, hero) on the map
+     * @param gc gamecontainer object passed from the gamestate at runtime
+     * @param sbg StateBasedGame object
+     * @param g  Graphics object from game state at run time
+     * @throws SlickException A generic exception thrown by everything in the library
+     */
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
        hero.draw(squareX, squareY);
        paintSquare(g,square);
@@ -108,6 +115,13 @@ public class Play extends BasicGameState {
 
     }
 
+    /**
+     *
+     * @param gc
+     * @param sbg
+     * @param delta
+     * @throws SlickException
+     */
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         moving=1;
         Score.update(delta);
@@ -122,7 +136,7 @@ public class Play extends BasicGameState {
             Rectangle obstacle=movingObstacles.get(z);
             if(obstacle.y>1000){
                 movingObstacles.clear();
-                addMovingObstacles(true);
+                addMovingObstacles();
             }
         }
        //movingobstacles
@@ -134,6 +148,10 @@ public class Play extends BasicGameState {
 
         }
 
+    /**
+     * set width and height of obstacle, and add 4 obstacles with same interval between each to ArrayList obstacles
+     * @param start the state of the game
+     */
     public void addObstacles(boolean start){
         int width=50;
         int height=100;
@@ -143,7 +161,6 @@ public class Play extends BasicGameState {
             obstacles.add(new Rectangle((int) heroPositionX + 500,(int) heroPositionY + 440, width, height));
             obstacles.add(new Rectangle((int) heroPositionX + 500,(int) heroPositionY + 660, width, height));
 
-            // obstacles.add(new Rectangle((int)heroPositionX + 900,(int)heroPositionY,width,height));
         }
         else {
             obstacles.add(new Rectangle(obstacles.get(obstacles.size()-1).x+400, (int) heroPositionY, width, height));
@@ -151,28 +168,37 @@ public class Play extends BasicGameState {
             obstacles.add(new Rectangle(obstacles.get(obstacles.size()-1).x,(int) heroPositionY + 440, width, height));
             obstacles.add(new Rectangle(obstacles.get(obstacles.size()-1).x,(int) heroPositionY + 660, width, height));
 
-            // obstacles.add(new Rectangle(obstacles.get(obstacles.size()-1).x+400,(int)heroPositionY,width,height));
         }
     }
-    public void addMovingObstacles(boolean start){
+
+    /**
+     *set width and height of moving obstacle ,add one to ArrayList movingObstacles
+     */
+    public void addMovingObstacles(){
         int width=40;
         int height=150;
-        if (start) {
+
             movingObstacles.add(new Rectangle((int) heroPositionX + 700, (int) heroPositionY-50 , width, height));
             for (int i =0;i<14;i++){
                 movingObstacles.add(new Rectangle(movingObstacles.get(movingObstacles.size()-1).x+400, (int) heroPositionY-50 , width, height));
                 //  addMovingObstacles(false);
-            }
+
         }
 
 
     }
+
+    /**
+     * initialize 3 buttons, assign the right answer to a random one of them and add them to ArrayList buttons
+     * @param time means the number of the question, so the answers will be drawn at the corresponding position
+     * @param question
+     * @see QuestionGenerator
+     */
     public void generateAnswers(int time,QuestionGenerator question) {
         float width=40;
         float height=80;
         rightAnswerPosition=question.getGenerator().nextInt(3);
         question.clearWrongAnswers();
-        //  System.out.println(rightAnswerPosition);
         float x=(heroPositionX+500)+400*(time-1);
         buttons.add(new Button(x,heroPositionY+120,width,height,Integer.toString(question.generateWrongAnswer())));
         buttons.add(new Button(x,heroPositionY+340,width,height,Integer.toString(question.generateWrongAnswer())));
@@ -181,15 +207,30 @@ public class Play extends BasicGameState {
         buttons.get(rightAnswerPosition).setText(Integer.toString(question.getRightAnswer()));
 
     }
+
+    /**
+     * specify the color of the square
+     * @param g Graphics object from game state at run time
+     * @param square Java Rectangle object
+     * @see Rectangle
+     */
     public void paintSquare(Graphics g,Rectangle square){
         Color myColor=new Color(255,2,2,10);
         g.setColor(myColor);
         g.fillRect(square.x,square.y,square.width,square.height);
     }
+
+    /**
+     * This method can be used to render Rectangle objects with specified color on the map
+     * @param g Graphics object from game state at run time
+     * @param obstacle Java Rectangle object
+     * @param color Color object from Slick2D library
+     */
     public void paintObstacles(Graphics g, Rectangle obstacle,Color color){
         g.setColor(color);
         g.fillRect(obstacle.x, obstacle.y,obstacle.width,obstacle.height);
     }
+
     public void paintQuestion(Graphics g){
         Color myColor=new Color(255,2,2,300);
         g.setFont(OurFonts.getFont22B());
@@ -199,6 +240,11 @@ public class Play extends BasicGameState {
 
 
     }
+
+    /**
+     * Collision detection and objects moving to the opposite directions as ones the character moving
+     * @param gc GameContainer object passed from the gamestate at runtime
+     */
     public void barriarsCollision(GameContainer gc){
         Input input=gc.getInput();
         for (int i=0;i<obstacles.size();i++) {
@@ -213,7 +259,6 @@ public class Play extends BasicGameState {
             if (input.isKeyDown(Input.KEY_UP)) {
                 obstacle.y += moving;
                 if (collides&&heroPositionY<155-(getNum(i)-1)*220){
-                 //   System.out.println("obstacleY "+obstacles.get(i).y+" "+heroPositionY);
                     heroPositionY-=20;
                     Collision.up(obstacles,movingObstacles,buttons,20);
                 }
@@ -243,6 +288,10 @@ public class Play extends BasicGameState {
             }
         }
     }
+
+    /**
+     * reset heroPositionX and reload all the objects on the map once the character(square) hit by the moving obstacle
+     */
     public void movingCollision(){
         for (int i=0;i<movingObstacles.size();i++) {
             Rectangle movingObstacle=movingObstacles.get(i);
@@ -252,7 +301,7 @@ public class Play extends BasicGameState {
               obstacles.clear();
               loadObstacbles();
               movingObstacles.clear();
-              addMovingObstacles(true);
+              addMovingObstacles();
               buttons.clear();
               generateAnswers(time,question);
            } else {
@@ -261,6 +310,10 @@ public class Play extends BasicGameState {
         }
     }
 
+    /**
+     *
+     * @param gc
+     */
     public void obstaclesMoving(GameContainer gc){
         for (int i=0;i<movingObstacles.size();i++) {
             Input input = gc.getInput();
@@ -380,8 +433,6 @@ public class Play extends BasicGameState {
             }
         }
     }
-
-
     public void menu(GameContainer gc,StateBasedGame sbg){
         Input input = gc.getInput();
         if (input.isKeyDown(Input.KEY_ESCAPE)){
@@ -418,7 +469,7 @@ public class Play extends BasicGameState {
         movingObstacles.clear();
         obstacles.clear();
         loadObstacbles();
-        addMovingObstacles(true);
+        addMovingObstacles();
         buttons.clear();
         generateAnswers(time,question);
         sw.reset();
