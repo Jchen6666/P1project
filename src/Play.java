@@ -5,7 +5,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.state.*;
 
 import java.awt.*;
-import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Timer;
 
@@ -26,7 +25,10 @@ public class Play extends BasicGameState {
   Collision collision;
   static StopWatch sw;
 
-
+    /**
+     * initialize map and animations
+     * @param state
+     */
     public Play(int state) {
         movingObstacle=new Rectangle();
         obstacles=new ArrayList<Rectangle>();
@@ -43,6 +45,12 @@ public class Play extends BasicGameState {
         sw.start();
   }
 
+    /**
+     * initilize map and animations
+     * @param gc gamecontainer object passed from the gamestate at runtime
+     * @param sbg StateBasedGame object
+     * @throws SlickException
+     */
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         map=new Image("lib/res/img/background2.png");
         Score.resetScore();
@@ -87,7 +95,7 @@ public class Play extends BasicGameState {
                     Button.paintRightAnswer(g,buttons.get(i));
                 }
                 if (buttons.get(i).intersects(square)&&buttons.get(i).isTheAnswerRight()==false){
-                    Button.paintObstacles(g,buttons.get(i));
+                    Button.paintWrongAnswer(g,buttons.get(i));
                 }
             }
         for(int i=0; i<buttons.size();i++){
@@ -242,8 +250,7 @@ public class Play extends BasicGameState {
               heroPositionX=-(movingObstacle.x+50)-i*400;
               heroPositionY=0;
               obstacles.clear();
-              //addObstacles(false);
-                loadObstacbles();
+              loadObstacbles();
               movingObstacles.clear();
               addMovingObstacles(true);
               buttons.clear();
@@ -426,6 +433,12 @@ public class Play extends BasicGameState {
 
         }
     }
+
+    /**
+     *
+     * @param i This is the number ...
+     * @return The number ....
+     */
     public int getNum(int i){
         int x= getColumn(i);
 

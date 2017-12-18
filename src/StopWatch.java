@@ -5,7 +5,7 @@ public class StopWatch {
     private final long nsPerSs = 1000000000;
     private final long nsPerMm = 60000000000L;
     private final long nsPerHh = 3600000000000L;
-    private  long hour,minute,second;
+    private long hour,minute,second;
     private long startTime = 0;
     private long stopTime = 0;
     private boolean running = false;

@@ -127,7 +127,7 @@ public class Button extends Rectangle{
             return false;
         }
     }
-    public static void paintObstacles(Graphics g, Button button){
+    public static void paintWrongAnswer(Graphics g, Button button){
         Color myColor=new Color(255,2,2,80);
         g.setColor(myColor);
         g.fillRect(button.getX(), button.getY(),button.getWidth(),button.getHeight());
