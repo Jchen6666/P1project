@@ -10,10 +10,17 @@ public class StopWatch {
     private long stopTime = 0;
     private boolean running = false;
 
+    /**
+     * set the start time as current time and change running to true
+     */
     public void start(){
         this.startTime=System.nanoTime();
         this.running=true;
     }
+
+    /**
+     * set the stop time as current time and change running to false
+     */
     public void stop(){
         this.stopTime=System.nanoTime();
         this.running=false;
@@ -23,26 +30,7 @@ public class StopWatch {
         this.stopTime=0;
         this.running=false;
     }
-    public long getElapsedTicks(){
-        long elapsed;
-        if (running){
-            elapsed=(System.nanoTime()-startTime);
-        }
-        else {
-            elapsed=(stopTime-startTime);
-        }
-        return elapsed/nsPerTick;
-    }
-    public long getElapsedMilliseconds() {
-        long elapsed;
-        if (running) {
-            elapsed = (System.nanoTime() - startTime);
-        }
-        else {
-            elapsed = (stopTime - startTime);
-        }
-        return elapsed / nsPerMs;
-    }
+
     public long getElapsedSeconds() {
         long elapsed;
         long seconds;
