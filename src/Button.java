@@ -151,6 +151,12 @@ public class Button extends Rectangle{
         return false;
     }
 
+    /**
+     * @see java.awt.Rectangle
+     * @param r
+     * @see java.awt.Rectangle
+     * @return whether it is collided with any rectangle
+     */
     public boolean intersects(java.awt.Rectangle r) {
         float tw = this.width;
         float th = this.height;
@@ -170,6 +176,12 @@ public class Button extends Rectangle{
             return false;
         }
     }
+
+    /**
+     * paint wrong answers button red
+     * @param g
+     * @param button
+     */
     public static void paintWrongAnswer(Graphics g, Button button){
         Color myColor=new Color(255,2,2,80);
         g.setColor(myColor);
