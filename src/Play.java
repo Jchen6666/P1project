@@ -116,7 +116,7 @@ public class Play extends BasicGameState {
     }
 
     /**
-     *
+     *This method updates the logic of the game before rendering it onto the screen
      * @param gc
      * @param sbg
      * @param delta
@@ -255,14 +255,14 @@ public class Play extends BasicGameState {
             }
             if (input.isKeyDown(Input.KEY_UP)) {
                 obstacle.y += moving;
-                if (collides&&heroPositionY<155-(getNum(i)-1)*220){
+                if (collides&&heroPositionY<155-(getObstacleN0(i)-1)*220){
                     heroPositionY-=20;
                     Collision.up(obstacles,movingObstacles,buttons,20);
                 }
             }
             if (input.isKeyDown(Input.KEY_DOWN)) {
                 obstacle.y -= moving;
-                if (collides&&heroPositionY>298-(getNum(i)-1)*220){
+                if (collides&&heroPositionY>298-(getObstacleN0(i)-1)*220){
                     System.out.println("obstacleY "+obstacles.get(i).y+" "+heroPositionY);
 
                     heroPositionY+=20;
@@ -443,8 +443,8 @@ public class Play extends BasicGameState {
 
     /**
      * users can restart, back to main menu and quit games by clicking corresponding key
-     * @param gc
-     * @param sbg
+     * @param gc GameContainer object passed from the GameState at runtime
+     * @param sbg StateBasedGame object
      */
     public void menu(GameContainer gc,StateBasedGame sbg){
         Input input = gc.getInput();
@@ -467,6 +467,10 @@ public class Play extends BasicGameState {
 
         }
     }
+
+    /**
+     * Call addObstacles() 15 times to create 15 columns of obstacles
+     */
     public void loadObstacles(){
         boolean start =true;
         for (int i=0;i<15;i++){
@@ -474,6 +478,10 @@ public class Play extends BasicGameState {
             start=false;
         }
     }
+
+    /**
+     * reset heroPositionX and reload all the objects on the map to restart the first part of the game
+     */
     public void restart(){
         score=0;
         heroPositionX=0;
@@ -489,25 +497,35 @@ public class Play extends BasicGameState {
         sw.start();
         restart=false;
     }
+
+    /**
+     *  set 100 milliseconds delay
+     */
     public void timea(){
         try{
             Thread.sleep(100);
         }
         catch (Exception e){
-
+            System.out.println("error");
         }
     }
 
     /**
      *
-     * @param i This is the number ...
-     * @return The number ....
+     * @param i This is the index of the obstacle in obstacles ArrayList
+     * @return The position of the obstacle in the column where it lies
      */
-    public int getNum(int i){
+    public int getObstacleN0(int i){
         int x= getColumn(i);
 
         return (i+1)-(x-1)*4;
     }
+
+    /**
+     *
+     * @param i This is the index of the obstacle in the obstacles ArrayList
+     * @return The number of the column where the obstacle lies
+     */
     public int getColumn(int i){
         int x=i+1;
         if(x%4==0){
