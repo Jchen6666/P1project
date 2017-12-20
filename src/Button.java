@@ -179,7 +179,7 @@ public class Button extends Rectangle{
 
     /**
      * paint wrong answers button red
-     * @param g
+     * @param g Graphics object from game state at run time
      * @param button
      */
     public static void paintWrongAnswer(Graphics g, Button button){
@@ -187,6 +187,12 @@ public class Button extends Rectangle{
         g.setColor(myColor);
         g.fillRect(button.getX(), button.getY(),button.getWidth(),button.getHeight());
     }
+
+    /**
+     * paint right answers button green
+     * @param g Graphics object from game state at run time
+     * @param button
+     */
     public static void paintRightAnswer(Graphics g,Button button){
         Color myColor=new Color(119,249,136,127);
         g.setColor(myColor);
