@@ -65,7 +65,12 @@ public class Menu extends BasicGameState {
         }
 
     }
-
+    /**
+     * handles user's interaction with buttons
+     * @param gc gamecontainer object passed from the gamestate at runtime
+     * @param sbg StateBasedGame object
+     * @param delta amount of time that passed from a last call of game state's method update(in milliseconds)
+     */
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 
 

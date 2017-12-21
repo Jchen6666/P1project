@@ -114,9 +114,7 @@ public class Play extends BasicGameState {
 
 
     }
-
     /**
-     *
      * @param gc
      * @param sbg
      * @param delta
@@ -147,7 +145,6 @@ public class Play extends BasicGameState {
         mapMoving(gc);
 
         }
-
     /**
      * set width and height of obstacle, and add 4 obstacles with same interval between each to ArrayList obstacles
      * @param start the state of the game

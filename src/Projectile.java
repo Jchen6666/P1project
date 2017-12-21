@@ -74,10 +74,9 @@ public class Projectile {
     public float getCurrentY() {
         return currentY;
     }
-
     /**
      * Updates the position of a projectile
-     * @param delta parameter of init method which states for amount of time that passed from a last call of game state's init method (in milliseconds)
+     * @param delta amount of time that passed from a last call of game state's method update(in milliseconds)
      */
     void update(int delta){
         if(start) {
@@ -91,7 +90,6 @@ public class Projectile {
             }
         }
     }
-
     /**
      * Draws a projectile at current position
      */
@@ -107,7 +105,6 @@ public class Projectile {
                 break;
         }
     }
-
     /**
      * Draws a flash of a projectile at current position
      */
@@ -123,7 +120,6 @@ public class Projectile {
                 break;
         }
     }
-
     /**
      * Resets the starting position of a projectile and recalculates its speed and direction
      * @param startingX new starting x

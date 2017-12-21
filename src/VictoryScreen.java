@@ -24,7 +24,7 @@ public class VictoryScreen extends BasicGameState {
         backButton.setHoveredTexture(new Image("lib/res/img/hoveredMenuButtons.png").getSubImage(128,0,64,32));
     }
     /**
-     * draw the background, buttons, 
+     * draw the background, buttons and player's statistics
      * @param gc gamecontainer object passed from the gamestate at runtime
      * @param sbg StateBasedGame object
      * @param g  Graphics object from game state at run time
@@ -51,7 +51,12 @@ public class VictoryScreen extends BasicGameState {
             backButton.draw();
         }
     }
-
+    /**
+     * handles user's interaction with buttons
+     * @param gc gamecontainer object passed from the gamestate at runtime
+     * @param sbg StateBasedGame object
+     * @param delta amount of time that passed from a last call of game state's method update(in milliseconds)
+     */
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         Input input = gc.getInput();
         input.disableKeyRepeat();

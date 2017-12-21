@@ -94,7 +94,13 @@ public class BossFight extends BasicGameState {
         time=0;
         gamePaused=false;
         }
-
+    /**
+     * Draw the background, buttons, animations, projectile, pause menu and health hearts on the screen
+     * @param gc gamecontainer object passed from the gamestate at runtime
+     * @param sbg StateBasedGame object
+     * @param g  Graphics object from game state at run time
+     * @throws SlickException A generic exception thrown by everything in the library
+     */
         public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
                 background.draw(0, 0, Settings.getScreenWidth(), Settings.getScreenHeight());
                 platform.draw(-Settings.getScreenWidth() / 10, tabPos - Settings.getScreenHeight() / 7, Settings.getScreenWidth() / 2, (float) 0.28 * Settings.getScreenHeight());
@@ -160,7 +166,6 @@ public class BossFight extends BasicGameState {
                     }
                 }
         }
-
     /**
      * This method updates the logic of the game before rendering it onto the screen
      * @param gc
@@ -352,7 +357,6 @@ public class BossFight extends BasicGameState {
             }
         }
         }
-
     /**
      * The purpose of this method is to generate a new set of buttons after generating a new question
      * This method generates and returns an array of buttons with predetermined position on the screen
