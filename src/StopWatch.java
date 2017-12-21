@@ -10,39 +10,35 @@ public class StopWatch {
     private long stopTime = 0;
     private boolean running = false;
 
+    /**
+     * set the start time as current time and change running to true
+     */
     public void start(){
         this.startTime=System.nanoTime();
         this.running=true;
     }
+
+    /**
+     * set the stop time as current time and change running to false
+     */
     public void stop(){
         this.stopTime=System.nanoTime();
         this.running=false;
     }
+
+    /**
+     * reset startTime and stopTime to 0, change running to false
+     */
     public void reset(){
         this.startTime=0;
         this.stopTime=0;
         this.running=false;
     }
-    public long getElapsedTicks(){
-        long elapsed;
-        if (running){
-            elapsed=(System.nanoTime()-startTime);
-        }
-        else {
-            elapsed=(stopTime-startTime);
-        }
-        return elapsed/nsPerTick;
-    }
-    public long getElapsedMilliseconds() {
-        long elapsed;
-        if (running) {
-            elapsed = (System.nanoTime() - startTime);
-        }
-        else {
-            elapsed = (stopTime - startTime);
-        }
-        return elapsed / nsPerMs;
-    }
+
+    /**
+     * elapsed is the number of seconds has passed
+     * @return the number of seconds (60 is the maximum)
+     */
     public long getElapsedSeconds() {
         long elapsed;
         long seconds;
@@ -55,6 +51,11 @@ public class StopWatch {
 
         return elapsed / nsPerSs-getElapsedMinutes()*60;
     }
+
+    /**
+     * elapsed is the hours of minutes has passed
+     * @return the number of minutes (60 is the maximum)
+     */
     public long getElapsedMinutes() {
         long elapsed;
         if (running) {
@@ -66,6 +67,11 @@ public class StopWatch {
 
         return elapsed / nsPerMm-getElapsedHours()*60;
     }
+
+    /**
+     *
+     * @return the number of hours has passed
+     */
     public long getElapsedHours() {
         long elapsed;
         if (running) {

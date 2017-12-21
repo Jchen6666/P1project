@@ -34,7 +34,7 @@ public class Play extends BasicGameState {
         obstacles=new ArrayList<Rectangle>();
         movingObstacles=new ArrayList<Rectangle>();
         buttons=new ArrayList<Button>();
-        loadObstacbles();
+        loadObstacles();
         addMovingObstacles();
         collision=new Collision();
         question=new QuestionGenerator();
@@ -79,7 +79,7 @@ public class Play extends BasicGameState {
                 paintQuestion(g);
        }
        if (quit==true){
-        g.drawString("Resume(R)",250,200 );
+        g.drawString("Restart(R)",250,200 );
         g.drawString("Main Menu(M)",250,250 );
         g.drawString("Quit Game(Q)",250,300);
         if (quit==false){
@@ -114,7 +114,9 @@ public class Play extends BasicGameState {
 
 
     }
+
     /**
+     *This method updates the logic of the game before rendering it onto the screen
      * @param gc
      * @param sbg
      * @param delta
@@ -125,8 +127,8 @@ public class Play extends BasicGameState {
         Score.update(delta);
         Input input = gc.getInput();
         menu(gc,sbg);
-        barriarsCollision(gc);
-        movingCollision();
+        barriersCollision(gc);
+        respawn();
         if (heroPositionX<-5910){
             sbg.enterState(2);
         }
@@ -137,14 +139,12 @@ public class Play extends BasicGameState {
                 addMovingObstacles();
             }
         }
-       //movingobstacles
         obstaclesMoving(gc);
-
-       //answer moving
         anwserCheck(gc);
         mapMoving(gc);
 
         }
+
     /**
      * set width and height of obstacle, and add 4 obstacles with same interval between each to ArrayList obstacles
      * @param start the state of the game
@@ -240,9 +240,9 @@ public class Play extends BasicGameState {
 
     /**
      * Collision detection and objects moving to the opposite directions as ones the character moving
-     * @param gc GameContainer object passed from the gamestate at runtime
+     * @param gc GameContainer object passed from the GameState at runtime
      */
-    public void barriarsCollision(GameContainer gc){
+    public void barriersCollision(GameContainer gc){
         Input input=gc.getInput();
         for (int i=0;i<obstacles.size();i++) {
 
@@ -255,14 +255,14 @@ public class Play extends BasicGameState {
             }
             if (input.isKeyDown(Input.KEY_UP)) {
                 obstacle.y += moving;
-                if (collides&&heroPositionY<155-(getNum(i)-1)*220){
+                if (collides&&heroPositionY<155-(getObstacleN0(i)-1)*220){
                     heroPositionY-=20;
                     Collision.up(obstacles,movingObstacles,buttons,20);
                 }
             }
             if (input.isKeyDown(Input.KEY_DOWN)) {
                 obstacle.y -= moving;
-                if (collides&&heroPositionY>298-(getNum(i)-1)*220){
+                if (collides&&heroPositionY>298-(getObstacleN0(i)-1)*220){
                     System.out.println("obstacleY "+obstacles.get(i).y+" "+heroPositionY);
 
                     heroPositionY+=20;
@@ -289,14 +289,14 @@ public class Play extends BasicGameState {
     /**
      * reset heroPositionX and reload all the objects on the map once the character(square) hit by the moving obstacle
      */
-    public void movingCollision(){
+    public void respawn(){
         for (int i=0;i<movingObstacles.size();i++) {
             Rectangle movingObstacle=movingObstacles.get(i);
             if (square.intersects(movingObstacle)) {
               heroPositionX=-(movingObstacle.x+50)-i*400;
               heroPositionY=0;
               obstacles.clear();
-              loadObstacbles();
+              loadObstacles();
               movingObstacles.clear();
               addMovingObstacles();
               buttons.clear();
@@ -308,8 +308,8 @@ public class Play extends BasicGameState {
     }
 
     /**
-     *
-     * @param gc
+     * All the obstacles moves to the opposite directions as the character moving to
+     * @param gc GameContainer object passed from the GameState at runtime
      */
     public void obstaclesMoving(GameContainer gc){
         for (int i=0;i<movingObstacles.size();i++) {
@@ -333,6 +333,11 @@ public class Play extends BasicGameState {
             }
         }
     }
+
+    /**
+     * map moves to the opposite directions as the character moving to
+     * @param gc GameContainer object passed from the GameState at runtime
+     */
     public void mapMoving(GameContainer gc){
         Input input = gc.getInput();
 
@@ -362,6 +367,11 @@ public class Play extends BasicGameState {
             heroPositionX -= moving;
         }
     }
+
+    /**
+     * check the answer that user chooses correct or not, if it is wrong question will regenerate
+     * @param gc GameContainer object passed from the GameState at runtime
+     */
     public void anwserCheck(GameContainer gc){
         Input input=gc.getInput();
         for (int i=0;i<buttons.size();i++){
@@ -430,6 +440,12 @@ public class Play extends BasicGameState {
             }
         }
     }
+
+    /**
+     * users can restart, back to main menu and quit games by clicking corresponding key
+     * @param gc GameContainer object passed from the GameState at runtime
+     * @param sbg StateBasedGame object
+     */
     public void menu(GameContainer gc,StateBasedGame sbg){
         Input input = gc.getInput();
         if (input.isKeyDown(Input.KEY_ESCAPE)){
@@ -451,13 +467,21 @@ public class Play extends BasicGameState {
 
         }
     }
-    public void loadObstacbles(){
+
+    /**
+     * Call addObstacles() 15 times to create 15 columns of obstacles
+     */
+    public void loadObstacles(){
         boolean start =true;
         for (int i=0;i<15;i++){
             addObstacles(start);
             start=false;
         }
     }
+
+    /**
+     * reset heroPositionX and reload all the objects on the map to restart the first part of the game
+     */
     public void restart(){
         score=0;
         heroPositionX=0;
@@ -465,7 +489,7 @@ public class Play extends BasicGameState {
         time=1;
         movingObstacles.clear();
         obstacles.clear();
-        loadObstacbles();
+        loadObstacles();
         addMovingObstacles();
         buttons.clear();
         generateAnswers(time,question);
@@ -473,25 +497,35 @@ public class Play extends BasicGameState {
         sw.start();
         restart=false;
     }
+
+    /**
+     *  set 100 milliseconds delay
+     */
     public void timea(){
         try{
             Thread.sleep(100);
         }
         catch (Exception e){
-
+            System.out.println("error");
         }
     }
 
     /**
      *
-     * @param i This is the number ...
-     * @return The number ....
+     * @param i This is the index of the obstacle in obstacles ArrayList
+     * @return The position of the obstacle in the column where it lies
      */
-    public int getNum(int i){
+    public int getObstacleN0(int i){
         int x= getColumn(i);
 
         return (i+1)-(x-1)*4;
     }
+
+    /**
+     *
+     * @param i This is the index of the obstacle in the obstacles ArrayList
+     * @return The number of the column where the obstacle lies
+     */
     public int getColumn(int i){
         int x=i+1;
         if(x%4==0){

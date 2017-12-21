@@ -151,6 +151,12 @@ public class Button extends Rectangle{
         return false;
     }
 
+    /**
+     * @see java.awt.Rectangle
+     * @param r
+     * @see java.awt.Rectangle
+     * @return whether it is collided with any rectangle
+     */
     public boolean intersects(java.awt.Rectangle r) {
         float tw = this.width;
         float th = this.height;
@@ -170,11 +176,23 @@ public class Button extends Rectangle{
             return false;
         }
     }
+
+    /**
+     * paint wrong answers button red
+     * @param g Graphics object from game state at run time
+     * @param button
+     */
     public static void paintWrongAnswer(Graphics g, Button button){
         Color myColor=new Color(255,2,2,80);
         g.setColor(myColor);
         g.fillRect(button.getX(), button.getY(),button.getWidth(),button.getHeight());
     }
+
+    /**
+     * paint right answers button green
+     * @param g Graphics object from game state at run time
+     * @param button
+     */
     public static void paintRightAnswer(Graphics g,Button button){
         Color myColor=new Color(119,249,136,127);
         g.setColor(myColor);
