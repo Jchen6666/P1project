@@ -74,7 +74,7 @@ public class Play extends BasicGameState {
      */
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
        hero.draw(squareX, squareY);
-       g.drawString(sw.toString(),300,300);
+    //   g.drawString(sw.toString(),300,300);
        paintSquare(g,square);
             if (score<15){
                 paintQuestion(g);
