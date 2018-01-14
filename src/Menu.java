@@ -75,6 +75,9 @@ public class Menu extends BasicGameState {
 
 
         Input input = gc.getInput();
+        if(music.getVolume()!=Settings.getMusicVolumeChanged()){
+            music.setVolume(Settings.getMusicVolumeChanged());
+        }
         for(int i=0;i<4;i++){
             if(buttons.get(i).isHovered(input)){
                 buttons.get(i).setSelected(true);
@@ -83,8 +86,7 @@ public class Menu extends BasicGameState {
             }
         }
         if(buttons.get(0).isClicked(input)){
-            sbg.getState(1).init(gc,sbg);
-            sbg.enterState(1);
+            sbg.enterState(6);
         }
         if(buttons.get(1).isClicked(input)){
             gc.exit();

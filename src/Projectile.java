@@ -94,31 +94,13 @@ public class Projectile {
      * Draws a projectile at current position
      */
     void draw() {
-        switch (sign) {
-            case 1:texture.getSubImage(0,0,64,64).draw(currentX, currentY, width, heigth);
-                    break;
-            case 2:texture.getSubImage(64,64,64,64).draw(currentX, currentY, width, heigth);
-                break;
-            case 3:texture.getSubImage(64,0,64,64).draw(currentX, currentY, width, heigth);
-                break;
-            case 4:texture.getSubImage(0,64,64,64).draw(currentX, currentY, width, heigth);
-                break;
-        }
+        texture.getSubImage((sign-1)*64,0,64,64).draw(currentX, currentY, width, heigth);
     }
     /**
      * Draws a flash of a projectile at current position
      */
     void drawFlash() {
-        switch (sign) {
-            case 1:texture.getSubImage(0,0,64,64).drawFlash(currentX, currentY, width, heigth);
-                break;
-            case 2:texture.getSubImage(64,64,64,64).drawFlash(currentX, currentY, width, heigth);
-                break;
-            case 3:texture.getSubImage(64,0,64,64).drawFlash(currentX, currentY, width, heigth);
-                break;
-            case 4:texture.getSubImage(0,64,64,64).drawFlash(currentX, currentY, width, heigth);
-                break;
-        }
+        texture.getSubImage((sign-1)*64,0,64,64).drawFlash(currentX, currentY, width, heigth);
     }
     /**
      * Resets the starting position of a projectile and recalculates its speed and direction

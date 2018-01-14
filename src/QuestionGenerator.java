@@ -11,19 +11,40 @@ public class QuestionGenerator{
     private int firstNumber;    //First number in equation
     private int secondNumber;   //Second number in equation
     private int rightAnswer; //Right answer
-    private int operation;  //1-4 where 1- addition, 2- subtraction, 3- multiplication, 4- division
+    private int operation;  //0-4 where 0-random 1- addition, 2- subtraction, 3- multiplication, 4- division
     private final SecureRandom generator=new SecureRandom();    //SecureRandom generator object, do not touch!
-    private int questionNumber;
+    private int operationsMode;
+    private int difficulty; //0-easy,1-normal,2-hard
+    private int[][] easySpan;
+    private int[][] normalSpan;
+    private int[][] hardSpan;
     private ArrayList<Integer> wrongAnswers;
 
     //
+
+    public int getOperationsMode() {
+        return operationsMode;
+    }
+
+    public void setOperationsMode(int operationsMode) {
+        this.operationsMode = operationsMode;
+    }
+
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
+    }
 
     /**
      * Constructor initializing all of the initial values and generating a question
      */
     public QuestionGenerator(){
-        questionNumber=0;
+        update();
         regenerate();
+
     }   //Constructor generating all the variables
 
     /**
@@ -45,52 +66,53 @@ public class QuestionGenerator{
     public void clearWrongAnswers(){
         wrongAnswers.clear();
     }
-
     /**
      * Generates the question, operation sign and calculates the right answer
      */
-    public void regenerate(){
-        wrongAnswers=new ArrayList<Integer>(0);
-        if(questionNumber<10){
-            operation=generator.nextInt(4)+1;   //Generating the operation
-            switch(operation){      //Easy levels
-                case 1: firstNumber=generator.nextInt(20)+1;
-                        secondNumber=generator.nextInt(20)+1;
-                        break;
-                case 2: do {
-                    firstNumber = generator.nextInt(20) + 1;
-                    secondNumber = generator.nextInt(20) + 1;
-                }while(firstNumber<secondNumber);
-                        break;
-                case 3: firstNumber=generator.nextInt(9)+1;
-                        secondNumber=generator.nextInt(9)+1;
-                        break;
-                case 4: secondNumber=generator.nextInt(6)+1;
-                        firstNumber=secondNumber*(generator.nextInt(10)+1);
-                        break;
-            }
-        }else{                      //Hard levels
-            operation=generator.nextInt(4)+1;
-            switch(operation){
-                case 1: firstNumber=generator.nextInt(50)+1;
-                    secondNumber=generator.nextInt(50)+1;
-                    break;
-                case 2: do {
-                    firstNumber = generator.nextInt(30) + 1;
-                    secondNumber = generator.nextInt(30) + 1;
-                }while(firstNumber<secondNumber);
-                    break;
-                case 3: firstNumber=generator.nextInt(15)+1;
-                    secondNumber=generator.nextInt(15)+1;
-                    break;
-                case 4: secondNumber=generator.nextInt(10)+1;
-                    firstNumber=secondNumber*(generator.nextInt(10)+1);
-                    break;
-            }
+    public void regenerate() {
+        wrongAnswers = new ArrayList<Integer>(0);
+        operation = operationsMode;
+        int[][] currentSpan;
+        if (operation == 0) {
+            operation = generator.nextInt(4) + 1;   //Generating the operation
         }
-        calculateRightAnswer();
-        questionNumber++;
-    }   //Method generating all the variables
+        switch(difficulty){
+            case 0: currentSpan=easySpan;
+            break;
+            case 1: currentSpan=normalSpan;
+            break;
+            case 2: currentSpan=hardSpan;
+            break;
+            default: currentSpan=null;
+            break;
+        }
+        int delta=currentSpan[operation-1][1]-currentSpan[operation-1][0];
+        switch(operation){
+                case 1:
+                    firstNumber = generator.nextInt(delta) + currentSpan[operation-1][0];
+                    secondNumber = generator.nextInt(delta) + currentSpan[operation-1][0];
+                    break;
+                case 2:
+                    do {
+                        firstNumber = generator.nextInt(delta) + currentSpan[operation-1][0];
+                        secondNumber = generator.nextInt(delta) + currentSpan[operation-1][0];
+                    } while (firstNumber <= secondNumber);
+                    break;
+                case 3:
+                    firstNumber = generator.nextInt(delta) + currentSpan[operation-1][0];
+                    secondNumber = generator.nextInt(delta) + currentSpan[operation-1][0];
+                    break;
+                case 4:
+                    secondNumber = generator.nextInt(delta) + currentSpan[operation-1][0];
+                    firstNumber = secondNumber * (generator.nextInt(10) + 1);
+                    break;
+            }
+            calculateRightAnswer();
+    }//Method generating all the variables
+
+    public int[][] getEasySpan() {
+        return easySpan;
+    }
 
     /**
      * Returns the content of the question as a string ex. "2x2=?"
@@ -115,7 +137,8 @@ public class QuestionGenerator{
         }
         String question=Integer.toString(firstNumber)+" "+sign+" "+Integer.toString(secondNumber)+" = ?";
         return question;
-    }   //Returns the content of the question ex. " 2x2=? "
+    }
+    //Returns the content of the question ex. " 2x2=?
 
     /**
      * calculates the right answer
@@ -138,10 +161,13 @@ public class QuestionGenerator{
     /**
      * resets the number of answered questions
      */
-    public void reset(){
-        questionNumber=0;
-    }   //Resets the number of questions (resets the game)
-
+    public void update(){
+        easySpan=Settings.getEasySpan();
+        normalSpan=Settings.getNormalSpan();
+        hardSpan=Settings.getHardSpan();
+        difficulty=Settings.getDifficulty();
+        operationsMode=Settings.getOperationsMode();
+    }
     //Getters
     public SecureRandom getGenerator() {
         return generator;
@@ -157,11 +183,5 @@ public class QuestionGenerator{
     }
     public int getRightAnswer() {
         return rightAnswer;
-    }
-    public int getQuestionNumber() {
-        return questionNumber;
-    }
-    public void setQuestionNumber(int questionNumber) {
-        this.questionNumber = questionNumber;
     }
 }

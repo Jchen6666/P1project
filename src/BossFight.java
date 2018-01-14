@@ -43,7 +43,7 @@ public class BossFight extends BasicGameState {
 
 
         public BossFight(int state) {
-
+            question=Play.question;
         }
 
     /**
@@ -78,7 +78,6 @@ public class BossFight extends BasicGameState {
         buttonsTable= new Image("lib/res/img/bossFightButtons.png");
         platform = new Image("lib/res/img/platform.png");
         hpHeart=hearts.getSubImage(0,0,16,16);
-        question=new QuestionGenerator();
         buttonList=new ArrayList<>(4);
         rightAnswerPosition=(question.getGenerator().nextInt(4)+1);     //Determine the position of the right answer
         Button.setHighlight(new Image("lib/res/img/highlight.png"));
@@ -93,6 +92,8 @@ public class BossFight extends BasicGameState {
         numberQuestionsAnswered=0;
         time=0;
         gamePaused=false;
+        question.update();
+        question.regenerate();
         }
     /**
      * Draw the background, buttons, animations, projectile, pause menu and health hearts on the screen
@@ -174,6 +175,13 @@ public class BossFight extends BasicGameState {
      * @throws SlickException
      */
         public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
+            System.out.println("Operation mode: "+Settings.getOperationsMode()+" Difficulty: "+Settings.getDifficulty()+" [0][0] of easy span "+Settings.getEasySpan()[0][0]);
+            System.out.println(question.getEasySpan()[0][0]);
+            System.out.println(question.getOperationsMode());
+            System.out.println(Settings.getOperationsMode());
+            System.out.println(question.getDifficulty());
+            System.out.println(Settings.getDifficulty());
+
         Input input=gc.getInput();  //object initialized to catch user's input
         input.disableKeyRepeat();
         if(!gamePaused) {           //if the game is not pause
@@ -209,6 +217,7 @@ public class BossFight extends BasicGameState {
                 if (questionAnswered) {
                     time = 0;                   //reset the time variable measuring the time from a change of boss state
                     rightAnswerPosition = (question.getGenerator().nextInt(4) + 1); //generate the number of position (1-4) on which a new right answer will be
+                    question.update();
                     question.regenerate();      //generate a new question
                     buttonList = generateTheLevel(question, rightAnswerPosition, selectedPosition);
                     questionAnswered = false;

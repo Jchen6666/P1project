@@ -11,6 +11,7 @@ public class Core extends StateBasedGame{
     public static final int optionsScreen = 3;
     public static final int leaderboardsScreen=4;
     public static final int victoryScreen=5;
+    public static final int preGame=6;
 
     public Core(String gamename){
         super(gamename);
@@ -20,6 +21,7 @@ public class Core extends StateBasedGame{
         this.addState(new OptionsScreen(optionsScreen));
         this.addState(new LeaderboardsScreen(leaderboardsScreen));
         this.addState(new VictoryScreen(victoryScreen));
+        this.addState(new Pregame(preGame));
     }
 
     public void initStatesList(GameContainer gc) throws SlickException{ // Give it a list of states
@@ -29,18 +31,25 @@ public class Core extends StateBasedGame{
             this.getState(leaderboardsScreen).init(gc,this);
             this.getState(optionsScreen).init(gc,this);
             this.getState(victoryScreen).init(gc,this);
+            this.getState(preGame).init(gc,this);
             this.enterState(menu); // first screen the user sees
     }
 
     public static void main(String[] args) {
         AppGameContainer appgc;
         try {
-            appgc = new AppGameContainer(new Core(gamename));
             Settings.setScreenWidth(1280);
             Settings.setScreenHeight(720);
             Settings.setFULLSCREEN(false);
-            Settings.setMusicVolume(1);
+            Settings.setMusicVolume(0);
+            Settings.setMusicVolumeChanged(0);
+            Settings.setEasySpan(new int[][]{{1,20},{1,20},{1,10},{1,10}});
+            Settings.setNormalSpan(new int[][]{{1,50},{1,30},{1,15},{1,10}});
+            Settings.setHardSpan(new int[][]{{1,100},{1,40},{1,20},{1,15}});
+            Settings.setDifficulty(1);
+            Settings.setOperationsMode(0);
             Score.resetScore();
+            appgc = new AppGameContainer(new Core(gamename));
             appgc.setDisplayMode((int)Settings.getScreenWidth(),(int)Settings.getScreenHeight(),Settings.isFULLSCREEN());
             appgc.start();
         }catch (SlickException e){

@@ -21,7 +21,7 @@ public class Play extends BasicGameState {
   int moving,rightAnswerPosition,time=1,score=0;
   boolean collides=false,answerCollides=false,restart=false,questionAnswered=false,quit=false;
   Rectangle obstacle,movingObstacle,square;
-  QuestionGenerator question;
+  static  QuestionGenerator question;
   Collision collision;
   static StopWatch sw;
 
@@ -52,6 +52,8 @@ public class Play extends BasicGameState {
      * @throws SlickException A generic exception thrown by everything in the library
      */
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+        question.update();
+        question.regenerate();
         map=new Image("lib/res/img/background2.png");
         Score.resetScore();
        Image[] walkUp={new Image(("lib/res/img/Hero back.png")),new Image("lib/res/img/Hero back.png")};
@@ -63,6 +65,7 @@ public class Play extends BasicGameState {
        movingLeft=new Animation(walkLeft,duration,false);
        movingRight=new Animation(walkRight,duration,false);
        hero=movingDown;
+       restart();
     }
 
     /**
@@ -130,6 +133,7 @@ public class Play extends BasicGameState {
         barriersCollision(gc);
         respawn();
         if (heroPositionX<-5910){
+            sbg.getState(2).init(gc, sbg);
             sbg.enterState(2);
         }
         for(int z=0;z<movingObstacles.size();z++){
@@ -383,6 +387,7 @@ public class Play extends BasicGameState {
                 if (wrongAnswer.intersects(square) && wrongAnswer != null) {
                     answerCollides = true;
                     Score.wrongAnswers++;
+                    question.update();
                     question.regenerate();
                     timea();
                     buttons.clear();
@@ -400,6 +405,7 @@ public class Play extends BasicGameState {
                     time++;
                     buttons.clear();
                     if(score<15) {
+                        question.update();
                         question.regenerate();
                         timea();
                         generateAnswers(time, question);
@@ -495,6 +501,7 @@ public class Play extends BasicGameState {
         generateAnswers(time,question);
         sw.reset();
         sw.start();
+        quit=false;
         restart=false;
     }
 

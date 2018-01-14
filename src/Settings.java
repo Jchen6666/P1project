@@ -6,6 +6,11 @@ public abstract class Settings {
     private static float SCREEN_WIDTH_CHANGED;
     private static float SCREEN_HEIGHT_CHANGED;
     private static float MUSIC_VOLUME_CHANGED;
+    private static int difficulty;
+    private static int[][] easySpan;
+    private static int[][] normalSpan;
+    private static int[][] hardSpan;
+    private static int operationsMode;
 
     public static void setScreenWidth(float screenWidth) {
         SCREEN_WIDTH = screenWidth;
@@ -69,5 +74,45 @@ public abstract class Settings {
 
     public static void setFULLSCREEN(boolean FULLSCREEN) {
         Settings.FULLSCREEN = FULLSCREEN;
+    }
+
+    public static int getDifficulty() {
+        return difficulty;
+    }
+
+    public static void setDifficulty(int difficulty) {
+        Settings.difficulty = difficulty;
+    }
+
+    public static int[][] getEasySpan() {
+        return easySpan;
+    }
+
+    public static void setEasySpan(int[][] easySpan) {
+        Settings.easySpan = easySpan;
+    }
+
+    public static int[][] getNormalSpan() {
+        return normalSpan;
+    }
+
+    public static void setNormalSpan(int[][] normalSpan) {
+        Settings.normalSpan = normalSpan;
+    }
+
+    public static int[][] getHardSpan() {
+        return hardSpan;
+    }
+
+    public static void setHardSpan(int[][] hardSpan) {
+        Settings.hardSpan = hardSpan;
+    }
+
+    public static int getOperationsMode() {
+        return operationsMode;
+    }
+
+    public static void setOperationsMode(int operationsMode) {
+        Settings.operationsMode = operationsMode;
     }
 }
